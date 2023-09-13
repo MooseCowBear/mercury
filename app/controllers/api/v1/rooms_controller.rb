@@ -1,4 +1,4 @@
-class Api::V1::PublicRoomsController < ApplicationController
+class Api::V1::RoomsController < ApplicationController
   def index
     rooms = Room.public_rooms
     render json: rooms
