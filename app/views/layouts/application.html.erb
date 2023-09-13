@@ -10,7 +10,17 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
-  <body>
+  <body class="max-w-[1400px] mx-auto p-5 flex flex-col items-center min-h-screen gap-5 text-gray-800 bg-gray-100">
+    <header class="flex items-center justify-between w-full">
+      <div>
+        <p class="notice"><%= notice %></p>
+        <p class="alert"><%= alert %></p>
+      </div>
+      <% if user_signed_in? %>
+        <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "uppercase" %>
+      <% end %>
+    </header>
+
     <%= yield %>
   </body>
 </html>
