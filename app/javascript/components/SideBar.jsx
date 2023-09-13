@@ -75,9 +75,9 @@ export default SideBar = ({
   return (
     <div className="row-start-2 md:row-start-1 md:col-start-1 bg-gray-200 border-r-2 p-5 flex flex-col justify-between gap-5">
       <div>
-        <h2 className="text-lg px-3 font-semibold flex gap-3 items-center">
+        <h2 className="flex-no-shrink text-lg px-3 font-semibold flex gap-3 items-center">
           <svg
-            className="h-[30px] w-[30px]"
+            className="h-6 w-6"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >

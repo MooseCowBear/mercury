@@ -1,7 +1,7 @@
 class Api::V1::RoomsController < ApplicationController
   def index
     rooms = Room.public_rooms
-    render json: rooms
+    render json: rooms, include: [:interlocutor_one, :interlocutor_two]
   end
 
   def create

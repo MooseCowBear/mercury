@@ -29,8 +29,9 @@ class Room < ApplicationRecord
     ActionCable.server.broadcast("RoomsChannel", self)
   end
 
+  # ugh how do i get the users????
   def broadcast_private_room
-    ActionCable.server.broadcast("user_#{self.interlocutor_one_id}", self)
-    ActionCable.server.broadcast("user_#{self.interlocutor_two_id}", self)
+    ActionCable.server.broadcast("user_#{self.interlocutor_one_id}", self, include: [:interlocutor_one, interlocutor_two])
+    ActionCable.server.broadcast("user_#{self.interlocutor_two_id}", self, include: [:interlocutor_one, :interlocutor_two])
   end
 end

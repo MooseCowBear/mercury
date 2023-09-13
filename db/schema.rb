@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_13_215810) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_13_230441) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,7 +26,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_215810) do
 
   create_table "rooms", force: :cascade do |t|
     t.string "name"
-    t.boolean "is_private"
+    t.boolean "is_private", default: false
     t.bigint "creator_id"
     t.bigint "interlocutor_one_id"
     t.bigint "interlocutor_two_id"
