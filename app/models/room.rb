@@ -9,8 +9,8 @@ class Room < ApplicationRecord
   scope :public_rooms, -> { where(is_private: false) }
   scope :user_private_rooms, ->(user) { where(interlocutor_one: user).or(where(interlocutor_two: user)) }
 
-  # after_create_commit :broadcast_public_room, unless: :is_private?
-  # after_create_commit :broadcast_private_room, if: :is_private?
+  after_create_commit :broadcast_public_room, unless: :is_private?
+  after_create_commit :broadcast_private_room, if: :is_private?
 
   def self.safe_find_or_create_by(*args, &block)
     find_or_create_by *args, &block
@@ -25,12 +25,12 @@ class Room < ApplicationRecord
 
   private 
 
-  # def broadcast_public_room
-  #   ActionCable.server.broadcast("RoomsChannel", self)
-  # end
+  def broadcast_public_room
+    ActionCable.server.broadcast("RoomsChannel", self)
+  end
 
-  # def broadcast_private_room
-  #   ActionCable.server.broadcast("user_#{self.interlocutor_one_id}", self)
-  #   ActionCable.server.broadcast("user_#{self.interlocutor_two_id}", self)
-  # end
+  def broadcast_private_room
+    ActionCable.server.broadcast("user_#{self.interlocutor_one_id}", self)
+    ActionCable.server.broadcast("user_#{self.interlocutor_two_id}", self)
+  end
 end
