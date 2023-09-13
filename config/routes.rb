@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
+      get 'users/show'
+      get 'users/index'
       get 'public_rooms/index'
       post 'public_rooms/create'
       get 'public_rooms/show/:id', to: "public_rooms#show"
