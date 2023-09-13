@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
+      get 'private_rooms/index'
+      post 'private_rooms/create'
+      delete 'private_rooms/destroy', to: "private_rooms#destroy"
       get 'users/show'
       get 'users/index'
       get 'public_rooms/index'
