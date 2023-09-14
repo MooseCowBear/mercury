@@ -32,7 +32,7 @@ export default ChatMessages = ({ user, currentRoom }) => {
     console.log("should be scrolling..."); //PROBLEM ELEM DOES NOT EXIST!!!
     if (messagesContainer) {
       console.log(messagesContainer);
-      console(messagesContainer.offsetHeight);
+      console.log(messagesContainer.offsetHeight);
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
   };

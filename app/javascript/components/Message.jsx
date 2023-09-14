@@ -41,7 +41,7 @@ export default Message = ({ user, message, currentRoom }) => {
         </div>
       )}
       {editing && (
-        <div>
+        <div className="flex gap-2 items-center justify-center">
           <MessageForm
             message={message}
             currentRoom={currentRoom}
