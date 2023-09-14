@@ -1,6 +1,6 @@
 class Notification < ApplicationRecord
-  belongs_to :user, dependent: :destroy
-  belongs_to :room, dependent: :destroy
+  belongs_to :user
+  belongs_to :room
 
   scope :for_user, ->(user) { where(user: user) }
   scope :for_room, ->(room) { where(room: room) }

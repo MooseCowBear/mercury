@@ -1,6 +1,6 @@
 class Message < ApplicationRecord
-  belongs_to :user, dependent: :destroy
-  belongs_to :room, dependent: :destroy
+  belongs_to :user
+  belongs_to :room
 
   validates_presence_of :body # length ? 
 
@@ -23,12 +23,7 @@ class Message < ApplicationRecord
   end
 
   def create_notification
-    puts "NOTIFICAIONT RECIPIENT's room is:"
-    pp recipient.current_room 
-    puts "and room of message is:"
-    pp room
     unless recipient.nil? || recipient.current_room == room
-      puts "CREATING NOTIFICATION"
       room.notifications.create(user_id: recipient.id)
     end
   end

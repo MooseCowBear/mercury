@@ -209,6 +209,7 @@ export default SideBar = ({
           setCurrentRoom={setCurrentRoom}
           setViewPeople={setViewPeople}
           notifications={notifications}
+          setNotifications={setNotifications}
         />
       </div>
       <h2 className="text-lg px-3 font-semibold flex gap-3 items-center tracking-wide">

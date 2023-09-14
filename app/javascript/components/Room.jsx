@@ -1,4 +1,5 @@
 import React from "react";
+import { removeRoomNotifications } from "../helpers/notifications";
 
 // could probably use for both public and private if pass a prop to indicate
 export default Room = ({
@@ -7,7 +8,8 @@ export default Room = ({
   currentRoom,
   setCurrentRoom,
   setViewPeople,
-  notifications = [],
+  notifications,
+  setNotifications,
 }) => {
   const getPrivateRoomName = (room) => {
     console.log("room is:", room);
@@ -35,6 +37,9 @@ export default Room = ({
   const clickHandler = () => {
     setCurrentRoom(room);
     setViewPeople(false);
+    const newNotifications = removeRoomNotifications(room, notifications);
+    setNotifications(newNotifications);
+    // CAN WE delete notifications here? notifications for the new current room! yes.
   };
 
   //TODO: add class to style current room differently.
@@ -58,7 +63,11 @@ export default Room = ({
         </svg>
         {displayTitle}
       </button>
-      {count &&  <div className="">{count}</div>}
+      {!!count && (
+        <div className="flex items-center justify-center rounded-full h-6 w-6 bg-gray-800 text-gray-50 font-medium">
+          {count}
+        </div>
+      )}
     </div>
   );
 };
