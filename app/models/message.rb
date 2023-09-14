@@ -4,7 +4,7 @@ class Message < ApplicationRecord
 
   validates_presence_of :body # length ? 
 
-  after_create_commit :broadcast_message
+  after_commit :broadcast_message, on: [:create, :update]
   after_create_commit :create_notification
 
   def recipient

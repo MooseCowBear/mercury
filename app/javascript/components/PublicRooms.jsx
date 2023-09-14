@@ -22,6 +22,8 @@ export default PublicRooms = ({
                 currentRoom={currentRoom}
                 setCurrentRoom={setCurrentRoom}
                 setViewPeople={setViewPeople}
+                setNotifications={()=>{}}
+                notifications={[]}
               />
             </li>
           );

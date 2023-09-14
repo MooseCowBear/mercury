@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
-import { displayDateTime } from "../helpers/datetime";
 import consumer from "../channels/consumer";
 import NewMessageForm from "./NewMessageForm";
 import copyObjectArr from "../helpers/copy";
+import Message from "./Message";
 
+// message takes: user, message, currentRoom
 export default ChatMessages = ({ user, currentRoom }) => {
   const [messages, setMessages] = useState([]);
   const [error, setError] = useState(null);
@@ -58,8 +59,6 @@ export default ChatMessages = ({ user, currentRoom }) => {
     }
   }, [currentRoom]);
 
-  // setting up a subscription to get new messages
-  // Q: do we need to check for a current room anymore? this component should only exist if there is one
   useEffect(() => {
     if (currentRoom) {
       chatChannel.current = consumer.subscriptions.create(
@@ -70,8 +69,16 @@ export default ChatMessages = ({ user, currentRoom }) => {
         {
           received(data) {
             const newMessages = copyObjectArr(messages);
-            newMessages.push(data);
-            setMessagesAndScroll(newMessages);
+            // check is data's id already in the existing messages, if so replace else add
+            const index = newMessages.findIndex((elem) => elem.id === data.id);
+            if (index > -1) {
+              console.log("recieved editted message");
+              newMessages[index] = data;
+              setMessages(newMessages); // don't scroll away from an edited messags
+            } else {
+              newMessages.push(data);
+              setMessagesAndScroll(newMessages);
+            }
           },
         }
       );
@@ -85,6 +92,8 @@ export default ChatMessages = ({ user, currentRoom }) => {
     };
   }, [currentRoom, messages]);
 
+  // need to update recieved because will get edited messages too...
+
   if (error) return <p>Something went wrong.</p>;
 
   // TODO: allow for deleting messages that belong to curr user.
@@ -96,25 +105,11 @@ export default ChatMessages = ({ user, currentRoom }) => {
         {messages.map((message) => {
           return (
             <li key={`message_${message.id}`} className="flex flex-col w-full">
-              <p
-                className={`px-5 py-2 border-2 rounded w-5/6 ${
-                  message.user.id == user.id
-                    ? "bg-cyan-50 self-start"
-                    : "bg-gray-100 self-end"
-                }`}
-              >
-                {message.body}
-              </p>
-              <p
-                className={`${
-                  message.user.id == user.id ? "self-end" : "self-start"
-                } flex items-center gap-1`}
-              >
-                <span>{message.user.username}</span>
-                <span className="text-sm">
-                  {displayDateTime(message.created_at)}
-                </span>
-              </p>
+              <Message
+                user={user}
+                message={message}
+                currentRoom={currentRoom}
+              />
             </li>
           );
         })}

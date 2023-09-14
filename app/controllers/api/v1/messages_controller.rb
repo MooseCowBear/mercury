@@ -20,6 +20,14 @@ class Api::V1::MessagesController < ApplicationController
   end
 
   def update
+    message = Message.find(params[:id])
+    if message.update(message_params) 
+      render json: message.to_json(include: [:user])
+    else
+      render json: { message: "Validations Failed", 
+                    errors: message.errors.full_messages }, 
+                    status: :unprocessable_entity
+    end
   end
 
   def destroy
