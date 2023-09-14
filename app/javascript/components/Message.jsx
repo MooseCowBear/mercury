@@ -15,6 +15,10 @@ export default Message = ({ user, message, currentRoom }) => {
 
   const cancelClickHandler = () => {
     setEditing(false);
+  };
+
+  const deleteClickHandler = () => {
+    // what would you need to get back from the database to update messages state?
   }
 
   return (
@@ -22,7 +26,14 @@ export default Message = ({ user, message, currentRoom }) => {
       {!editing && (
         <div className="flex flex-col w-5/6 items-end">
           <MessageContent user={user} message={message} isOwner={isOwner} />
-          {isOwner && <button onClick={editClickHandler}>edit</button>}
+          {isOwner && (
+            <div className="flex gap-2 items-center">
+              <button onClick={editClickHandler}>edit</button>|
+              <button className="text-pink-500" onClick={deleteClickHandler}>
+                delete
+              </button>
+            </div>
+          )}
         </div>
       )}
       {editing && (
