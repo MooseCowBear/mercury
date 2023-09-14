@@ -19,12 +19,16 @@ export default Message = ({ user, message, currentRoom }) => {
 
   const deleteClickHandler = () => {
     // what would you need to get back from the database to update messages state?
-  }
+  };
 
   return (
     <>
       {!editing && (
-        <div className="flex flex-col w-5/6 items-end">
+        <div
+          className={`flex flex-col w-5/6 items-end ${
+            isOwner ? "" : "self-end"
+          }`}
+        >
           <MessageContent user={user} message={message} isOwner={isOwner} />
           {isOwner && (
             <div className="flex gap-2 items-center">

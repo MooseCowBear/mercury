@@ -12,8 +12,6 @@ export default People = ({ setCurrentRoom, setViewPeople }) => {
   if (error) return <p>Something went wrong</p>;
   if (loading) return <p>Loading...</p>;
 
-  console.log("people", people);
-
   return (
     <ul className="grid grid-cols-autofit gap-5 w-full">
       {people.map((person) => {

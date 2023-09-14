@@ -13,8 +13,26 @@ export default ChatMessages = ({ user, currentRoom }) => {
 
   const messagesContainer = document.getElementById("messages-container");
 
+  /// TESTING -- this works but i don't want it to be every time.
+  //// so will want another state.. that only gets updated when the scroll should happen
+
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  ////
+
   const resetScroll = () => {
+    console.log("should be scrolling..."); //PROBLEM ELEM DOES NOT EXIST!!!
     if (messagesContainer) {
+      console.log(messagesContainer);
+      console(messagesContainer.offsetHeight);
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
   };
@@ -45,7 +63,7 @@ export default ChatMessages = ({ user, currentRoom }) => {
         }
         const data = await response.json();
 
-        setMessagesAndScroll(data);
+        setMessagesAndScroll(data); //UPDATE THIS
         setError(null);
       } catch (error) {
         console.log(error);
@@ -54,7 +72,6 @@ export default ChatMessages = ({ user, currentRoom }) => {
     };
 
     if (currentRoom) {
-      console.log("fetching messages...");
       getMessages();
     }
   }, [currentRoom]);
@@ -72,12 +89,11 @@ export default ChatMessages = ({ user, currentRoom }) => {
             // check is data's id already in the existing messages, if so replace else add
             const index = newMessages.findIndex((elem) => elem.id === data.id);
             if (index > -1) {
-              console.log("recieved editted message");
               newMessages[index] = data;
               setMessages(newMessages); // don't scroll away from an edited messags
             } else {
               newMessages.push(data);
-              setMessagesAndScroll(newMessages);
+              setMessagesAndScroll(newMessages); //UPDATE THIS
             }
           },
         }
@@ -85,7 +101,6 @@ export default ChatMessages = ({ user, currentRoom }) => {
     }
     return () => {
       if (chatChannel.current) {
-        console.log("removing the old room subscription...");
         consumer.subscriptions.remove(chatChannel.current);
         chatChannel.current = null;
       }
@@ -101,19 +116,25 @@ export default ChatMessages = ({ user, currentRoom }) => {
   return (
     <div className="w-full h-full grid grid-cols-1 grid-rows-[auto_1fr_auto] text-center">
       <h1 className="font-semibold text-2xl capitalize">{displayTitle}</h1>
-      <ul id="messages-container" className="px-5 flex flex-col">
-        {messages.map((message) => {
-          return (
-            <li key={`message_${message.id}`} className="flex flex-col w-full">
-              <Message
-                user={user}
-                message={message}
-                currentRoom={currentRoom}
-              />
-            </li>
-          );
-        })}
-      </ul>
+      <div id="messages-container" className="overflow-auto max-h-[420px]">
+        <ul className="px-5 flex flex-col">
+          {messages.map((message) => {
+            return (
+              <li
+                key={`message_${message.id}`}
+                className="flex flex-col w-full"
+              >
+                <Message
+                  user={user}
+                  message={message}
+                  currentRoom={currentRoom}
+                />
+              </li>
+            );
+          })}
+        </ul>
+        <div ref={messagesEndRef} />
+      </div>
       <NewMessageForm currentRoom={currentRoom} />
     </div>
   );

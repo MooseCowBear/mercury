@@ -26,7 +26,6 @@ export default MainScreen = () => {
           throw new Error("Server error");
         }
         const data = await response.json();
-        console.log("data received from get private chats", data);
         setPrivateChats(data);
         setError(null);
       } catch (error) {
@@ -36,7 +35,6 @@ export default MainScreen = () => {
     };
 
     if (user) {
-      console.log("fetching private chats...");
       getPrivateChats();
     }
   }, [user]);

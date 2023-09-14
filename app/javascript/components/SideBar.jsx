@@ -27,14 +27,12 @@ export default SideBar = ({
     // get the initial private rooms after we get user
     const getNotifications = async () => {
       try {
-        console.log("TRYING TO GET NOTIFICATIONS");
         const response = await fetch("/api/v1/notifications/index");
 
         if (!response.ok) {
           throw new Error("Server error");
         }
         const data = await response.json();
-        console.log("data received from notifications", data);
         setNotifications(data);
       } catch (error) {
         console.log(error);
@@ -42,7 +40,6 @@ export default SideBar = ({
     };
 
     if (user) {
-      console.log("fetching notifications...");
       getNotifications();
     }
   }, [user]);
@@ -57,14 +54,7 @@ export default SideBar = ({
         {
           received(data) {
             const newNotifications = copyObjectArr(notifications);
-            // will need to update once adding deletion
             newNotifications.push(data);
-            console.log("data is:", data);
-            console.log(
-              "after getting data, notifications will be:",
-              newNotifications
-            );
-
             setNotifications(newNotifications);
           },
         }
@@ -102,7 +92,6 @@ export default SideBar = ({
         },
         {
           received(data) {
-            console.log("recieved data to users channel", data);
             const newChats = copyObjectArr(privateChats);
             newChats.push(data);
             setPrivateChats(newChats);
@@ -210,7 +199,7 @@ export default SideBar = ({
           setNotifications={setNotifications}
         />
       </div>
-      <h2 className="text-lg px-3 font-semibold flex gap-3 items-center tracking-wide">
+      <h2 className="text-lg px-3 font-semibold flex gap-3 items-center tracking-wide lowercase">
         <svg
           className="h-8 w-8"
           xmlns="http://www.w3.org/2000/svg"
@@ -221,7 +210,7 @@ export default SideBar = ({
             d="M12,19.2C9.5,19.2 7.29,17.92 6,16C6.03,14 10,12.9 12,12.9C14,12.9 17.97,14 18,16C16.71,17.92 14.5,19.2 12,19.2M12,5A3,3 0 0,1 15,8A3,3 0 0,1 12,11A3,3 0 0,1 9,8A3,3 0 0,1 12,5M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z"
           />
         </svg>
-        profile
+        <a href="/users/edit">Account</a>
       </h2>
     </div>
   );

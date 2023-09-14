@@ -26,7 +26,6 @@ export default PersonCart = ({
         }
 
         const parsedResponse = await response.json();
-        console.log(parsedResponse);
 
         setCurrentRoom(parsedResponse);
         setError(null);

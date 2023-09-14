@@ -12,7 +12,6 @@ export default Room = ({
   setNotifications,
 }) => {
   const getPrivateRoomName = (room) => {
-    console.log("room is:", room);
     if (room.is_private) {
       return room.interlocutor_one.id == user.id
         ? room.interlocutor_two.username
