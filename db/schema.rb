@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_13_230441) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_14_113954) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -46,6 +46,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_230441) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "username"
+    t.bigint "current_room_id"
+    t.index ["current_room_id"], name: "index_users_on_current_room_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
@@ -56,4 +58,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_230441) do
   add_foreign_key "rooms", "users", column: "creator_id"
   add_foreign_key "rooms", "users", column: "interlocutor_one_id"
   add_foreign_key "rooms", "users", column: "interlocutor_two_id"
+  add_foreign_key "users", "rooms", column: "current_room_id"
 end

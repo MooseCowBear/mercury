@@ -6,6 +6,15 @@ class Message < ApplicationRecord
 
   after_create_commit :broadcast_message
 
+  def recipient
+    return nil unless room.is_private
+    if user != room.interlocutor_one
+      user
+    else
+      room.interlocutor_one
+    end
+  end
+
   private 
 
   def broadcast_message
