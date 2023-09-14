@@ -20,7 +20,7 @@ export default MainScreen = () => {
     // get the initial private rooms after we get user
     const getPrivateChats = async () => {
       try {
-        const response = await fetch(`/api/v1/private_rooms/index`);
+        const response = await fetch("/api/v1/private_rooms/index");
 
         if (!response.ok) {
           throw new Error("Server error");
@@ -28,6 +28,7 @@ export default MainScreen = () => {
         const data = await response.json();
         console.log("data received from get private chats", data);
         setPrivateChats(data);
+        setError(null);
       } catch (error) {
         console.log(error);
         setError(error);

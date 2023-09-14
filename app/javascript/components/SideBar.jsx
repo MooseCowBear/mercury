@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import PublicRooms from "./PublicRooms";
 import consumer from "../channels/consumer";
 import PrivateChats from "./PrivateChats";
@@ -15,6 +15,60 @@ export default SideBar = ({
 }) => {
   const roomsChannel = useRef(null);
   const userChannel = useRef(null);
+
+  // NEW:
+  const [notifications, setNotifications] = useState([]);
+  const notificationsChannel = useRef(null);
+
+  // need to get the existing notifications first
+
+  useEffect(() => {
+    // get the initial private rooms after we get user
+    const getNotifications = async () => {
+      try {
+        console.log("TRYING TO GET NOTIFICATIONS")
+        const response = await fetch("/api/v1/notifications/index");
+
+        if (!response.ok) {
+          throw new Error("Server error");
+        }
+        const data = await response.json();
+        console.log("data received from notifications", data);
+        setNotifications(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (user) {
+      console.log("fetching notifications...");
+      getNotifications();
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      notificationsChannel.current = consumer.subscriptions.create(
+        {
+          channel: "NotificationChannel",
+          user_id: user.id,
+        },
+        {
+          received(data) {
+            const newNotifications = notifications.map((a) => {
+              return { ...a };
+            });
+            // will need to update once adding deletion
+            newNotifications.push(data);
+            console.log("data is:", data);
+            console.log("after getting data, notifications will be:", newNotifications);
+
+            setNotifications(newNotifications);
+          },
+        }
+      );
+    }
+  }, [user, notifications]);
 
   const viewPeopleClickHandler = () => {
     setCurrentRoom(null);
@@ -154,6 +208,7 @@ export default SideBar = ({
           currentRoom={currentRoom}
           setCurrentRoom={setCurrentRoom}
           setViewPeople={setViewPeople}
+          notifications={notifications}
         />
       </div>
       <h2 className="text-lg px-3 font-semibold flex gap-3 items-center tracking-wide">

@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :private_chats_a, foreign_key: "interlocutor_one_id", class_name: "Room", dependent: :destroy
   has_many :private_chats_b, foreign_key: "interlocutor_two_id", class_name: "Room", dependent: :destroy
   belongs_to :current_room, foreign_key: "current_room_id", class_name: "Room", optional: true
+  has_many :notifications
 
   validates_uniqueness_of :username
   validates_presence_of :username

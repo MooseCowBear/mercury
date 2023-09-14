@@ -5,13 +5,14 @@ class Message < ApplicationRecord
   validates_presence_of :body # length ? 
 
   after_create_commit :broadcast_message
+  after_create_commit :create_notification
 
   def recipient
     return nil unless room.is_private
     if user != room.interlocutor_one
-      user
-    else
       room.interlocutor_one
+    else
+      room.interlocutor_two
     end
   end
 
@@ -19,5 +20,12 @@ class Message < ApplicationRecord
 
   def broadcast_message
     ActionCable.server.broadcast("chat_#{self.room_id}", self.as_json(include: :user))
+  end
+
+  def create_notification
+    unless recipient.nil? || recipient.current_room == room
+      puts "CREATING NOTIFICATION"
+      room.notifications.create(user_id: recipient.id)
+    end
   end
 end

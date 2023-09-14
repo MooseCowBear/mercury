@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
+      get 'notifications/index'
       get 'rooms/index'
       post 'rooms/create'
       get 'rooms/show/:id', to: "rooms#show"

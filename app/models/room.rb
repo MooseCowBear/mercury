@@ -3,6 +3,7 @@ class Room < ApplicationRecord
   belongs_to :interlocutor_one, class_name: "User", foreign_key: "interlocutor_one_id", optional: true
   belongs_to :interlocutor_two, class_name: "User", foreign_key: "interlocutor_two_id", optional: true
   belongs_to :creator, class_name: "User", foreign_key: "creator_id", optional: true
+  has_many :notifications
 
   validates_presence_of :name
   validates_uniqueness_of :name

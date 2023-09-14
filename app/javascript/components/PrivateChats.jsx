@@ -7,6 +7,7 @@ export default PrivateChats = ({
   currentRoom,
   setCurrentRoom,
   setViewPeople,
+  notifications
 }) => {
   return (
     <ul id="private_chats" className="px-5">
@@ -19,6 +20,7 @@ export default PrivateChats = ({
               currentRoom={currentRoom}
               setCurrentRoom={setCurrentRoom}
               setViewPeople={setViewPeople}
+              notifications={notifications}
             />
           </li>
         );
