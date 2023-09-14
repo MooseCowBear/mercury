@@ -48,6 +48,7 @@ export default SideBar = ({
         },
         {
           received(data) {
+            console.log("recieved data to users channel", data);
             const newChats = privateChats.map((a) => {
               return { ...a };
             });
@@ -68,7 +69,7 @@ export default SideBar = ({
         userChannel.current = null;
       }
     };
-  }, [user, rooms]);
+  }, [user, rooms, privateChats]);
 
   // TODO: add visible state to Publicrooms and also the private chats so they are collapsable.
   // TODO: add profile...
