@@ -10,12 +10,6 @@ class Notification < ApplicationRecord
   private 
 
   def broadcast_notification
-    # notifications_count = Notification.for_user(self.user).for_room(self.room).length
-    # pp "NOTIFICATIONS COUNT with ROOM"
-    # response = { "room": self.room_id, "count": notifications_count }
-    # pp response
-    # ActionCable.server.broadcast("notification_#{self.user_id}", response )
-
     puts "BROADCASTING NOTIFICATION"
     pp self
     ActionCable.server.broadcast("notification_#{self.user_id}", self)

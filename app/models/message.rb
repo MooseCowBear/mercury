@@ -23,6 +23,10 @@ class Message < ApplicationRecord
   end
 
   def create_notification
+    puts "NOTIFICAIONT RECIPIENT's room is:"
+    pp recipient.current_room 
+    puts "and room of message is:"
+    pp room
     unless recipient.nil? || recipient.current_room == room
       puts "CREATING NOTIFICATION"
       room.notifications.create(user_id: recipient.id)
