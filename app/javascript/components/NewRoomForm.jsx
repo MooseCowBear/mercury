@@ -81,7 +81,7 @@ export default NewRoomForm = () => {
             type="text"
             value={name}
             onChange={changeHandler}
-            className="border-2 border-gray-200 rounded-lg max-w-[200px] max-h-[50px] text-sm"
+            className="px-3 py-1 border-2 border-gray-200 rounded-lg max-w-[200px] max-h-[50px] text-sm"
           />
         </label>
         <button type="submit" aria-label="create room">

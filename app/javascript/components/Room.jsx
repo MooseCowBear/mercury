@@ -32,7 +32,7 @@ export default Room = ({
       onClick={clickHandler}
     >
       <svg
-        className="h-[10px] w-[10px]"
+        className="h-3 w-3"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >

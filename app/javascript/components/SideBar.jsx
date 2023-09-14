@@ -78,7 +78,7 @@ export default SideBar = ({
       <div>
         <h2 className="flex-no-shrink text-lg px-3 font-semibold flex gap-3 items-center">
           <svg
-            className="h-6 w-6"
+            className="h-8 w-8"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
@@ -96,7 +96,7 @@ export default SideBar = ({
         </h2>
         <h2 className="text-lg px-3 font-semibold flex gap-3 items-center">
           <svg
-            className="h-[30px] w-[30px]"
+            className="h-8 w-8"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
@@ -116,7 +116,7 @@ export default SideBar = ({
       <div className="flex flex-col gap-3">
         <h2 className="text-lg px-3 font-semibold flex gap-3 items-center tracking-wide">
           <svg
-            className="h-[30px] w-[30px]"
+            className="h-8 w-8"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
@@ -137,7 +137,7 @@ export default SideBar = ({
         />
         <h2 className="text-lg px-3 font-semibold flex gap-3 items-center tracking-wide">
           <svg
-            className="h-[30px] w-[30px]"
+            className="h-8 w-8"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
@@ -158,7 +158,7 @@ export default SideBar = ({
       </div>
       <h2 className="text-lg px-3 font-semibold flex gap-3 items-center tracking-wide">
         <svg
-          className="h-[30px] w-[30px]"
+          className="h-8 w-8"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
         >
