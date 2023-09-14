@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import PublicRooms from "./PublicRooms";
 import consumer from "../channels/consumer";
 import PrivateChats from "./PrivateChats";
+import copyObjectArr from "../helpers/copy";
 
 export default SideBar = ({
   user,
@@ -26,7 +27,7 @@ export default SideBar = ({
     // get the initial private rooms after we get user
     const getNotifications = async () => {
       try {
-        console.log("TRYING TO GET NOTIFICATIONS")
+        console.log("TRYING TO GET NOTIFICATIONS");
         const response = await fetch("/api/v1/notifications/index");
 
         if (!response.ok) {
@@ -55,13 +56,14 @@ export default SideBar = ({
         },
         {
           received(data) {
-            const newNotifications = notifications.map((a) => {
-              return { ...a };
-            });
+            const newNotifications = copyObjectArr(notifications);
             // will need to update once adding deletion
             newNotifications.push(data);
             console.log("data is:", data);
-            console.log("after getting data, notifications will be:", newNotifications);
+            console.log(
+              "after getting data, notifications will be:",
+              newNotifications
+            );
 
             setNotifications(newNotifications);
           },
@@ -86,9 +88,7 @@ export default SideBar = ({
         { channel: "RoomsChannel" },
         {
           received(data) {
-            const newRooms = rooms.map((a) => {
-              return { ...a };
-            });
+            const newRooms = copyObjectArr(rooms);
             newRooms.push(data);
             setRooms(newRooms);
           },
@@ -103,9 +103,7 @@ export default SideBar = ({
         {
           received(data) {
             console.log("recieved data to users channel", data);
-            const newChats = privateChats.map((a) => {
-              return { ...a };
-            });
+            const newChats = copyObjectArr(privateChats);
             newChats.push(data);
             setPrivateChats(newChats);
           },

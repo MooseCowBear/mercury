@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { displayDateTime } from "../helpers/datetime";
 import consumer from "../channels/consumer";
 import NewMessageForm from "./NewMessageForm";
+import copyObjectArr from "../helpers/copy";
 
 export default ChatMessages = ({ user, currentRoom }) => {
   const [messages, setMessages] = useState([]);
@@ -68,9 +69,7 @@ export default ChatMessages = ({ user, currentRoom }) => {
         },
         {
           received(data) {
-            const newMessages = messages.map((a) => {
-              return { ...a };
-            });
+            const newMessages = copyObjectArr(messages);
             newMessages.push(data);
             setMessagesAndScroll(newMessages);
           },
