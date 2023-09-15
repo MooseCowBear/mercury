@@ -172,6 +172,7 @@ export default SideBar = ({
         <PublicRooms
           user={user}
           rooms={rooms}
+          setRooms={setRooms}
           currentRoom={currentRoom}
           setCurrentRoom={setCurrentRoom}
           setViewPeople={setViewPeople}
@@ -192,6 +193,7 @@ export default SideBar = ({
         <PrivateChats
           user={user}
           privateChats={privateChats}
+          setPrivateChats={setPrivateChats}
           currentRoom={currentRoom}
           setCurrentRoom={setCurrentRoom}
           setViewPeople={setViewPeople}

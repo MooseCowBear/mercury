@@ -5,6 +5,7 @@ import NewRoomForm from "./NewRoomForm";
 export default PublicRooms = ({
   user,
   rooms,
+  setRooms,
   currentRoom,
   setCurrentRoom,
   setViewPeople,
@@ -24,6 +25,8 @@ export default PublicRooms = ({
                 setViewPeople={setViewPeople}
                 setNotifications={()=>{}}
                 notifications={[]}
+                rooms={rooms}
+                setRooms={setRooms}
               />
             </li>
           );

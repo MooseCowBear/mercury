@@ -5,11 +5,11 @@ Rails.application.routes.draw do
       get 'rooms/index'
       post 'rooms/create'
       get 'rooms/show/:id', to: "rooms#show"
-      delete 'rooms/destroy', to: "rooms#destroy"
+      delete 'rooms/destroy/:id', to: "rooms#destroy"
       post 'rooms/update', to: "rooms#update"
       get 'private_rooms/index'
       post 'private_rooms/create'
-      delete 'private_rooms/destroy', to: "private_rooms#destroy"
+      delete 'private_rooms/destroy/:id', to: "private_rooms#destroy"
       get 'users/show'
       get 'users/index'
       post 'messages/create'
