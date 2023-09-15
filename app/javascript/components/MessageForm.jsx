@@ -28,8 +28,6 @@ export default MessageForm = ({
   const submitHandler = (e) => {
     e.preventDefault();
 
-    //currentRoom, body, setBody, setInputError, setValidationError, id;
-
     const error = variableSubmitHandler(
       currentRoom,
       body,
@@ -81,9 +79,13 @@ export default MessageForm = ({
                 <path fill="#e879f9" d="M2,21L23,12L2,3V10L17,12L2,14V21Z" />
               </svg>
             )}
-            {setEditing && <span>update</span>}
+            {setEditing && (
+              <>
+                <span>update</span>|
+              </>
+            )}
           </button>{" "}
-          |{setEditing && <button onClick={cancelClickHandler}>cancel</button>}
+          {setEditing && <button onClick={cancelClickHandler}>cancel</button>}
         </div>
       </div>
     </form>
