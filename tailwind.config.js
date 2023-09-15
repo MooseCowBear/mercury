@@ -21,7 +21,7 @@ module.exports = {
         autofit: "repeat(auto-fit, minmax(280px, 1fr))",
       },
       height: {
-        clamp: "clamp(530px, 60vh, 800px)"
+        clamp: "clamp(580px, 60vh, 800px)"
       }
     },
   },
