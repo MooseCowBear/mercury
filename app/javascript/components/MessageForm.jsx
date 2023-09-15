@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
 export default MessageForm = ({
-  message,
   currentRoom,
   variableSubmitHandler,
   setEditing = null,
+  message = null,
 }) => {
-  const [body, setBody] = useState(message.body);
+  const [body, setBody] = useState(message ? message.body : ""); //testing
   const [inputError, setInputError] = useState(null);
   const [validationError, setValidationError] = useState(null);
 
@@ -28,13 +28,14 @@ export default MessageForm = ({
   const submitHandler = (e) => {
     e.preventDefault();
 
+    // will this work if also use for NEW MESSAGE???
     const error = variableSubmitHandler(
       currentRoom,
       body,
       setBody,
       setInputError,
       setValidationError,
-      message.id
+      message ? message.id : null
     );
 
     if (!error && setEditing) {
@@ -45,34 +46,26 @@ export default MessageForm = ({
   return (
     <form
       onSubmit={submitHandler}
-      className={`bg-gray-50 rounded-md py-3 flex items-stretch justify-stretch ${
-        setEditing ? "w-full" : ""
-      }`}
+      className="bg-gray-50 rounded-md py-3 flex items-stretch justify-stretch w-full"
     >
       <div className="flex flex-col w-full">
         <span className="text-pink-500 text-sm">{errorMessage}</span>
-        <div className={`flex items-center gap-3`}>
-          <label
-            className={`flex items-center gap-1 ${
-              setEditing ? "w-full" : "max-w-[250px]"
-            }`}
-          >
+        <div className="flex items-center gap-3">
+          <label className="flex items-center gap-2 w-full">
             {!setEditing && <span>Message:</span>}
             <input
               id="body"
               type="text"
               onChange={changeHandler}
               value={body}
-              className={`px-3 py-1 border-2 border-gray-200 rounded-lg ${
-                setEditing ? "w-full" : "max-w-[250px]"
-              } max-h-[50px] text-sm`}
+              className="px-3 py-1 border-2 border-gray-200 rounded-lg w-full max-h-[50px] text-sm"
             />
           </label>
           <input type="hidden" id="room_id" value={currentRoom.id} />
           <button type="submit" aria-label="Send">
             {!setEditing && (
               <svg
-                className="h-[30px] w-[30px]"
+                className="h-9 w-9"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
               >

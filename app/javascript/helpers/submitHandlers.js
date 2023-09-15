@@ -61,10 +61,17 @@ export const editMessageSubmitHandler = (
 export const createMessageSubmitHandler = (
   currentRoom,
   body,
+  setBody,
   setInputError,
   setValidationError
 ) => {
   console.log("new message form submitted");
+
+  const resetForm = () => {
+    setBody("");
+    setInputError(null);
+    setValidationError(null);
+  };
 
   const input = document.getElementById("body").value;
   if (input.trim() === "") {
@@ -88,7 +95,6 @@ export const createMessageSubmitHandler = (
         body: JSON.stringify(fetchBody),
       });
 
-      // is this what we want?
       if (response.status !== 200 && response.status !== 422) {
         resetForm();
         throw new Error("A network error occured.");

@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import consumer from "../channels/consumer";
-import NewMessageForm from "./NewMessageForm";
 import copyObjectArr from "../helpers/copy";
 import Message from "./Message";
+import { createMessageSubmitHandler } from "../helpers/submitHandlers";
+import MessageForm from "./MessageForm";
 
 // message takes: user, message, currentRoom
 export default ChatMessages = ({ user, currentRoom }) => {
@@ -133,7 +134,10 @@ export default ChatMessages = ({ user, currentRoom }) => {
         </ul>
         <div ref={messagesEndRef} />
       </div>
-      <NewMessageForm currentRoom={currentRoom} />
+      <MessageForm
+        currentRoom={currentRoom}
+        variableSubmitHandler={createMessageSubmitHandler}
+      />
     </div>
   );
 };
