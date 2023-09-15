@@ -84,7 +84,7 @@ export default Message = ({
             variableSubmitHandler={editMessageSubmitHandler}
             setEditing={setEditing}
           />
-          <button onClick={cancelClickHandler}>cancel</button>
+          
         </div>
       )}
       <p

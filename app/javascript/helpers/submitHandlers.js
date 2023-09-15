@@ -3,11 +3,9 @@ export const editMessageSubmitHandler = (
   body,
   setBody,
   setInputError,
-  setValidationError, 
+  setValidationError,
   id
 ) => {
-  console.log("CALLING UPDATE MESSAGE");
-
   const resetForm = () => {
     setBody("");
     setInputError(null);
@@ -15,9 +13,11 @@ export const editMessageSubmitHandler = (
   };
 
   const input = document.getElementById("body").value;
+  console.log("input is", input);
   if (input.trim() === "") {
+    console.log("am i here?");
     setInputError(true);
-    return;
+    return true;
   }
 
   const updateMessage = async () => {
@@ -46,6 +46,7 @@ export const editMessageSubmitHandler = (
 
       if (parsedResponse.hasOwnProperty("errors")) {
         setValidationError(parsedResponse.errors);
+        return true;
       } else {
         resetForm();
       }

@@ -19,8 +19,10 @@ const displayDate = (dateString) => {
   const month = inputDate.getMonth();
   const day = inputDate.getDay();
   const year = inputDate.getFullYear();
+  const today = new Date();
+  const thisYear = today.getFullYear();
 
-  return `${month}/${day}/${year}`;
+  return `${month}/${day}${thisYear === year ? "" : "/" + year}`;
 };
 
 export const displayDateTime = (dateString) => {

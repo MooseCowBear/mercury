@@ -23,6 +23,7 @@ class Api::V1::MessagesController < ApplicationController
   end
 
   def update
+    puts "IN UPDATE MESSAGE "
     if @message.update(message_params) 
       render json: @message.to_json(include: [:user])
     else
