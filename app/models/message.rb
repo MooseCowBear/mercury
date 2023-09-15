@@ -7,6 +7,8 @@ class Message < ApplicationRecord
   after_commit :broadcast_message, on: [:create, :update]
   after_create_commit :create_notification
 
+  scope :active_messages, ->(datetime) { where("created_at > ?", datetime) }
+
   def recipient
     return nil unless room.is_private
     if user != room.interlocutor_one

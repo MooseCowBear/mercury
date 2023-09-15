@@ -1,5 +1,7 @@
 class Api::V1::PrivateRoomsController < ApplicationController
   after_action -> {current_user.update_last_active if current_user}
+  before_action :set_room, only: [:destroy]
+  before_action :verify_private_participant, only: [:destroy]
   
   def index
     rooms = Room.user_private_rooms(current_user)
@@ -15,14 +17,42 @@ class Api::V1::PrivateRoomsController < ApplicationController
       interlocutor_one_id: sorted_ids[0], 
       interlocutor_two_id: sorted_ids[1]
     )
+ 
+    if room.interlocutor_one == current_user && room.marked_delete_one
+      room.update(marked_delete_one: false, restored_at_one: DateTime.current)
+    elsif room.interlocutor_two == current_user && room.marked_delete_two
+      room.update(marked_delete_two: false, restored_at_two: DateTime.current)
+    end
 
     render json: room, include: [:interlocutor_one, :interlocutor_two]
   end
 
   def destroy
+    # want both sides to request to destroy the conversation before actually deleting
+    if (@room.interlocutor_one == current_user && @room.marked_delete_two) ||
+      (@room.interlocutor_two == current_user && @room.marked_delete_one)
+      @room.destroy
+    elsif @room.interlocutor_one == current_user
+      @room.update(marked_delete_one: true)
+    elsif @room.interlocutor_two == current_user
+      @room.update(marked_delete_two: true)
+    end
+    
+    render json: @room
   end
 
   private
+
+  def set_room
+    @room = Room.find(params[:id])
+  end
+
+  def verify_private_participant
+    unless @room.is_private && @room.participant?(current_user)
+      flash[:alert] = "You're request could not be completed."
+      redirect_to_root_path
+    end
+  end
 
   def sort_users(id_one, id_two)
     [id_one, id_two].sort

@@ -22,8 +22,6 @@ class User < ApplicationRecord
 
   def update_last_active
     self.touch(:last_active)
-    puts "user should be updated"
-    pp self.last_active
   end
 
   private 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_15_151904) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_15_202629) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -41,6 +41,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_15_151904) do
     t.bigint "interlocutor_two_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "marked_delete_one", default: false
+    t.boolean "marked_delete_two", default: false
+    t.datetime "restored_at_one"
+    t.datetime "restored_at_two"
     t.index ["creator_id"], name: "index_rooms_on_creator_id"
     t.index ["interlocutor_one_id"], name: "index_rooms_on_interlocutor_one_id"
     t.index ["interlocutor_two_id"], name: "index_rooms_on_interlocutor_two_id"

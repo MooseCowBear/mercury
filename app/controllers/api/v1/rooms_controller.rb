@@ -27,7 +27,7 @@ class Api::V1::RoomsController < ApplicationController
                     status: 401
       
     else
-      messages = @room.messages.order(created_at: :asc)
+      messages = @room.room_messages(current_user)
       render json: messages, include: [:user]
     end
   end

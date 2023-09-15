@@ -23,7 +23,10 @@ export default Room = ({
 
   const displayTitle = room.is_private ? getPrivateRoomName(room) : room.name;
   const thisIsCurrentRoom = currentRoom?.id === room.id;
-  const createdByUser = room.creator_id === user.id;
+  const deletableByUser =
+    room.creator_id === user.id ||
+    room.interlocutor_one_id == user.id ||
+    room.interlocutor_two_id == user.id;
 
   const notificationCount = (room) => {
     if (room.is_private) {
@@ -66,12 +69,15 @@ export default Room = ({
 
         const parsedResponse = await response.json();
 
-        // Need to pass setRooms, rooms
         const newRooms = copyObjectArr(rooms);
         const afterDelete = newRooms.filter(
           (elem) => elem.id !== parsedResponse.id
         );
         setRooms(afterDelete);
+
+        if (currentRoom.id == parsedResponse.id) {
+          setCurrentRoom(null);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -100,11 +106,11 @@ export default Room = ({
         {displayTitle}
       </button>
       {!!count && (
-        <div className="flex items-center justify-center rounded-full h-6 w-6 bg-gray-800 text-gray-50 font-medium">
+        <div className="flex items-center justify-center rounded-lg h-6 px-3 bg-gray-800/80 text-gray-50 font-medium">
           {count}
         </div>
       )}
-      {createdByUser && (
+      {deletableByUser && (
         <button onClick={deleteRoomClickHandler}>
           <svg
             className="h-4 w-4"
