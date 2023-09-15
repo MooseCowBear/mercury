@@ -42,7 +42,12 @@
     </div>
   <% end %>
 
-  <div class="flex gap-2 self-end">Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
+  <div class="flex justify-between items-center">
+    <span>
+      Unhappy? 
+      <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %>
+    </span>
 
-  <%= link_to "Back", :back, class: "uppercase tracking-wider self-center" %>
+    <%= link_to "Back", :back, class: "uppercase tracking-wider self-center" %>
+  </div>
 </div>
