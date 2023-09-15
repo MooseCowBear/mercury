@@ -114,7 +114,7 @@ export default ChatMessages = ({ user, currentRoom }) => {
     <div className="w-full h-full grid grid-cols-1 grid-rows-[auto_1fr_auto] text-center">
       <h1 className="font-semibold text-2xl capitalize">{displayTitle}</h1>
       <div id="messages-container" className="overflow-auto max-h-[420px]">
-        <ul className="flex flex-col">
+        <ul className="flex flex-col mx-4">
           {messages.map((message) => {
             return (
               <li
