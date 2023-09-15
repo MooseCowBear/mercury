@@ -92,10 +92,11 @@ export default ChatMessages = ({ user, currentRoom }) => {
 
   if (error) return <p>Something went wrong.</p>;
 
+  // Q; is the max height on messages container the best way to do this?
   return (
-    <div className="w-full h-full grid grid-cols-1 grid-rows-[auto_1fr_auto] text-center">
+    <div className="w-full max-h-full grid grid-cols-1 grid-rows-[auto_1fr_auto] text-center">
       <h1 className="font-semibold text-2xl capitalize">{displayTitle}</h1>
-      <div id="messages-container" className="overflow-auto max-h-[420px]">
+      <div id="messages-container" className="overflow-auto">
         <ul className="flex flex-col mx-4">
           {messages.map((message) => {
             return (

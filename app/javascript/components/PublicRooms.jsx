@@ -11,9 +11,9 @@ export default PublicRooms = ({
   setViewPeople,
 }) => {
   return (
-    <div className="px-5 flex flex-col gap-3">
+    <div className="px-2 md:px-5 flex flex-col gap-3">
       <NewRoomForm />
-      <ul id="public_rooms">
+      <ul id="public_rooms" className="max-h-24 overflow-auto">
         {rooms.map((room) => {
           return (
             <li key={`room-${room.id}`}>
@@ -23,7 +23,7 @@ export default PublicRooms = ({
                 currentRoom={currentRoom}
                 setCurrentRoom={setCurrentRoom}
                 setViewPeople={setViewPeople}
-                setNotifications={()=>{}}
+                setNotifications={() => {}}
                 notifications={[]}
                 rooms={rooms}
                 setRooms={setRooms}

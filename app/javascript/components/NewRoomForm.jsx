@@ -69,7 +69,7 @@ export default NewRoomForm = () => {
   };
 
   return (
-    <form onSubmit={submitHandler} className="bg-gray-50 rounded-md p-3 w-fit">
+    <form onSubmit={submitHandler} className="bg-gray-50 rounded-md px-3 py-2 w-fit">
       <h2 className="font-semibold uppercase tracking-wider leading-tight">
         New room
       </h2>

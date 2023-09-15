@@ -20,6 +20,9 @@ module.exports = {
       gridTemplateColumns: {
         autofit: "repeat(auto-fit, minmax(280px, 1fr))",
       },
+      height: {
+        clamp: "clamp(530px, 60vh, 800px)"
+      }
     },
   },
 };
