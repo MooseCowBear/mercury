@@ -1,3 +1,9 @@
+const resetForm = (setBody, setInputError, setValidationError) => {
+  setBody("");
+  setInputError(null);
+  setValidationError(null);
+};
+
 export const editMessageSubmitHandler = (
   currentRoom,
   body,
@@ -6,14 +12,8 @@ export const editMessageSubmitHandler = (
   setValidationError,
   id
 ) => {
-  const resetForm = () => {
-    setBody("");
-    setInputError(null);
-    setValidationError(null);
-  };
-
   const input = document.getElementById("body").value;
-  console.log("input is", input);
+
   if (input.trim() === "") {
     console.log("am i here?");
     setInputError(true);
@@ -35,20 +35,19 @@ export const editMessageSubmitHandler = (
         },
         body: JSON.stringify(fetchBody),
       });
-      // is this what we want?
+
       if (response.status !== 200 && response.status !== 422) {
-        resetForm();
+        resetForm(setBody, setInputError, setValidationError);
         throw new Error("A network error occured.");
       }
 
       const parsedResponse = await response.json();
-      console.log(parsedResponse);
 
       if (parsedResponse.hasOwnProperty("errors")) {
         setValidationError(parsedResponse.errors);
         return true;
       } else {
-        resetForm();
+        resetForm(setBody, setInputError, setValidationError);
       }
     } catch (error) {
       console.log(error);
@@ -65,15 +64,8 @@ export const createMessageSubmitHandler = (
   setInputError,
   setValidationError
 ) => {
-  console.log("new message form submitted");
-
-  const resetForm = () => {
-    setBody("");
-    setInputError(null);
-    setValidationError(null);
-  };
-
   const input = document.getElementById("body").value;
+
   if (input.trim() === "") {
     setInputError(true);
     return;
@@ -96,7 +88,7 @@ export const createMessageSubmitHandler = (
       });
 
       if (response.status !== 200 && response.status !== 422) {
-        resetForm();
+        resetForm(setBody, setInputError, setValidationError);
         throw new Error("A network error occured.");
       }
 
@@ -106,7 +98,7 @@ export const createMessageSubmitHandler = (
       if (parsedResponse.hasOwnProperty("errors")) {
         setValidationError(parsedResponse.errors);
       } else {
-        resetForm();
+        resetForm(setBody, setInputError, setValidationError);
       }
     } catch (error) {
       console.log(error);
