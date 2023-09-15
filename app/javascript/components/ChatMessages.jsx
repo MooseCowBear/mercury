@@ -5,18 +5,12 @@ import Message from "./Message";
 import { createMessageSubmitHandler } from "../helpers/submitHandlers";
 import MessageForm from "./MessageForm";
 
-// message takes: user, message, currentRoom
 export default ChatMessages = ({ user, currentRoom }) => {
   const [messages, setMessages] = useState([]);
   const [error, setError] = useState(null);
+  const [scroll, setScroll] = useState(true); 
 
   const chatChannel = useRef(null);
-
-  const messagesContainer = document.getElementById("messages-container");
-
-  /// TESTING -- this works but i don't want it to be every time.
-  //// so will want another state.. that only gets updated when the scroll should happen
-
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -25,22 +19,11 @@ export default ChatMessages = ({ user, currentRoom }) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
-
-  ////
-
-  const resetScroll = () => {
-    console.log("should be scrolling..."); //PROBLEM ELEM DOES NOT EXIST!!!
-    if (messagesContainer) {
-      console.log(messagesContainer);
-      console.log(messagesContainer.offsetHeight);
-      messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }
-  };
+  }, [scroll]);
 
   const setMessagesAndScroll = (data) => {
     setMessages(data);
-    resetScroll();
+    setScroll((scroll) => !scroll);
   };
 
   // can move this function helper
@@ -64,7 +47,7 @@ export default ChatMessages = ({ user, currentRoom }) => {
         }
         const data = await response.json();
 
-        setMessagesAndScroll(data); //UPDATE THIS
+        setMessagesAndScroll(data); 
         setError(null);
       } catch (error) {
         console.log(error);
@@ -87,14 +70,13 @@ export default ChatMessages = ({ user, currentRoom }) => {
         {
           received(data) {
             const newMessages = copyObjectArr(messages);
-            // check is data's id already in the existing messages, if so replace else add
             const index = newMessages.findIndex((elem) => elem.id === data.id);
             if (index > -1) {
               newMessages[index] = data;
               setMessages(newMessages); // don't scroll away from an edited messags
             } else {
               newMessages.push(data);
-              setMessagesAndScroll(newMessages); //UPDATE THIS
+              setMessagesAndScroll(newMessages); 
             }
           },
         }

@@ -72,13 +72,14 @@ export default MessageForm = ({
                 <path fill="#e879f9" d="M2,21L23,12L2,3V10L17,12L2,14V21Z" />
               </svg>
             )}
-            {setEditing && (
-              <>
-                <span>update</span>|
-              </>
-            )}
+            {setEditing && <span>update</span>}
           </button>{" "}
-          {setEditing && <button onClick={cancelClickHandler}>cancel</button>}
+          {setEditing && (
+            <>
+              <span>|</span>
+              <button onClick={cancelClickHandler}>cancel</button>
+            </>
+          )}
         </div>
       </div>
     </form>
