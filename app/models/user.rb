@@ -20,6 +20,12 @@ class User < ApplicationRecord
 
   after_update :clear_user_notifications, if: :saved_change_to_current_room_id?
 
+  def update_last_active
+    self.touch(:last_active)
+    puts "user should be updated"
+    pp self.last_active
+  end
+
   private 
 
   def clear_user_notifications

@@ -1,4 +1,5 @@
 import React from "react";
+import { isUserActive } from "../helpers/users";
 
 export default PersonCard = ({
   person,
@@ -6,6 +7,8 @@ export default PersonCard = ({
   setError,
   setViewPeople,
 }) => {
+  const active = isUserActive(person.last_active);
+
   const clickHandler = () => {
     const getPrivateRoom = async () => {
       const url = "/api/v1/private_rooms/create";
@@ -42,11 +45,18 @@ export default PersonCard = ({
 
   return (
     <div className="flex items-center gap-2">
-      <div className="flex items-center justify-center p-4 rounded-full h-[30px] w-[30px] border-2 border-cyan-800 text-cyan-800">
+      <div
+        className={`flex items-center justify-center p-4 rounded-full h-9 w-9 border-2 border-cyan-800 ${
+          active ? "bg-cyan-800 text-gray-50" : "text-cyan-800"
+        }`}
+      >
         {person.username[0]}
       </div>
       <div>
-        <h3 className="uppercase tracking-wider">{person.username}</h3>
+        <div className="flex items-center gap-1">
+          <h3 className="uppercase tracking-wider">{person.username}</h3>
+          {active && <span className="text-xs text-gray-500">active</span>}
+        </div>
         <button
           className="lowercase hover:text-cyan-800 focus:text-cyan-800"
           onClick={clickHandler}

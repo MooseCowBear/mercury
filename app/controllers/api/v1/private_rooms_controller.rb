@@ -1,4 +1,6 @@
 class Api::V1::PrivateRoomsController < ApplicationController
+  after_action -> {current_user.update_last_active if current_user}
+  
   def index
     rooms = Room.user_private_rooms(current_user)
     render json: rooms, include: [:interlocutor_one, :interlocutor_two]
