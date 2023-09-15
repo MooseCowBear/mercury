@@ -14,7 +14,7 @@ Rails.application.routes.draw do
       get 'users/index'
       post 'messages/create'
       post 'messages/update/:id', to: "messages#update"
-      delete 'messages/destroy', to: 'messages#destroy'
+      delete 'messages/destroy/:id', to: 'messages#destroy'
     end
   end
   devise_for :users

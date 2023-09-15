@@ -128,6 +128,8 @@ export default ChatMessages = ({ user, currentRoom }) => {
                   user={user}
                   message={message}
                   currentRoom={currentRoom}
+                  messages={messages}
+                  setMessages={setMessages}
                 />
               </li>
             );

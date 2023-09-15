@@ -1,6 +1,6 @@
 class Api::V1::MessagesController < ApplicationController
-  before_action :set_message, only: [:update, :delete]
-  before_action :confirm_ownership, only: [:update, :delete]
+  before_action :set_message, only: [:update, :destroy]
+  before_action :confirm_ownership, only: [:update, :destroy]
 
   def create
     message = Message.new(message_params)
@@ -34,6 +34,9 @@ class Api::V1::MessagesController < ApplicationController
 
   def destroy
     # need to finish
+    puts "IN MESSAGE DESTROY"
+    @message.destroy
+    render json: @message.to_json(include: [:user])
   end
 
   private 
@@ -48,6 +51,7 @@ class Api::V1::MessagesController < ApplicationController
 
   def confirm_ownership
     unless @message.user == current_user
+      flash[:alert] = "You cannot modify a message that doesn't belong to you."
       redirect_to_root_path
     end
   end

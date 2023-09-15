@@ -3,8 +3,15 @@ import MessageContent from "./MessageContent";
 import MessageForm from "./MessageForm";
 import { editMessageSubmitHandler } from "../helpers/submitHandlers";
 import { displayDateTime } from "../helpers/datetime";
+import copyObjectArr from "../helpers/copy";
 
-export default Message = ({ user, message, currentRoom }) => {
+export default Message = ({
+  user,
+  message,
+  currentRoom,
+  messages,
+  setMessages,
+}) => {
   const [editing, setEditing] = useState(false);
 
   const isOwner = message.user.id == user.id;
@@ -19,6 +26,37 @@ export default Message = ({ user, message, currentRoom }) => {
 
   const deleteClickHandler = () => {
     // what would you need to get back from the database to update messages state?
+    // you'd need the message, but also to know that the message needs to be deleted.
+    const deleteMessage = async () => {
+      const url = `/api/v1/messages/destroy/${message.id}`;
+      const token = document.querySelector('meta[name="csrf-token"]').content;
+
+      try {
+        const response = await fetch(url, {
+          method: "DELETE",
+          headers: {
+            "X-CSRF-Token": token,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.status !== 200 && response.status !== 422) {
+          throw new Error("A network error occured.");
+        }
+
+        const parsedResponse = await response.json();
+        console.log("response", parsedResponse);
+
+        const newMessages = copyObjectArr(messages);
+        const afterDelete = newMessages.filter(
+          (elem) => elem.id !== parsedResponse.id
+        );
+        setMessages(afterDelete);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    deleteMessage();
   };
 
   return (
