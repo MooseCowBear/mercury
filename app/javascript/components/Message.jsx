@@ -20,10 +20,6 @@ export default Message = ({
     setEditing(true);
   };
 
-  const cancelClickHandler = () => {
-    setEditing(false);
-  };
-
   const deleteClickHandler = () => {
     const deleteMessage = async () => {
       const url = `/api/v1/messages/destroy/${message.id}`;

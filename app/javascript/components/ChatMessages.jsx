@@ -107,11 +107,7 @@ export default ChatMessages = ({ user, currentRoom }) => {
     };
   }, [currentRoom, messages]);
 
-  // need to update recieved because will get edited messages too...
-
   if (error) return <p>Something went wrong.</p>;
-
-  // TODO: allow for deleting messages that belong to curr user.
 
   return (
     <div className="w-full h-full grid grid-cols-1 grid-rows-[auto_1fr_auto] text-center">
