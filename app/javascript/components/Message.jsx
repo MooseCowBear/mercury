@@ -25,8 +25,6 @@ export default Message = ({
   };
 
   const deleteClickHandler = () => {
-    // what would you need to get back from the database to update messages state?
-    // you'd need the message, but also to know that the message needs to be deleted.
     const deleteMessage = async () => {
       const url = `/api/v1/messages/destroy/${message.id}`;
       const token = document.querySelector('meta[name="csrf-token"]').content;
@@ -45,7 +43,6 @@ export default Message = ({
         }
 
         const parsedResponse = await response.json();
-        console.log("response", parsedResponse);
 
         const newMessages = copyObjectArr(messages);
         const afterDelete = newMessages.filter(
@@ -54,6 +51,7 @@ export default Message = ({
         setMessages(afterDelete);
       } catch (error) {
         console.log(error);
+        // how to handle an error for this one?
       }
     };
     deleteMessage();

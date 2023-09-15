@@ -33,8 +33,6 @@ class Api::V1::MessagesController < ApplicationController
   end
 
   def destroy
-    # need to finish
-    puts "IN MESSAGE DESTROY"
     @message.destroy
     render json: @message.to_json(include: [:user])
   end
