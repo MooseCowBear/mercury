@@ -69,7 +69,7 @@ export default MessageForm = ({
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
               >
-                <path fill="#e879f9" d="M2,21L23,12L2,3V10L17,12L2,14V21Z" />
+                <path fill="#14b8a6" d="M2,21L23,12L2,3V10L17,12L2,14V21Z" />
               </svg>
             )}
             {setEditing && <span>update</span>}

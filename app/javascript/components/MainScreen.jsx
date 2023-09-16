@@ -43,7 +43,7 @@ export default MainScreen = () => {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="border grid grid-cols-1 md:grid-cols-[auto_1fr] grid-rows-2 md:grid-rows-1 gap-3 rounded-lg shadow-sm bg-gray-50 h-full">
+    <div className="border grid grid-cols-1 md:grid-cols-[auto_1fr] grid-rows-[auto_1fr] md:grid-rows-1 gap-3 rounded-lg shadow-sm bg-gray-50 h-full">
       <SideBar
         user={user}
         rooms={rooms}
@@ -54,8 +54,8 @@ export default MainScreen = () => {
         setPrivateChats={setPrivateChats}
         setViewPeople={setViewPeople}
       />
-      <div className="p-5 md:col-start-2 row-start-1 flex flex-col gap-5 items-center">
-        {user && <p className="self-end">{`Hello, ${user.username}!`}</p>}
+      <div className="p-5 md:col-start-2 row-start-1 grid-cols-1 grid-rows-[auto_1fr] items-center">
+        {user && <p className="text-right">{`Hello, ${user.username}!`}</p>}
         {viewPeople && (
           <People
             setCurrentRoom={setCurrentRoom}
