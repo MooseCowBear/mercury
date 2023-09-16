@@ -8,17 +8,19 @@ import MessageForm from "./MessageForm";
 export default ChatMessages = ({ user, currentRoom }) => {
   const [messages, setMessages] = useState([]);
   const [error, setError] = useState(null);
-  const [scroll, setScroll] = useState(true); 
+  const [scroll, setScroll] = useState(true);
 
   const chatChannel = useRef(null);
-  const messagesEndRef = useRef(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  const scrollMessages = () => {
+    const container = document.getElementById("messages-container");
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
   };
 
   useEffect(() => {
-    scrollToBottom();
+    scrollMessages();
   }, [scroll]);
 
   const setMessagesAndScroll = (data) => {
@@ -47,7 +49,7 @@ export default ChatMessages = ({ user, currentRoom }) => {
         }
         const data = await response.json();
 
-        setMessagesAndScroll(data); 
+        setMessagesAndScroll(data);
         setError(null);
       } catch (error) {
         console.log(error);
@@ -76,7 +78,7 @@ export default ChatMessages = ({ user, currentRoom }) => {
               setMessages(newMessages); // don't scroll away from an edited messags
             } else {
               newMessages.push(data);
-              setMessagesAndScroll(newMessages); 
+              setMessagesAndScroll(newMessages);
             }
           },
         }
@@ -95,7 +97,7 @@ export default ChatMessages = ({ user, currentRoom }) => {
   return (
     <div className="w-full h-full grid grid-cols-1 grid-rows-[auto_1fr_auto] text-center p-1 min-h-[300px] max-h-[400px] md:max-h-none">
       <h1 className="font-semibold text-2xl capitalize">{displayTitle}</h1>
-      <div id="messages-container" className="overflow-auto">
+      <div className="overflow-auto" id="messages-container">
         <ul className="flex flex-col mx-4">
           {messages.map((message) => {
             return (
@@ -114,7 +116,6 @@ export default ChatMessages = ({ user, currentRoom }) => {
             );
           })}
         </ul>
-        <div ref={messagesEndRef} />
       </div>
       <MessageForm
         currentRoom={currentRoom}
