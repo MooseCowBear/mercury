@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  #post 'demo_sessions/create/:user_id', to: "demo_sessions#create"
+  resources :demo_sessions, only: [:create]
+
   namespace :api do
     namespace :v1 do
       get 'notifications/index'
