@@ -99,7 +99,7 @@ export default Room = ({
           viewBox="0 0 24 24"
         >
           <path
-            fill="#e879f9"
+            fill="#14b8a6"
             d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"
           />
         </svg>

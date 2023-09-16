@@ -69,11 +69,14 @@ export default NewRoomForm = () => {
   };
 
   return (
-    <form onSubmit={submitHandler} className="bg-gray-50 rounded-md px-3 py-2 w-fit">
+    <form
+      onSubmit={submitHandler}
+      className="bg-gray-50 rounded-md px-3 py-2 w-fit"
+    >
       <h2 className="font-semibold uppercase tracking-wider leading-tight">
         New room
       </h2>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1">
         <label className="flex flex-col lowercase">
           <span className="text-pink-600">{errorMessage}</span>
           <input
@@ -86,12 +89,12 @@ export default NewRoomForm = () => {
         </label>
         <button type="submit" aria-label="create room">
           <svg
-            className="h-[30px]"
+            className="h-9"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
             <path
-              fill="#e879f9"
+              fill="#14b8a6"
               d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"
             />
           </svg>
