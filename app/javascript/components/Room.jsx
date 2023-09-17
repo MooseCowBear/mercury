@@ -106,7 +106,7 @@ export default Room = ({
         <span className="truncate max-w-[200px]">{displayTitle}</span>
       </button>
       {!!count && (
-        <div className="flex items-center justify-center rounded-lg h-6 px-3 bg-gray-800/80 text-gray-50 font-medium">
+        <div className="flex items-center justify-center rounded-lg h-6 px-3 bg-coolpink-500/80 text-gray-50 font-medium">
           {count}
         </div>
       )}

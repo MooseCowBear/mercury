@@ -54,7 +54,7 @@ export default MainScreen = () => {
         setPrivateChats={setPrivateChats}
         setViewPeople={setViewPeople}
       />
-      <div className="p-5 md:col-start-2 row-start-1 grid-cols-1 grid-rows-[auto_1fr] items-center">
+      <div className="p-1 md:p-5 md:col-start-2 row-start-1 grid-cols-1 grid-rows-[auto_1fr] place-items-center">
         {user && <p className="text-right">{`Hello, ${user.username}!`}</p>}
         {viewPeople && (
           <People
