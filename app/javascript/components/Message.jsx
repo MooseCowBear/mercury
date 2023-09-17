@@ -65,7 +65,10 @@ export default Message = ({
           {isOwner && (
             <div className="flex gap-2 items-center">
               <button onClick={editClickHandler}>edit</button>|
-              <button className="text-pink-500" onClick={deleteClickHandler}>
+              <button
+                className="text-coolpink-500"
+                onClick={deleteClickHandler}
+              >
                 delete
               </button>
             </div>
@@ -80,7 +83,6 @@ export default Message = ({
             variableSubmitHandler={editMessageSubmitHandler}
             setEditing={setEditing}
           />
-          
         </div>
       )}
       <p
