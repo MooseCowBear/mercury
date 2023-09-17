@@ -10,14 +10,35 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
-  <body class="max-w-[1400px] min-w-[320px] mx-auto p-5 flex flex-col items-center min-h-screen gap-5 text-gray-800 bg-gray-100 max-h-screen">
+  <body 
+    class="max-w-[1400px] 
+      min-w-[320px] 
+      max-h-screen
+      mx-auto p-5 
+      flex 
+      flex-col 
+      items-center 
+      min-h-screen 
+      gap-5 
+      text-gray-800 
+      bg-gray-100 
+      bg-no-repeat
+      bg-[url('images/comment_one.svg'),_url('images/comment_two.svg')]
+      bg-[position:left_-100px_top_-100px,_right_-100px_bottom_-100px]
+      bg-[size:100%,_100%]
+      md:bg-[size:60%,_60%]"
+  >
     <header class="flex items-center justify-between w-full">
       <div>
         <p class="notice"><%= notice %></p>
         <p class="alert"><%= alert %></p>
       </div>
       <% if user_signed_in? %>
-        <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "uppercase" %>
+        <%= button_to "Logout", 
+          destroy_user_session_path, 
+          method: :delete, 
+          class: "uppercase" 
+        %>
       <% end %>
     </header>
 
