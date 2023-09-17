@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  #post 'demo_sessions/create/:user_id', to: "demo_sessions#create"
   resources :demo_sessions, only: [:create]
 
   namespace :api do
@@ -26,4 +25,7 @@ Rails.application.routes.draw do
 
   get '/chat' => "homepage#chat"
   root "homepage#index"
+
+  match "/404", to: "errors#not_found", via: :all
+  match "/500", to: "errors#internal_server_error", via: :all
 end
