@@ -12,7 +12,7 @@ export default PrivateChats = ({
   setNotifications,
 }) => {
   return (
-    <ul id="private_chats" className="px-2 md:px-5 max-h-24 overflow-auto">
+    <ul id="private_chats" className="px-2 md:px-5 max-h-24 overflow-y-auto">
       {privateChats.map((room) => {
         return (
           <li key={`room-${room.id}`}>

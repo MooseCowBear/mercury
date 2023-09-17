@@ -7,6 +7,8 @@ class Room < ApplicationRecord
 
   validates_presence_of :name
   validates_uniqueness_of :name
+  validates :name, length: { maximum: 20 }
+  
   scope :public_rooms, -> { where(is_private: false) }
   scope :user_private_rooms, ->(user) { where(interlocutor_one: user, marked_delete_one: false).or(where(interlocutor_two: user, marked_delete_two: false)) }
 

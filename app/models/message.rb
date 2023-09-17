@@ -2,7 +2,8 @@ class Message < ApplicationRecord
   belongs_to :user
   belongs_to :room
 
-  validates_presence_of :body # length ? 
+  validates_presence_of :body 
+  validates :body, length: { maximum: 1000 }
 
   after_commit :broadcast_message, on: [:create, :update]
   after_create_commit :create_notification

@@ -103,7 +103,7 @@ export default Room = ({
             d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"
           />
         </svg>
-        {displayTitle}
+        <span className="truncate max-w-[200px]">{displayTitle}</span>
       </button>
       {!!count && (
         <div className="flex items-center justify-center rounded-lg h-6 px-3 bg-gray-800/80 text-gray-50 font-medium">

@@ -75,7 +75,7 @@ export default ChatMessages = ({ user, currentRoom }) => {
             const index = newMessages.findIndex((elem) => elem.id === data.id);
             if (index > -1) {
               newMessages[index] = data;
-              setMessages(newMessages); // don't scroll away from an edited messags
+              setMessages(newMessages); // don't scroll away from an edited message
             } else {
               newMessages.push(data);
               setMessagesAndScroll(newMessages);
@@ -96,7 +96,7 @@ export default ChatMessages = ({ user, currentRoom }) => {
 
   return (
     <div className="w-full h-full grid grid-cols-1 grid-rows-[auto_1fr_auto] text-center p-1 min-h-[300px] max-h-[400px] md:max-h-none">
-      <h1 className="font-semibold text-2xl capitalize">{displayTitle}</h1>
+      <h1 className="font-semibold text-2xl capitalize truncate">{displayTitle}</h1>
       <div className="overflow-auto" id="messages-container">
         <ul className="flex flex-col mx-4">
           {messages.map((message) => {
