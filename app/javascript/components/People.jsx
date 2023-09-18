@@ -18,7 +18,7 @@ export default People = ({ setCurrentRoom, setViewPeople }) => {
         return (
           <li
             key={person.id}
-            className="rounded-md bg-gray-100 px-5 py-2 border-2 border-gray-200"
+            className="rounded-md bg-gray-100 px-5 py-2 border-2 border-gray-200 dark:bg-gray-800 dark:border-gray-700"
           >
             <PersonCard
               person={person}
