@@ -1,7 +1,7 @@
 class Api::V1::MessagesController < ApplicationController
   before_action :set_message, only: [:update, :destroy]
   before_action :confirm_ownership, only: [:update, :destroy]
-  after_action -> {current_user.update_last_active if current_user}
+  after_action -> { current_user.update_last_active if current_user }
 
   def create
     message = Message.new(message_params)

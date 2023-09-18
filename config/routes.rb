@@ -19,7 +19,8 @@ Rails.application.routes.draw do
     end
   end
   devise_for :users, controllers: {
-    sessions: 'users/sessions'
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'
   }
 
   get '/chat' => "homepage#chat"
