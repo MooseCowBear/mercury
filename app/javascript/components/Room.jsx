@@ -1,7 +1,6 @@
 import React from "react";
 import { removeRoomNotifications } from "../helpers/notifications";
 
-// could probably use for both public and private if pass a prop to indicate
 export default Room = ({
   user,
   room,
@@ -24,9 +23,7 @@ export default Room = ({
   const displayTitle = room.is_private ? getPrivateRoomName(room) : room.name;
   const thisIsCurrentRoom = currentRoom?.id === room.id;
   const deletableByUser =
-    room.creator_id === user.id ||
-    room.interlocutor_one_id == user.id ||
-    room.interlocutor_two_id == user.id;
+    room.interlocutor_one_id == user.id || room.interlocutor_two_id == user.id;
 
   const notificationCount = (room) => {
     if (room.is_private) {
@@ -49,9 +46,7 @@ export default Room = ({
 
   const deleteRoomClickHandler = () => {
     const deleteRoom = async () => {
-      const url = room.is_private
-        ? `/api/v1/private_rooms/destroy/${room.id}`
-        : `/api/v1/rooms/destroy/${room.id}`;
+      const url = `/api/v1/private_rooms/destroy/${room.id}`;
       const token = document.querySelector('meta[name="csrf-token"]').content;
 
       try {
@@ -84,6 +79,10 @@ export default Room = ({
     };
     deleteRoom();
   };
+
+  //TODO: to allow creators of public rooms to update room names...
+  //need to add an EDITING state!
+  //need to replace DISPLAY NAME, or possible the whole row with a FORM
 
   return (
     <div className="flex items-center gap-2">

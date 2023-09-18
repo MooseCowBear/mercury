@@ -1,10 +1,10 @@
 class Api::V1::RoomsController < ApplicationController
-  after_action -> {current_user.update_last_active if current_user}
-  before_action :set_room, only: [:destroy, :show]
-  before_action :confirm_ownership, only: [:destroy]
+  after_action -> { current_user.update_last_active if current_user }
+  before_action :set_room, only: [:show, :update]
+  before_action :confirm_ownership, only: [:update]
   
   def index
-    rooms = Room.public_rooms
+    rooms = Room.public_rooms.recently_active #NOT QUITE RIGHT!!
     render json: rooms, include: [:interlocutor_one, :interlocutor_two]
   end
 
@@ -21,20 +21,14 @@ class Api::V1::RoomsController < ApplicationController
   end
 
   def show
-    unless @room.participant?(current_user)
+    if @room.participant?(current_user)
+      messages = @room.room_messages(current_user)
+      render json: messages, include: [:user]
+    else
       render json: { message: "Unauthorized", 
                     errors: ["This private chat does not belong to you"] },
                     status: 401
-      
-    else
-      messages = @room.room_messages(current_user)
-      render json: messages, include: [:user]
     end
-  end
-
-  def destroy
-    @room.destroy
-    render json: @room
   end
 
   def update

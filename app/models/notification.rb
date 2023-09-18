@@ -10,8 +10,6 @@ class Notification < ApplicationRecord
   private 
 
   def broadcast_notification
-    puts "BROADCASTING NOTIFICATION"
-    pp self
     ActionCable.server.broadcast("notification_#{self.user_id}", self)
   end
 end

@@ -1,16 +1,30 @@
 class Room < ApplicationRecord
   has_many :messages, dependent: :destroy
-  belongs_to :interlocutor_one, class_name: "User", foreign_key: "interlocutor_one_id", optional: true
-  belongs_to :interlocutor_two, class_name: "User", foreign_key: "interlocutor_two_id", optional: true
-  belongs_to :creator, class_name: "User", foreign_key: "creator_id", optional: true
   has_many :notifications, dependent: :destroy
 
-  validates_presence_of :name
-  validates_uniqueness_of :name
-  validates :name, length: { maximum: 20 }
+  belongs_to :interlocutor_one, 
+    class_name: "User", 
+    foreign_key: "interlocutor_one_id", 
+    optional: true
+  belongs_to :interlocutor_two, 
+    class_name: "User", 
+    foreign_key: "interlocutor_two_id", 
+    optional: true
+  belongs_to :creator, 
+    class_name: "User", 
+    foreign_key: "creator_id", 
+    optional: true
+
+  validates :name, presence: true, uniqueness: true, length: { within: 1..20 }
   
   scope :public_rooms, -> { where(is_private: false) }
-  scope :user_private_rooms, ->(user) { where(interlocutor_one: user, marked_delete_one: false).or(where(interlocutor_two: user, marked_delete_two: false)) }
+  scope :user_private_rooms, 
+    ->(user) { 
+      where(interlocutor_one: user, marked_delete_one: false).
+      or(where(interlocutor_two: user, marked_delete_two: false)) 
+    }
+  scope :recently_active, 
+    -> { where("updated_at >= ?", 1.week.ago) } #NOT QUITE RIGHT!
 
   after_create_commit :broadcast_public_room, unless: :is_private?
   after_create_commit :broadcast_private_room, if: :is_private?
@@ -21,19 +35,35 @@ class Room < ApplicationRecord
     retry
   end
 
+  def interlocutor_one?(user)
+    interlocutor_one == user
+  end
+
+  def interlocutor_two?(user)
+  interlocutor_two == user
+  end
+
   def participant?(user)
     return true unless is_private?
-    self.interlocutor_one == user || self.interlocutor_two == user
+    interlocutor_one?(user) || interlocutor_two?(user)
   end
 
   def room_messages(user)
-    if is_private && user == interlocutor_one && restored_at_one
-      messages.active_messages(restored_at_one).order(created_at: :asc)
-    elsif is_private && user == interlocutor_two && restored_at_two
-      messages.active_messages(restored_at_two).order(created_at: :asc)
+    if interlocutor_one?(user) && restored_at_one
+      messages.active_messages(restored_at_one)
+    elsif interlocutor_two?(user) && restored_at_two
+      messages.active_messages(restored_at_two)
     else
       messages.order(created_at: :asc)
     end
+  end
+
+  def restoring_for_one?(user)
+    interlocutor_one?(user) && marked_delete_one
+  end
+
+  def restoring_for_two?(user)
+    interlocutor_two?(user) && marked_delete_two
   end
 
   private 

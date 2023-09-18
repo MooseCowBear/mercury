@@ -1,5 +1,5 @@
 class Api::V1::PrivateRoomsController < ApplicationController
-  after_action -> {current_user.update_last_active if current_user}
+  after_action -> { current_user.update_last_active if current_user }
   before_action :set_room, only: [:destroy]
   before_action :verify_private_participant, only: [:destroy]
   
@@ -18,9 +18,9 @@ class Api::V1::PrivateRoomsController < ApplicationController
       interlocutor_two_id: sorted_ids[1]
     )
  
-    if room.interlocutor_one == current_user && room.marked_delete_one
+    if room.restoring_for_one?(current_user)
       room.update(marked_delete_one: false, restored_at_one: DateTime.current)
-    elsif room.interlocutor_two == current_user && room.marked_delete_two
+    elsif room.restoring_for_two?(current_user)
       room.update(marked_delete_two: false, restored_at_two: DateTime.current)
     end
 
@@ -28,14 +28,11 @@ class Api::V1::PrivateRoomsController < ApplicationController
   end
 
   def destroy
-    # want both sides to request to destroy the conversation before actually deleting
-    if (@room.interlocutor_one == current_user && @room.marked_delete_two) ||
-      (@room.interlocutor_two == current_user && @room.marked_delete_one)
-      @room.destroy
-    elsif @room.interlocutor_one == current_user
-      @room.update(marked_delete_one: true)
-    elsif @room.interlocutor_two == current_user
-      @room.update(marked_delete_two: true)
+    # not actually destroying... 
+    if @room.interlocutor_one?(current_user)
+      @room.update(marked_delete_one: true, restored_at_one: nil)
+    elsif @room.interlocutor_two?(current_user)
+      @room.update(marked_delete_two: true, restored_at_two: nil)
     end
     
     render json: @room

@@ -1,6 +1,6 @@
 class Message < ApplicationRecord
   belongs_to :user
-  belongs_to :room
+  belongs_to :room, touch: true
 
   validates_presence_of :body 
   validates :body, length: { maximum: 1000 }
@@ -8,7 +8,9 @@ class Message < ApplicationRecord
   after_commit :broadcast_message, on: [:create, :update]
   after_create_commit :create_notification
 
-  scope :active_messages, ->(datetime) { where("created_at > ?", datetime) }
+  # the messages that someone would see in a private room
+  scope :active_messages, 
+    ->(datetime) { where("created_at > ?", datetime).order(created_at: :asc) }
 
   def recipient
     return nil unless room.is_private
@@ -22,7 +24,10 @@ class Message < ApplicationRecord
   private 
 
   def broadcast_message
-    ActionCable.server.broadcast("chat_#{self.room_id}", self.as_json(include: :user))
+    ActionCable.server.broadcast(
+      "chat_#{self.room_id}", 
+      self.as_json(include: :user)
+    )
   end
 
   def create_notification
