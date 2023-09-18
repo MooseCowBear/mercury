@@ -4,7 +4,7 @@ class Api::V1::PrivateRoomsController < ApplicationController
   before_action :verify_private_participant, only: [:destroy]
   
   def index
-    rooms = Room.user_private_rooms(current_user)
+    rooms = Room.user_private_rooms(current_user).private_viable
     render json: rooms, include: [:interlocutor_one, :interlocutor_two]
   end
 

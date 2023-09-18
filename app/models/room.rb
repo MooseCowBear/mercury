@@ -26,6 +26,9 @@ class Room < ApplicationRecord
   scope :active, 
     -> { where("updated_at >= ?", 1.week.ago).or(where(creator_id: nil)) } 
 
+  scope :private_viable, 
+    -> { where.not(interlocutor_one_id: nil).where.not(interlocutor_two_id: nil) }
+
   after_create_commit :broadcast_public_room, unless: :is_private?
   after_create_commit :broadcast_private_room, if: :is_private?
 
