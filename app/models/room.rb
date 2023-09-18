@@ -23,8 +23,8 @@ class Room < ApplicationRecord
       where(interlocutor_one: user, marked_delete_one: false).
       or(where(interlocutor_two: user, marked_delete_two: false)) 
     }
-  scope :recently_active, 
-    -> { where("updated_at >= ?", 1.week.ago) } 
+  scope :active, 
+    -> { where("updated_at >= ?", 1.week.ago).or(where(creator_id: nil)) } 
 
   after_create_commit :broadcast_public_room, unless: :is_private?
   after_create_commit :broadcast_private_room, if: :is_private?
