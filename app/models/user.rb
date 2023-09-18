@@ -6,17 +6,20 @@ class User < ApplicationRecord
 
   has_many :messages, dependent: :destroy
   has_many :notifications, dependent: :destroy
+
   has_many :created_rooms, 
     foreign_key: "creator_id", 
-    class_name: "Room"
+    class_name: "Room",
+    dependent: :nullify
   has_many :private_chats_a, 
     foreign_key: "interlocutor_one_id", 
     class_name: "Room",
-    dependent: :destroy #what happens if you are in a conversation (in the room) with someone who deletes their account??
+    dependent: :nullify
   has_many :private_chats_b, 
     foreign_key: "interlocutor_two_id", 
     class_name: "Room",
-    dependent: :destroy
+    dependent: :nullify
+
   belongs_to :current_room, 
     foreign_key: "current_room_id", 
     class_name: "Room", 

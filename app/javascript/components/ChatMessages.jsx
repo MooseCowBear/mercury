@@ -30,6 +30,9 @@ export default ChatMessages = ({ user, currentRoom }) => {
 
   // can move this function helper
   const getInterlocutor = (room) => {
+    if (room.interlocutor_one_id == null || room.interlocutor_two_id == null) {
+      return "";
+    }
     return room.interlocutor_one.id == user.id
       ? room.interlocutor_two.username
       : room.interlocutor_one.username;

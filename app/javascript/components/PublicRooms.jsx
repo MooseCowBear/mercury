@@ -1,5 +1,4 @@
 import React from "react";
-import Room from "./Room";
 import NewRoomForm from "./NewRoomForm";
 import PublicRoom from "./PublicRoom";
 

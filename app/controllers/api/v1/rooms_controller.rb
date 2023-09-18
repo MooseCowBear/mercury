@@ -4,7 +4,8 @@ class Api::V1::RoomsController < ApplicationController
   before_action :confirm_ownership, only: [:update]
   
   def index
-    # want to show seeded public rooms and ones that have been active in the last week
+    # only want to show seeded public rooms 
+    # and ones that have been active in the last week
     rooms = Room.public_rooms.active 
     render json: rooms, include: [:interlocutor_one, :interlocutor_two]
   end
