@@ -49,7 +49,9 @@ export default MessageForm = ({
       className="bg-gray-50 rounded-md py-3 flex items-stretch justify-stretch w-full dark:bg-gray-700"
     >
       <div className="flex flex-col w-full">
-        <span className="text-coolpink-500 text-sm">{errorMessage}</span>
+        <span className="text-coolpink-500 text-sm dark:text-melon-500">
+          {errorMessage}
+        </span>
         <div className="flex items-center gap-3">
           <label className="flex items-center gap-2 w-full">
             {!setEditing && <span>Message:</span>}

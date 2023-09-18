@@ -78,7 +78,9 @@ export default NewRoomForm = () => {
       </h2>
       <div className="flex items-center gap-1">
         <label className="flex flex-col lowercase">
-          <span className="text-coolpink-500">{errorMessage}</span>
+          <span className="text-coolpink-500 dark:text-melon-500">
+            {errorMessage}
+          </span>
           <input
             id="name"
             type="text"

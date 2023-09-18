@@ -66,7 +66,7 @@ export default Message = ({
             <div className="flex gap-2 items-center">
               <button onClick={editClickHandler}>edit</button>|
               <button
-                className="text-coolpink-500"
+                className="text-coolpink-500 dark:text-melon-500"
                 onClick={deleteClickHandler}
               >
                 delete
