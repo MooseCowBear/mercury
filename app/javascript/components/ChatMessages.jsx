@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import consumer from "../channels/consumer";
 import copyObjectArr from "../helpers/copy";
 import Message from "./Message";
-import { createMessageSubmitHandler } from "../helpers/submitHandlers";
+import { createMessageSubmitHandler } from "../helpers/messageSubmitHandlers";
 import MessageForm from "./MessageForm";
 
 export default ChatMessages = ({ user, currentRoom }) => {
@@ -96,7 +96,9 @@ export default ChatMessages = ({ user, currentRoom }) => {
 
   return (
     <div className="w-full h-full grid grid-cols-1 grid-rows-[auto_1fr_auto] text-center p-1 min-h-[300px] max-h-[400px] md:max-h-none">
-      <h1 className="font-semibold text-2xl capitalize truncate">{displayTitle}</h1>
+      <h1 className="font-semibold text-2xl capitalize truncate">
+        {displayTitle}
+      </h1>
       <div className="overflow-auto" id="messages-container">
         <ul className="flex flex-col mx-4">
           {messages.map((message) => {
