@@ -6,7 +6,7 @@ export default MessageForm = ({
   setEditing = null,
   message = null,
 }) => {
-  const [body, setBody] = useState(message ? message.body : ""); //testing
+  const [body, setBody] = useState(message ? message.body : ""); 
   const [inputError, setInputError] = useState(null);
   const [validationError, setValidationError] = useState(null);
 

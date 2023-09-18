@@ -15,7 +15,6 @@ export const editMessageSubmitHandler = (
   const input = document.getElementById("body").value;
 
   if (input.trim() === "") {
-    console.log("am i here?");
     setInputError(true);
     return true;
   }

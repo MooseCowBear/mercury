@@ -1,6 +1,7 @@
 import React from "react";
 import Room from "./Room";
 import NewRoomForm from "./NewRoomForm";
+import PublicRoom from "./PublicRoom";
 
 export default PublicRooms = ({
   user,
@@ -10,6 +11,17 @@ export default PublicRooms = ({
   setCurrentRoom,
   setViewPeople,
 }) => {
+  // <Room
+  //   user={user}
+  //   room={room}
+  //   currentRoom={currentRoom}
+  //   setCurrentRoom={setCurrentRoom}
+  //   setViewPeople={setViewPeople}
+  //   setNotifications={() => {}}
+  //   notifications={[]}
+  //   rooms={rooms}
+  //   setRooms={setRooms}
+  // />;
   return (
     <div className="px-2 md:px-5 flex flex-col gap-3">
       <NewRoomForm />
@@ -17,14 +29,12 @@ export default PublicRooms = ({
         {rooms.map((room) => {
           return (
             <li key={`room-${room.id}`}>
-              <Room
+              <PublicRoom
                 user={user}
                 room={room}
                 currentRoom={currentRoom}
                 setCurrentRoom={setCurrentRoom}
                 setViewPeople={setViewPeople}
-                setNotifications={() => {}}
-                notifications={[]}
                 rooms={rooms}
                 setRooms={setRooms}
               />
@@ -35,3 +45,11 @@ export default PublicRooms = ({
     </div>
   );
 };
+
+// user,
+//   room,
+//   currentRoom,
+//   setCurrentRoom,
+//   setViewPeople,
+//   rooms,
+//   setRooms,

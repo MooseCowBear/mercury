@@ -5,7 +5,6 @@ class HomepageController < ApplicationController
   end
 
   def chat
-    puts "IN CHAT CONTROLLER"
     current_user.update_last_active
   end
 end

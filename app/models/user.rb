@@ -11,10 +11,12 @@ class User < ApplicationRecord
     class_name: "Room"
   has_many :private_chats_a, 
     foreign_key: "interlocutor_one_id", 
-    class_name: "Room"
+    class_name: "Room",
+    dependent: :destroy #what happens if you are in a conversation (in the room) with someone who deletes their account??
   has_many :private_chats_b, 
     foreign_key: "interlocutor_two_id", 
-    class_name: "Room"
+    class_name: "Room",
+    dependent: :destroy
   belongs_to :current_room, 
     foreign_key: "current_room_id", 
     class_name: "Room", 

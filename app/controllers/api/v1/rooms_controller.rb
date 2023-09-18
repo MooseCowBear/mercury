@@ -4,7 +4,7 @@ class Api::V1::RoomsController < ApplicationController
   before_action :confirm_ownership, only: [:update]
   
   def index
-    rooms = Room.public_rooms.recently_active #NOT QUITE RIGHT!!
+    rooms = Room.public_rooms.recently_active 
     render json: rooms, include: [:interlocutor_one, :interlocutor_two]
   end
 
@@ -32,6 +32,8 @@ class Api::V1::RoomsController < ApplicationController
   end
 
   def update
+    @room.update(room_params)
+    render json: @room
   end
 
   private 
