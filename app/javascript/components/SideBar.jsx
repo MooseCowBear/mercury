@@ -115,7 +115,7 @@ export default SideBar = ({
   // TODO: add visible state to Publicrooms and also the private chats so they are collapsable.
   // TODO: add profile...
   return (
-    <div className="row-start-2 md:row-start-1 md:col-start-1 bg-gray-200 border-r-2 py-3 px-1 md:p-5 flex flex-col justify-between">
+    <div className="row-start-2 md:row-start-1 md:col-start-1 bg-gray-200 border-r-2 py-3 px-1 md:p-5 flex flex-col justify-between dark:bg-gray-800 dark:border-gray-700">
       <div>
         <h2 className="flex-no-shrink text-lg px-3 font-semibold flex gap-3 items-center">
           <svg
@@ -184,7 +184,7 @@ export default SideBar = ({
             viewBox="0 0 24 24"
           >
             <path
-              fill="##14b8a6"
+              fill="#14b8a6"
               d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z"
             />
           </svg>

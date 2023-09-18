@@ -4,55 +4,55 @@
   <%= form_for(resource, 
     as: resource_name, 
     url: registration_path(resource_name), 
-    html: { class: "flex flex-col gap-3 p-5 bg-gray-50 rounded-md border-2 shadow-sm" }) do |f| %>
+    html: { class: "flex flex-col gap-3 p-5 bg-gray-50 rounded-md border-2 shadow-sm dark:bg-gray-700 dark:border-gray-600" }) do |f| %>
 
     <div class="field">
       <%= f.label :email, class: "uppercase tracking-wider" %>
       <% f.object.errors.full_messages_for(:email).each do |msg| %>
-        <span class="text-coolpink-500"><%= msg %></span>
+        <span class="text-coolpink-500 dark:text-melon-500"><%= msg %></span>
       <% end %>
       <%= f.email_field :email, 
         autofocus: true, 
         autocomplete: "email", 
-        class: "px-3 py-1 rounded border border-gray-800 w-full" %>
+        class: "px-3 py-1 rounded border border-gray-800 w-full dark:bg-gray-800 dark:border-gray-500" %>
     </div>
 
     <div class="field">
       <%= f.label :username, class: "uppercase tracking-wider" %>
       <% f.object.errors.full_messages_for(:username).each do |msg| %>
-        <span class="text-coolpink-500"><%= msg %></span>
+        <span class="text-coolpink-500 dark:text-melon-500"><%= msg %></span>
       <% end %>
       <%= f.text_field :username, 
         autofocus: true, 
-        class: "px-3 py-1 rounded border border-gray-800 w-full" %>
+        class: "px-3 py-1 rounded border border-gray-800 w-full dark:bg-gray-800 dark:border-gray-500" %>
     </div>
 
     <div class="field">
       <%= f.label :password, class: "uppercase tracking-wider" %>
       <% f.object.errors.full_messages_for(:password).each do |msg| %>
-        <span class="text-coolpink-500"><%= msg %></span>
+        <span class="text-coolpink-500 dark:text-melon-500"><%= msg %></span>
       <% end %>
       <% if @minimum_password_length %>
       <em>(<%= @minimum_password_length %> characters minimum)</em>
       <% end %><br />
       <%= f.password_field :password, 
         autocomplete: "new-password", 
-        class: "px-3 py-1 rounded border border-gray-800 w-full" %>
+        class: "px-3 py-1 rounded border border-gray-800 w-full dark:bg-gray-800 dark:border-gray-500" %>
     </div>
 
     <div class="field">
       <%= f.label :password_confirmation, class: "uppercase tracking-wider" %>
       <% f.object.errors.full_messages_for(:password_confirmation).each do |msg| %>
-        <span class="text-coolpink-500"><%= msg %></span>
+        <span class="text-coolpink-500 dark:text-melon-500"><%= msg %></span>
       <% end %>
       <%= f.password_field :password_confirmation, 
         autocomplete: "new-password", 
-        class: "px-3 py-1 rounded border border-gray-800 w-full" %>
+        class: "px-3 py-1 rounded border border-gray-800 w-full dark:bg-gray-800 dark:border-gray-500" %>
     </div>
 
     <div class="actions">
       <%= f.submit "Sign up", 
-        class: "cursor-pointer w-full rounded border-2 border-gray-800 bg-gray-800 text-gray-50 lowercase tracking-widest py-1 hover:bg-gray-50 hover:text-gray-800" %>
+        class: "cursor-pointer w-full rounded border-2 border-gray-800 bg-gray-800 text-gray-50 lowercase tracking-widest py-1 hover:bg-gray-50 hover:text-gray-800 dark:hover:bg-gray-50/80" %>
     </div>
   <% end %>
 

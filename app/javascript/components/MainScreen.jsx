@@ -43,7 +43,7 @@ export default MainScreen = () => {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="border grid grid-cols-1 md:grid-cols-[auto_1fr] grid-rows-[auto_1fr] md:grid-rows-1 gap-3 rounded-lg shadow-sm bg-gray-50 h-full">
+    <div className="border grid grid-cols-1 md:grid-cols-[auto_1fr] grid-rows-[auto_1fr] md:grid-rows-1 gap-3 rounded-lg shadow-sm bg-gray-50 h-full dark:bg-gray-700 dark:border-gray-600">
       <SideBar
         user={user}
         rooms={rooms}

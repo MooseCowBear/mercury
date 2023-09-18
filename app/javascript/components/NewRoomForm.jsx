@@ -71,7 +71,7 @@ export default NewRoomForm = () => {
   return (
     <form
       onSubmit={submitHandler}
-      className="bg-gray-50 rounded-md px-3 py-2 w-fit"
+      className="bg-gray-50 rounded-md px-3 py-2 w-fit dark:bg-gray-700"
     >
       <h2 className="font-semibold uppercase tracking-wider leading-tight">
         New room
@@ -84,7 +84,7 @@ export default NewRoomForm = () => {
             type="text"
             value={name}
             onChange={changeHandler}
-            className="px-3 py-1 border-2 border-gray-200 rounded-lg max-w-[200px] max-h-[50px] text-sm"
+            className="px-3 py-1 border-2 border-gray-200 rounded-lg max-w-[200px] max-h-[50px] text-sm dark:bg-gray-800 dark:border-gray-500"
           />
         </label>
         <button type="submit" aria-label="create room">

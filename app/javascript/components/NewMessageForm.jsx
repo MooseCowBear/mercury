@@ -82,7 +82,7 @@ export default NewMessageForm = ({ currentRoom }) => {
           type="text"
           onChange={changeHandler}
           value={body}
-          className="px-3 py-1 border-2 border-gray-200 rounded-lg max-w-[250px] max-h-[50px] text-sm"
+          className="px-3 py-1 border-2 border-gray-200 rounded-lg max-w-[250px] max-h-[50px] text-sm dark:bg-gray-800 dark:border-gray-500"
         />
       </label>
       <input type="hidden" id="room_id" value={currentRoom.id} />

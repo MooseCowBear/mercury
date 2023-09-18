@@ -27,6 +27,9 @@ module.exports = {
         coolpink: {
           500: "#c850c0",
         },
+        melon: {
+          500: "#ffcc70",
+        },
       },
     },
   },

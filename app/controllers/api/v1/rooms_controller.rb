@@ -6,7 +6,7 @@ class Api::V1::RoomsController < ApplicationController
   def index
     # only want to show seeded public rooms 
     # and ones that have been active in the last week
-    rooms = Room.public_rooms.active 
+    rooms = Room.public_rooms.active.order(:created_at)
     render json: rooms, include: [:interlocutor_one, :interlocutor_two]
   end
 

@@ -46,7 +46,7 @@ export default MessageForm = ({
   return (
     <form
       onSubmit={submitHandler}
-      className="bg-gray-50 rounded-md py-3 flex items-stretch justify-stretch w-full"
+      className="bg-gray-50 rounded-md py-3 flex items-stretch justify-stretch w-full dark:bg-gray-700"
     >
       <div className="flex flex-col w-full">
         <span className="text-coolpink-500 text-sm">{errorMessage}</span>
@@ -58,7 +58,7 @@ export default MessageForm = ({
               type="text"
               onChange={changeHandler}
               value={body}
-              className="px-3 py-1 border-2 border-gray-200 rounded-lg w-full max-h-[50px] text-sm"
+              className="px-3 py-1 border-2 border-gray-200 rounded-lg w-full max-h-[50px] text-sm dark:bg-gray-800 dark:border-gray-500"
             />
           </label>
           <input type="hidden" id="room_id" value={currentRoom.id} />
