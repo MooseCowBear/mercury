@@ -11,17 +11,6 @@ export default PublicRooms = ({
   setCurrentRoom,
   setViewPeople,
 }) => {
-  // <Room
-  //   user={user}
-  //   room={room}
-  //   currentRoom={currentRoom}
-  //   setCurrentRoom={setCurrentRoom}
-  //   setViewPeople={setViewPeople}
-  //   setNotifications={() => {}}
-  //   notifications={[]}
-  //   rooms={rooms}
-  //   setRooms={setRooms}
-  // />;
   return (
     <div className="px-2 md:px-5 flex flex-col gap-3">
       <NewRoomForm />
@@ -45,11 +34,3 @@ export default PublicRooms = ({
     </div>
   );
 };
-
-// user,
-//   room,
-//   currentRoom,
-//   setCurrentRoom,
-//   setViewPeople,
-//   rooms,
-//   setRooms,

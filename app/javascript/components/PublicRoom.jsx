@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Room from "./Room";
 import UpdateRoomForm from "./UpdateRoomForm";
 
 export default PublicRoom = ({
