@@ -32,7 +32,7 @@ export default Message = ({
   const deleteClickHandler = () => {
     const url = `/api/v1/messages/destroy/${message.id}`;
     const method = "DELETE";
-    const fetchBody = {}; 
+    const fetchBody = {};
 
     const setState = (parsedResponse) => {
       const newMessages = copyObjectArr(messages);

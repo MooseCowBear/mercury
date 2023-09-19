@@ -30,7 +30,7 @@ export default NewRoomForm = () => {
     const errorSetter = (value) => {
       console.log(error);
       setError(value);
-    }
+    };
 
     makeAPIrequest(url, fetchBody, method, errorSetter, null, resetForm);
   };

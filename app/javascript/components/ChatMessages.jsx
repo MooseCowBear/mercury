@@ -113,9 +113,7 @@ export default ChatMessages = ({ user, currentRoom }) => {
           })}
         </ul>
       </div>
-      <MessageForm
-        currentRoom={currentRoom}
-      />
+      <MessageForm currentRoom={currentRoom} />
     </div>
   );
 };

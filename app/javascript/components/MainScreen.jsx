@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import useCurrUserAndInitialRooms from "../helpers/useCurrUserAndInitialRooms"; 
+import useCurrUserAndInitialRooms from "../helpers/useCurrUserAndInitialRooms";
 import SideBar from "./SideBar";
 import Welcome from "./Welcome";
 import ChatMessages from "./ChatMessages";
