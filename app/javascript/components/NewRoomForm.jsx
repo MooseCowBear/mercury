@@ -24,7 +24,6 @@ export default NewRoomForm = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log("new room form submitted");
     const input = document.getElementById("name").value;
     if (input.trim() === "") {
       setInputError(true);
@@ -53,7 +52,6 @@ export default NewRoomForm = () => {
         }
 
         const parsedResponse = await response.json();
-        console.log(parsedResponse);
 
         if (parsedResponse.hasOwnProperty("errors")) {
           setValidationError(parsedResponse.errors);

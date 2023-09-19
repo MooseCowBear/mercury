@@ -23,7 +23,6 @@ export default NewMessageForm = ({ currentRoom }) => {
   };
 
   const submitHandler = (e) => {
-    console.log("new message form submitted");
     e.preventDefault();
 
     const input = document.getElementById("body").value;
@@ -55,7 +54,6 @@ export default NewMessageForm = ({ currentRoom }) => {
         }
 
         const parsedResponse = await response.json();
-        console.log(parsedResponse);
 
         if (parsedResponse.hasOwnProperty("errors")) {
           setValidationError(parsedResponse.errors);

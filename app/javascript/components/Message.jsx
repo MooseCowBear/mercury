@@ -11,10 +11,19 @@ export default Message = ({
   currentRoom,
   messages,
   setMessages,
+  interlocutor,
 }) => {
   const [editing, setEditing] = useState(false);
 
-  const isOwner = message.user.id == user.id;
+  const isOwner = message.user && message.user.id == user.id;
+
+  const messageDisplayName = isOwner
+    ? message.user.username
+    : interlocutor
+    ? interlocutor
+    : message.user
+    ? message.user.username
+    : "user no longer exists";
 
   const editClickHandler = () => {
     setEditing(true);
@@ -90,7 +99,7 @@ export default Message = ({
           isOwner ? "self-end" : "self-start"
         } flex items-center gap-1`}
       >
-        <span>{message.user.username}</span>
+        <span>{messageDisplayName}</span>
         <span className="text-sm">{displayDateTime(message.created_at)}</span>
       </p>
     </>

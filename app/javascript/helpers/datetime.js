@@ -9,7 +9,12 @@ const displayTime = (dateString) => {
   const hours = inputDate.getHours();
   const minutes = inputDate.getMinutes();
 
-  return `${hours % 12}:${minutes.toString().padStart(2, "0")} ${
+  let displayHours = hours % 12;
+  if (displayHours == 0) {
+    displayHours = 12;
+  }
+
+  return `${displayHours}:${minutes.toString().padStart(2, "0")} ${
     hours >= 12 ? "pm" : "am"
   }`;
 };

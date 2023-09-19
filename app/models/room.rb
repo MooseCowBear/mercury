@@ -15,7 +15,7 @@ class Room < ApplicationRecord
     foreign_key: "creator_id", 
     optional: true
 
-  validates :name, presence: true, uniqueness: true, length: { within: 1..20 }
+  validates :name, presence: true, uniqueness: true, length: { within: 1..45 }
   
   scope :public_rooms, -> { where(is_private: false) }
   scope :user_private_rooms, 
@@ -26,8 +26,16 @@ class Room < ApplicationRecord
   scope :active, 
     -> { where("updated_at >= ?", 1.week.ago).or(where(creator_id: nil)) } 
 
+  # private_viable no longer needed...
   scope :private_viable, 
     -> { where.not(interlocutor_one_id: nil).where.not(interlocutor_two_id: nil) }
+
+  # for registrations callback
+  scope :private_destroyable,
+    -> (user) { 
+      where(interlocutor_one_id: nil).or(where(interlocutor_two_id: nil)).
+      user_private_rooms(user)
+    }
 
   after_create_commit :broadcast_public_room, unless: :is_private?
   after_create_commit :broadcast_private_room, if: :is_private?
@@ -67,6 +75,22 @@ class Room < ApplicationRecord
 
   def restoring_for_two?(user)
     interlocutor_two?(user) && marked_delete_two
+  end
+
+  def private_room_destroy(user)
+    # bc want private chats to remain until both parties "delete"
+    # so that non-deleter retains chats on their end
+    if interlocutor_one_id.nil? || interlocutor_two_id.nil?
+      self.destroy
+    elsif interlocutor_one?(user) && marked_delete_two
+      self.destroy
+    elsif interlocutor_two?(user) && marked_delete_one
+      self.destroy
+    elsif interlocutor_one?(user)
+      self.update(marked_delete_one: true, restored_at_one: nil)
+    elsif interlocutor_two?(user)
+      self.update(marked_delete_two: true, restored_at_two: nil)
+    end
   end
 
   private 

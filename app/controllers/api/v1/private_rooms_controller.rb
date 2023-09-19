@@ -4,18 +4,21 @@ class Api::V1::PrivateRoomsController < ApplicationController
   before_action :verify_private_participant, only: [:destroy]
   
   def index
-    rooms = Room.user_private_rooms(current_user).private_viable
+    rooms = Room.user_private_rooms(current_user)
     render json: rooms, include: [:interlocutor_one, :interlocutor_two]
   end
 
   def create
-    sorted_ids = sort_users(current_user.id, private_room_params[:user_id])
-    room_name = generate_name(sorted_ids)
+    # moved to using usernames instead of ids bc still unique 
+    # and then front end still has access to the username if user deletes account
+    other_user = User.find(params[:user_id])
+    sorted_users = sort_users(current_user, other_user)
+    room_name = generate_name(sorted_users)
     room = Room.safe_find_or_create_by(
       name: room_name, 
       is_private: true, 
-      interlocutor_one_id: sorted_ids[0], 
-      interlocutor_two_id: sorted_ids[1]
+      interlocutor_one_id: sorted_users[0].id, 
+      interlocutor_two_id: sorted_users[1].id
     )
  
     if room.restoring_for_one?(current_user)
@@ -24,16 +27,13 @@ class Api::V1::PrivateRoomsController < ApplicationController
       room.update(marked_delete_two: false, restored_at_two: DateTime.current)
     end
 
-    render json: room, include: [:interlocutor_one, :interlocutor_two]
+    render json: room, include: [:interlocutor_one, :interlocutor_two] # do we still need this include?
   end
 
   def destroy
     # not actually destroying... 
-    if @room.interlocutor_one?(current_user)
-      @room.update(marked_delete_one: true, restored_at_one: nil)
-    elsif @room.interlocutor_two?(current_user)
-      @room.update(marked_delete_two: true, restored_at_two: nil)
-    end
+    # TODO: want to destroy if other user no longer exists
+    @room.private_room_destroy(current_user)
     
     render json: @room
   end
@@ -51,12 +51,16 @@ class Api::V1::PrivateRoomsController < ApplicationController
     end
   end
 
-  def sort_users(id_one, id_two)
-    [id_one, id_two].sort
+  def sort_users(one, two)
+    if one.id < two.id 
+      [one, two]
+    else
+      [two, one]
+    end
   end
 
-  def generate_name(sorted_ids)
-    "privatechat_#{sorted_ids[0]}_#{sorted_ids[1]}"
+  def generate_name(sorted_users)
+    "pc_#{sorted_users[0].username}_#{sorted_users[1].username}"
   end
 
   def private_room_params

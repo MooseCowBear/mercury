@@ -4,6 +4,7 @@ import copyObjectArr from "../helpers/copy";
 import Message from "./Message";
 import { createMessageSubmitHandler } from "../helpers/messageSubmitHandlers";
 import MessageForm from "./MessageForm";
+import { getInterlocutor } from "../helpers/privateChats";
 
 export default ChatMessages = ({ user, currentRoom }) => {
   const [messages, setMessages] = useState([]);
@@ -28,18 +29,8 @@ export default ChatMessages = ({ user, currentRoom }) => {
     setScroll((scroll) => !scroll);
   };
 
-  // can move this function helper
-  const getInterlocutor = (room) => {
-    if (room.interlocutor_one_id == null || room.interlocutor_two_id == null) {
-      return "";
-    }
-    return room.interlocutor_one.id == user.id
-      ? room.interlocutor_two.username
-      : room.interlocutor_one.username;
-  };
-
   const displayTitle = currentRoom.is_private
-    ? getInterlocutor(currentRoom)
+    ? getInterlocutor(currentRoom, user)
     : currentRoom.name;
 
   useEffect(() => {
@@ -116,6 +107,7 @@ export default ChatMessages = ({ user, currentRoom }) => {
                   currentRoom={currentRoom}
                   messages={messages}
                   setMessages={setMessages}
+                  interlocutor={currentRoom.is_private ? displayTitle : null}
                 />
               </li>
             );

@@ -92,7 +92,6 @@ export const createMessageSubmitHandler = (
       }
 
       const parsedResponse = await response.json();
-      console.log(parsedResponse);
 
       if (parsedResponse.hasOwnProperty("errors")) {
         setValidationError(parsedResponse.errors);

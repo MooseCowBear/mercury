@@ -2,6 +2,8 @@
 
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :check_editability, only: [:update, :destroy]
+  before_action :destroy_destroyable_rooms, only: [:destroy]
+
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
@@ -68,5 +70,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
       flash[:alert] = "This user cannot be edited."
       redirect_to root_path
     end
+  end
+
+  def destroy_destroyable_rooms
+    # current user possibly has reference to current room
+    # so need to remove before deleting user
+    current_user.update(current_room_id: nil);
+    rooms = Room.private_destroyable(current_user)
+    rooms.destroy_all
   end
 end

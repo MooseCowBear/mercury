@@ -17,11 +17,8 @@ export default SideBar = ({
   const roomsChannel = useRef(null);
   const userChannel = useRef(null);
 
-  // NEW:
   const [notifications, setNotifications] = useState([]);
   const notificationsChannel = useRef(null);
-
-  // need to get the existing notifications first
 
   useEffect(() => {
     // get the initial private rooms after we get user

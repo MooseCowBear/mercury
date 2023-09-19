@@ -1,5 +1,6 @@
 import React from "react";
 import { removeRoomNotifications } from "../helpers/notifications";
+import { getInterlocutor } from "../helpers/privateChats";
 
 export default PrivateRoom = ({
   user,
@@ -13,16 +14,7 @@ export default PrivateRoom = ({
   setRooms,
 }) => {
 
-  const getInterlocutor = (room) => {
-    if (room.interlocutor_one_id == null || room.interlocutor_two_id == null) {
-      return "";
-    }
-    return room.interlocutor_one.id == user.id
-      ? room.interlocutor_two.username
-      : room.interlocutor_one.username;
-  };
-
-  const displayTitle = getInterlocutor(room);
+  const displayTitle = getInterlocutor(room, user);
 
   const thisIsCurrentRoom = currentRoom?.id === room.id;
 

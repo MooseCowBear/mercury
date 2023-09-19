@@ -17,7 +17,6 @@ export default UpdateRoomForm = ({ room, rooms, setRooms, setEditing }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     const input = document.getElementById(`name-${room.id}`).value;
-    console.log("input value", input);
 
     if (input.trim() === "") {
       setError("Room must have a name.");

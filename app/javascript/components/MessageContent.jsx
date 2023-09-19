@@ -8,7 +8,7 @@ export default MessageContent = ({ message, isOwner }) => {
       className={`flex flex-col px-5 py-2 border-2 w-full rounded-md ${
         isOwner
           ? "bg-teal-400/10 self-start border-teal-200/60 "
-          : "bg-gray-100 self-end dark:bg-gray-500/50 border-gray-500"
+          : "bg-gray-100 self-end dark:bg-gray-500/50 dark:border-gray-500"
       }`}
     >
       <span className="self-start">{message.body}</span>
