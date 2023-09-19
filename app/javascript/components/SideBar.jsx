@@ -21,7 +21,7 @@ export default SideBar = ({
   const notificationsChannel = useRef(null);
 
   useEffect(() => {
-    // get the initial private rooms after we get user
+    // get notifications after we get user
     const getNotifications = async () => {
       try {
         const response = await fetch("/api/v1/notifications/index");
@@ -89,8 +89,13 @@ export default SideBar = ({
         },
         {
           received(data) {
-            const newChats = copyObjectArr(privateChats);
-            newChats.push(data);
+            const newChats = copyObjectArr(privateChats); //ugh change to to update
+            const index = newChats.findIndex((elem) => elem.id === data.id);
+            if (index > -1) {
+              newChats[index] = data;
+            } else {
+              newChats.push(data);
+            }
             setPrivateChats(newChats);
           },
         }
@@ -109,8 +114,7 @@ export default SideBar = ({
     };
   }, [user, rooms, privateChats]);
 
-  // TODO: add visible state to Publicrooms and also the private chats so they are collapsable.
-  // TODO: add profile...
+  // TODO: add profile?
   return (
     <div className="row-start-2 md:row-start-1 md:col-start-1 bg-gray-200 border-r-2 py-3 px-1 md:p-5 flex flex-col justify-between dark:bg-gray-800 dark:border-gray-700">
       <div>

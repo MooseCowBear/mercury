@@ -5,7 +5,7 @@ class Api::V1::RoomsController < ApplicationController
   
   def index
     # only want to show seeded public rooms 
-    # and ones that have been active in the last week
+    # and ones that have been active in the last week ?
     rooms = Room.public_rooms.active.order(:created_at)
     render json: rooms, include: [:interlocutor_one, :interlocutor_two]
   end
@@ -50,7 +50,7 @@ class Api::V1::RoomsController < ApplicationController
 
   def confirm_ownership
     unless @room.creator == current_user
-      flash[:alert] = "You cannot delete a room that you did not create."
+      flash[:alert] = "You cannot modify a room that you did not create."
       redirect_to_root_path
     end
   end

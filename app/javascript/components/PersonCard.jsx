@@ -30,6 +30,7 @@ export default PersonCard = ({
 
         const parsedResponse = await response.json();
 
+        // need to update privatechats!!!
         setCurrentRoom(parsedResponse);
         setError(null);
         setViewPeople(false);

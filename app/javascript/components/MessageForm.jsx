@@ -28,7 +28,6 @@ export default MessageForm = ({
   const submitHandler = (e) => {
     e.preventDefault();
 
-    // will this work if also use for NEW MESSAGE???
     const error = variableSubmitHandler(
       currentRoom,
       body,

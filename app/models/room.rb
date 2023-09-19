@@ -26,19 +26,16 @@ class Room < ApplicationRecord
   scope :active, 
     -> { where("updated_at >= ?", 1.week.ago).or(where(creator_id: nil)) } 
 
-  # private_viable no longer needed...
-  scope :private_viable, 
-    -> { where.not(interlocutor_one_id: nil).where.not(interlocutor_two_id: nil) }
-
-  # for registrations callback
+  # for registrations destroy callback
   scope :private_destroyable,
     -> (user) { 
       where(interlocutor_one_id: nil).or(where(interlocutor_two_id: nil)).
       user_private_rooms(user)
     }
 
+  before_validation :clean_name
   after_create_commit :broadcast_public_room, unless: :is_private?
-  after_create_commit :broadcast_private_room, if: :is_private?
+  after_commit :broadcast_private_room, if: :is_private?
 
   def self.safe_find_or_create_by(*args, &block)
     find_or_create_by *args, &block
@@ -93,6 +90,12 @@ class Room < ApplicationRecord
     end
   end
 
+  protected
+
+  def clean_name
+    self.name = self.name.strip.downcase
+  end
+
   private 
 
   def broadcast_public_room
@@ -101,7 +104,11 @@ class Room < ApplicationRecord
 
   def broadcast_private_room
     room = self.as_json(include: [:interlocutor_one, :interlocutor_two])
-    ActionCable.server.broadcast("user_#{self.interlocutor_one_id}", room)
-    ActionCable.server.broadcast("user_#{self.interlocutor_two_id}", room)
+    unless marked_delete_one
+      ActionCable.server.broadcast("user_#{self.interlocutor_one_id}", room)
+    end
+    unless marked_delete_two
+      ActionCable.server.broadcast("user_#{self.interlocutor_two_id}", room)
+    end
   end
 end

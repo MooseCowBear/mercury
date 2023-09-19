@@ -16,10 +16,9 @@ export default UpdateRoomForm = ({ room, rooms, setRooms, setEditing }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    const input = document.getElementById(`name-${room.id}`).value;
-
-    if (input.trim() === "") {
-      setError("Room must have a name.");
+    const input = document.getElementById(`name-${room.id}`).value.trim();
+    if (input === "" || input.length > 45) {
+      setInputError("Room must have a name less than 45 characters.");
       return;
     }
 

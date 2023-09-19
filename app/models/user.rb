@@ -33,10 +33,17 @@ class User < ApplicationRecord
   scope :other_users, ->(user) { where.not(id: user) }
   scope :ordered_by_username, -> { order(username: :asc) }
 
+  before_validation :clean_username
   after_update :clear_user_notifications, if: :saved_change_to_current_room_id?
 
   def update_last_active
     self.touch(:last_active)
+  end
+
+  protected
+
+  def clean_username
+    self.username = self.username.strip.downcase
   end
 
   private 

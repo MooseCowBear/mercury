@@ -6,7 +6,7 @@ export default NewRoomForm = () => {
   const [validationError, setValidationError] = useState([]);
 
   const errorMessage = inputError
-    ? "Room must have a name."
+    ? "Room must have a name less than 45 characters."
     : validationError
     ? `${validationError.join(", ")}`
     : "";
@@ -24,8 +24,8 @@ export default NewRoomForm = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    const input = document.getElementById("name").value;
-    if (input.trim() === "") {
+    const input = document.getElementById("name").value.trim();
+    if (input === "" || input.length > 45) {
       setInputError(true);
       return;
     }
@@ -45,7 +45,6 @@ export default NewRoomForm = () => {
           body: JSON.stringify(body),
         });
 
-        // is this what we want?
         if (response.status !== 200 && response.status !== 422) {
           resetForm();
           throw new Error("A network error occured.");
@@ -69,14 +68,14 @@ export default NewRoomForm = () => {
   return (
     <form
       onSubmit={submitHandler}
-      className="bg-gray-50 rounded-md px-3 py-2 w-fit dark:bg-gray-700"
+      className="bg-gray-50 rounded-md px-3 py-2 max-w-[250px] dark:bg-gray-700"
     >
       <h2 className="font-semibold uppercase tracking-wider leading-tight">
         New room
       </h2>
       <div className="flex items-center gap-1">
         <label className="flex flex-col lowercase">
-          <span className="text-coolpink-500 dark:text-melon-500">
+          <span className="text-coolpink-500 overflow-x-auto dark:text-melon-500">
             {errorMessage}
           </span>
           <input
