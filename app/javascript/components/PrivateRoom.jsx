@@ -1,6 +1,7 @@
 import React from "react";
 import { removeRoomNotifications } from "../helpers/notifications";
 import { getInterlocutor } from "../helpers/privateChats";
+import { makeAPIrequest } from "../helpers/apiRequest";
 
 export default PrivateRoom = ({
   user,
@@ -13,7 +14,6 @@ export default PrivateRoom = ({
   rooms,
   setRooms,
 }) => {
-
   const displayTitle = getInterlocutor(room, user);
 
   const thisIsCurrentRoom = currentRoom?.id === room.id;
@@ -38,39 +38,35 @@ export default PrivateRoom = ({
   };
 
   const deleteRoomClickHandler = () => {
-    const deleteRoom = async () => {
-      const url = `/api/v1/private_rooms/destroy/${room.id}`;
-      const token = document.querySelector('meta[name="csrf-token"]').content;
+    const url = `/api/v1/private_rooms/destroy/${room.id}`;
+    const method = "DELETE";
+    const fetchBody = {};
 
-      try {
-        const response = await fetch(url, {
-          method: "DELETE",
-          headers: {
-            "X-CSRF-Token": token,
-            "Content-Type": "application/json",
-          },
-        });
+    const setState = (parsedResponse, currentRoom) => {
+      const newRooms = copyObjectArr(rooms);
+      const afterDelete = newRooms.filter(
+        (elem) => elem.id !== parsedResponse.id
+      );
+      setRooms(afterDelete);
 
-        if (response.status !== 200 && response.status !== 422) {
-          throw new Error("A network error occured.");
-        }
-
-        const parsedResponse = await response.json();
-
-        const newRooms = copyObjectArr(rooms);
-        const afterDelete = newRooms.filter(
-          (elem) => elem.id !== parsedResponse.id
-        );
-        setRooms(afterDelete);
-
-        if (currentRoom.id == parsedResponse.id) {
-          setCurrentRoom(null);
-        }
-      } catch (error) {
-        console.log(error);
+      if (currentRoom.id == parsedResponse.id) {
+        setCurrentRoom(null);
       }
     };
-    deleteRoom();
+
+    const errorSetter = (value) => {
+      console.log(value);
+    };
+
+    makeAPIrequest(
+      url,
+      fetchBody,
+      method,
+      errorSetter,
+      setState,
+      null,
+      currentRoom
+    );
   };
 
   return (

@@ -4,6 +4,7 @@ import MessageForm from "./MessageForm";
 import { editMessageSubmitHandler } from "../helpers/messageSubmitHandlers";
 import { displayDateTime } from "../helpers/datetime";
 import copyObjectArr from "../helpers/copy";
+import { makeAPIrequest } from "../helpers/apiRequest";
 
 export default Message = ({
   user,
@@ -30,36 +31,23 @@ export default Message = ({
   };
 
   const deleteClickHandler = () => {
-    const deleteMessage = async () => {
-      const url = `/api/v1/messages/destroy/${message.id}`;
-      const token = document.querySelector('meta[name="csrf-token"]').content;
+    const url = `/api/v1/messages/destroy/${message.id}`;
+    const method = "DELETE";
+    const fetchBody = {}; 
 
-      try {
-        const response = await fetch(url, {
-          method: "DELETE",
-          headers: {
-            "X-CSRF-Token": token,
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (response.status !== 200 && response.status !== 422) {
-          throw new Error("A network error occured.");
-        }
-
-        const parsedResponse = await response.json();
-
-        const newMessages = copyObjectArr(messages);
-        const afterDelete = newMessages.filter(
-          (elem) => elem.id !== parsedResponse.id
-        );
-        setMessages(afterDelete);
-      } catch (error) {
-        console.log(error);
-        // how to handle an error for this one?
-      }
+    const setState = (parsedResponse) => {
+      const newMessages = copyObjectArr(messages);
+      const afterDelete = newMessages.filter(
+        (elem) => elem.id !== parsedResponse.id
+      );
+      setMessages(afterDelete);
     };
-    deleteMessage();
+
+    const errorSetter = (error) => {
+      console.log(error);
+    };
+
+    makeAPIrequest(url, fetchBody, method, errorSetter, setState);
   };
 
   return (
@@ -89,7 +77,6 @@ export default Message = ({
           <MessageForm
             message={message}
             currentRoom={currentRoom}
-            variableSubmitHandler={editMessageSubmitHandler}
             setEditing={setEditing}
           />
         </div>

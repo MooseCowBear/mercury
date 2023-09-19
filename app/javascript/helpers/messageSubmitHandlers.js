@@ -16,7 +16,7 @@ export const editMessageSubmitHandler = (
 
   if (input.trim() === "") {
     setInputError(true);
-    return true;
+    return true; //do need this...
   }
 
   const updateMessage = async () => {
@@ -67,7 +67,7 @@ export const createMessageSubmitHandler = (
 
   if (input.trim() === "") {
     setInputError(true);
-    return;
+    return; //why didn't this need to be return true?
   }
 
   const createMessage = async () => {

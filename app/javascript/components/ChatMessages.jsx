@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import consumer from "../channels/consumer";
 import copyObjectArr from "../helpers/copy";
 import Message from "./Message";
-import { createMessageSubmitHandler } from "../helpers/messageSubmitHandlers";
 import MessageForm from "./MessageForm";
 import { getInterlocutor } from "../helpers/privateChats";
 
@@ -116,7 +115,6 @@ export default ChatMessages = ({ user, currentRoom }) => {
       </div>
       <MessageForm
         currentRoom={currentRoom}
-        variableSubmitHandler={createMessageSubmitHandler}
       />
     </div>
   );

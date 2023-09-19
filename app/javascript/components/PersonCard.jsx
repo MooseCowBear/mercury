@@ -1,5 +1,6 @@
 import React from "react";
 import { isUserActive } from "../helpers/users";
+import { makeAPIrequest } from "../helpers/apiRequest";
 
 export default PersonCard = ({
   person,
@@ -10,36 +11,22 @@ export default PersonCard = ({
   const active = isUserActive(person.last_active);
 
   const clickHandler = () => {
-    const getPrivateRoom = async () => {
-      const url = "/api/v1/private_rooms/create";
-      const token = document.querySelector('meta[name="csrf-token"]').content;
+    const url = "/api/v1/private_rooms/create";
+    const fetchBody = { user_id: person.id };
+    const method = "POST";
 
-      try {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: {
-            "X-CSRF-Token": token,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ user_id: person.id }),
-        });
-
-        if (response.status !== 200) {
-          throw new Error("An error occured.");
-        }
-
-        const parsedResponse = await response.json();
-
-        // need to update privatechats!!!
-        setCurrentRoom(parsedResponse);
-        setError(null);
-        setViewPeople(false);
-      } catch (error) {
-        console.log(error);
-        setError(error);
-      }
+    const setState = (parsedResponse) => {
+      setCurrentRoom(parsedResponse);
+      setError(null);
+      setViewPeople(false);
     };
-    getPrivateRoom();
+
+    const errorSetter = (value) => {
+      console.log(error);
+      setError(value);
+    };
+
+    makeAPIrequest(url, fetchBody, method, errorSetter, setState);
   };
 
   // TODO: when we have profiles this will be updated.

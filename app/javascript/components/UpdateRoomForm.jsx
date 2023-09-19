@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import copyObjectArr from "../helpers/copy";
+import { makeAPIrequest } from "../helpers/apiRequest";
 
 export default UpdateRoomForm = ({ room, rooms, setRooms, setEditing }) => {
   const [name, setName] = useState(room.name);
@@ -18,54 +19,31 @@ export default UpdateRoomForm = ({ room, rooms, setRooms, setEditing }) => {
     e.preventDefault();
     const input = document.getElementById(`name-${room.id}`).value.trim();
     if (input === "" || input.length > 45) {
-      setInputError("Room must have a name less than 45 characters.");
+      setError("Room must have a name less than 45 characters.");
       return;
     }
 
-    const updateRoom = async () => {
-      const url = `/api/v1/rooms/update/${room.id}`;
-      const token = document.querySelector('meta[name="csrf-token"]').content;
-      const fetchBody = { name };
+    const url = `/api/v1/rooms/update/${room.id}`;
+    const fetchBody = { name };
+    const method = "POST";
 
-      try {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: {
-            "X-CSRF-Token": token,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(fetchBody),
-        });
-
-        if (response.status !== 200 && response.status !== 422) {
-          setEditing(false);
-          setError(null);
-          throw new Error("A network error occured.");
-        }
-
-        const parsedResponse = await response.json();
-
-        if (parsedResponse.hasOwnProperty("errors")) {
-          setError(parsedResponse.errors.join(", "));
-          return;
-        } else {
-          const newRooms = copyObjectArr(rooms);
-          const index = rooms.findIndex(
-            (elem) => elem.id === parsedResponse.id
-          );
-          if (index > -1) {
-            newRooms[index] = parsedResponse;
-            setRooms(newRooms);
-          }
-          setEditing(false);
-          setError(null);
-        }
-      } catch (error) {
-        console.log(error);
-        setError("Request could not be completed");
+    const setState = (parsedResponse) => {
+      const newRooms = copyObjectArr(rooms);
+      const index = rooms.findIndex((elem) => elem.id === parsedResponse.id);
+      if (index > -1) {
+        newRooms[index] = parsedResponse;
+        setRooms(newRooms);
       }
+      setEditing(false);
+      setError(null);
     };
-    updateRoom();
+
+    const errorSetter = (value) => {
+      console.log(error);
+      setError(value);
+    };
+
+    makeAPIrequest(url, fetchBody, method, errorSetter, setState);
   };
   return (
     <div className="flex flex-col items-center">

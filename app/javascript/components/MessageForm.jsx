@@ -1,20 +1,13 @@
 import React, { useState } from "react";
+import { makeAPIrequest } from "../helpers/apiRequest";
 
 export default MessageForm = ({
   currentRoom,
-  variableSubmitHandler,
   setEditing = null,
   message = null,
 }) => {
-  const [body, setBody] = useState(message ? message.body : ""); 
-  const [inputError, setInputError] = useState(null);
-  const [validationError, setValidationError] = useState(null);
-
-  const errorMessage = inputError
-    ? "Message must have content."
-    : validationError
-    ? `${validationError.join(", ")}`
-    : "";
+  const [body, setBody] = useState(message ? message.body : "");
+  const [error, setError] = useState(null);
 
   const changeHandler = (e) => {
     const input = e.target.value;
@@ -28,18 +21,36 @@ export default MessageForm = ({
   const submitHandler = (e) => {
     e.preventDefault();
 
-    const error = variableSubmitHandler(
-      currentRoom,
-      body,
-      setBody,
-      setInputError,
-      setValidationError,
-      message ? message.id : null
-    );
-
-    if (!error && setEditing) {
-      setEditing(false);
+    const input = document.getElementById("body").value.trim();
+    if (input === "") {
+      setError("Message must have content.");
     }
+
+    const url = setEditing
+      ? `/api/v1/messages/update/${message.id}`
+      : "/api/v1/messages/create";
+
+    const method = "POST";
+    const room_id = currentRoom.id;
+    const fetchBody = { body, room_id };
+
+    const resetForm = () => {
+      setBody("");
+      setError(null);
+    };
+
+    const errorSetter = (value) => {
+      console.log(value);
+      setError(error);
+    };
+
+    const setState = () => {
+      if (setEditing) {
+        setEditing(false);
+      }
+    };
+
+    makeAPIrequest(url, fetchBody, method, errorSetter, setState, resetForm);
   };
 
   return (
@@ -49,7 +60,7 @@ export default MessageForm = ({
     >
       <div className="flex flex-col w-full">
         <span className="text-coolpink-500 text-sm dark:text-melon-500">
-          {errorMessage}
+          {error}
         </span>
         <div className="flex items-center gap-3">
           <label className="flex items-center gap-2 w-full">

@@ -1,15 +1,9 @@
 import React, { useState } from "react";
+import { makeAPIrequest } from "../helpers/apiRequest";
 
 export default NewRoomForm = () => {
   const [name, setName] = useState("");
-  const [inputError, setInputError] = useState(null);
-  const [validationError, setValidationError] = useState([]);
-
-  const errorMessage = inputError
-    ? "Room must have a name less than 45 characters."
-    : validationError
-    ? `${validationError.join(", ")}`
-    : "";
+  const [error, setError] = useState(null);
 
   const changeHandler = (e) => {
     const input = e.target.value;
@@ -18,51 +12,27 @@ export default NewRoomForm = () => {
 
   const resetForm = () => {
     setName("");
-    setInputError(null);
-    setValidationError(null);
+    setError(null);
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
     const input = document.getElementById("name").value.trim();
     if (input === "" || input.length > 45) {
-      setInputError(true);
+      setError("Room must have a name under 45 characters.");
       return;
     }
 
-    const createRoom = async () => {
-      const url = "/api/v1/rooms/create";
-      const token = document.querySelector('meta[name="csrf-token"]').content;
-      const body = { name };
+    const url = "/api/v1/rooms/create";
+    const fetchBody = { name };
+    const method = "POST";
 
-      try {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: {
-            "X-CSRF-Token": token,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(body),
-        });
+    const errorSetter = (value) => {
+      console.log(error);
+      setError(value);
+    }
 
-        if (response.status !== 200 && response.status !== 422) {
-          resetForm();
-          throw new Error("A network error occured.");
-        }
-
-        const parsedResponse = await response.json();
-
-        if (parsedResponse.hasOwnProperty("errors")) {
-          setValidationError(parsedResponse.errors);
-        } else {
-          resetForm();
-        }
-      } catch (error) {
-        console.log(error);
-        setValidationError(["Request could not be completed"]);
-      }
-    };
-    createRoom();
+    makeAPIrequest(url, fetchBody, method, errorSetter, null, resetForm);
   };
 
   return (
@@ -76,7 +46,7 @@ export default NewRoomForm = () => {
       <div className="flex items-center gap-1">
         <label className="flex flex-col lowercase">
           <span className="text-coolpink-500 overflow-x-auto dark:text-melon-500">
-            {errorMessage}
+            {error}
           </span>
           <input
             id="name"
