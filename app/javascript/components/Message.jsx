@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import MessageContent from "./MessageContent";
 import MessageForm from "./MessageForm";
-import { editMessageSubmitHandler } from "../helpers/messageSubmitHandlers";
 import { displayDateTime } from "../helpers/datetime";
 import copyObjectArr from "../helpers/copy";
 import { makeAPIrequest } from "../helpers/apiRequest";
