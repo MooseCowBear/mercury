@@ -47,7 +47,9 @@ export default PersonCard = ({
     <div className="flex items-center gap-2">
       <div
         className={`flex items-center justify-center p-4 rounded-full h-9 w-9 border-2 border-cyan-800 dark:bg-gray-800 dark:border-teal-600 ${
-          active ? "bg-cyan-800 text-gray-50 dark:bg-teal-600" : "text-cyan-800 dark:text-teal-600"
+          active
+            ? "bg-cyan-800 text-gray-50 dark:bg-teal-600"
+            : "text-cyan-800 dark:text-teal-600"
         }`}
       >
         {person.username[0]}
