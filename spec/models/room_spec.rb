@@ -185,7 +185,38 @@ RSpec.describe Room, type: :model do
   end
 
   describe "#room_messages" do
-    # need a messages factory first..
+    before(:each) do
+      @user1 = create(:user)
+    end
+
+    it "returns all messages for a public room" do
+      message = create(:message, room: @room1, user: @user1)
+      expect(@room1.room_messages(@user1)).to include(message)
+    end
+
+    it "includes messages created after restored_at_one if user is interlocutor one and restored_at_one" do
+      private_room = create(:room, name: "private room", interlocutor_one: @user1, restored_at_one: 1.day.ago)
+      message = create(:message, room: private_room, user: @user1)
+      expect(private_room.room_messages(@user1)).to include(message)
+    end
+
+    it "includes messages created after restored_at_two if user is interlocutor two and restored_at_two" do
+      private_room = create(:room, name: "private room", interlocutor_two: @user1, restored_at_two: 1.day.ago)
+      message = create(:message, room: private_room, user: @user1)
+      expect(private_room.room_messages(@user1)).to include(message)
+    end
+
+    it "excludes messages created before restored_at_one if user is interlocutor one and restored_at_one" do
+      private_room = create(:room, name: "private room", interlocutor_one: @user1, restored_at_one: 1.day.ago)
+      message = create(:old_message, room: private_room, user: @user1)
+      expect(private_room.room_messages(@user1)).not_to include(message)
+    end
+
+    it "excludes messages created before restored_at_two if user is interlocutor two and restored_at_two" do
+      private_room = create(:room, name: "private room", interlocutor_two: @user1, restored_at_two: 1.day.ago)
+      message = create(:old_message, room: private_room, user: @user1)
+      expect(private_room.room_messages(@user1)).not_to include(message)
+    end
   end
 
   describe "#restoring_for_one?" do
