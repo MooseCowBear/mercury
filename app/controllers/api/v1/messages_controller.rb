@@ -51,7 +51,7 @@ class Api::V1::MessagesController < ApplicationController
   def confirm_ownership
     unless @message.user == current_user
       flash[:alert] = "You cannot modify a message that doesn't belong to you."
-      redirect_to_root_path
+      redirect_to root_path
     end
   end
 end
