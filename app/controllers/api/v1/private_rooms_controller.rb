@@ -47,7 +47,7 @@ class Api::V1::PrivateRoomsController < ApplicationController
   def verify_private_participant
     unless @room.is_private && @room.participant?(current_user)
       flash[:alert] = "You're request could not be completed."
-      redirect_to_root_path
+      redirect_to root_path
     end
   end
 

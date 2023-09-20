@@ -48,14 +48,24 @@ RSpec.describe Message, type: :model do
 
     it "returns interlocutor two if message user is interlocutor one" do
       user2 = create(:user, username: "harry", email: "harry@test.com")
-      room = create(:room, is_private: true, interlocutor_one: @user1, interlocutor_two: user2)
+      room = create(
+        :room, 
+        is_private: true, 
+        interlocutor_one: @user1, 
+        interlocutor_two: user2
+      )
       message = create(:message, room: room, user: @user1)
       expect(message.recipient).to be(user2)
     end
 
     it "returns interlocutor one if message user is interlocutor two" do
       user2 = create(:user, username: "harry", email: "harry@test.com")
-      room = create(:room, is_private: true, interlocutor_one: user2, interlocutor_two: @user1)
+      room = create(
+        :room, 
+        is_private: true, 
+        interlocutor_one: user2, 
+        interlocutor_two: @user1
+      )
       message = create(:message, room: room, user: @user1)
       expect(message.recipient).to be(user2)
     end
