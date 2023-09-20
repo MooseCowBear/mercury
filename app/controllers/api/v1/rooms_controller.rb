@@ -51,7 +51,7 @@ class Api::V1::RoomsController < ApplicationController
   def confirm_ownership
     unless @room.creator == current_user
       flash[:alert] = "You cannot modify a room that you did not create."
-      redirect_to_root_path
+      redirect_to root_path
     end
   end
 end
