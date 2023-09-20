@@ -63,7 +63,7 @@ export default MessageForm = ({
           {error}
         </span>
         <div className="flex items-center gap-3">
-          <label className="flex items-center gap-2 w-full">
+          <label className="flex items-center gap-2 w-full" aria-label="message input">
             {!setEditing && <span>Message:</span>}
             <input
               id="body"
