@@ -3,6 +3,6 @@ FactoryBot.define do
     username { "joe" }
     email { "joe@test.com" }
     password { "123456" }
-    # association :current_room, factory :room
+    current_room { nil }
   end
 end
