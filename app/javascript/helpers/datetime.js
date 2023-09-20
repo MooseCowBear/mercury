@@ -21,8 +21,8 @@ const displayTime = (dateString) => {
 
 const displayDate = (dateString) => {
   const inputDate = new Date(dateString);
-  const month = inputDate.getMonth();
-  const day = inputDate.getDay();
+  const month = inputDate.getMonth() + 1;
+  const day = inputDate.getDate();
   const year = inputDate.getFullYear();
   const today = new Date();
   const thisYear = today.getFullYear();
