@@ -31,8 +31,6 @@ class Api::V1::PrivateRoomsController < ApplicationController
   end
 
   def destroy
-    # not actually destroying... 
-    # TODO: want to destroy if other user no longer exists
     @room.private_room_destroy(current_user)
     
     render json: @room

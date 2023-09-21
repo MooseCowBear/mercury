@@ -1,7 +1,7 @@
 import React from "react";
 import { removeRoomNotifications } from "../helpers/notifications";
 import { getInterlocutor } from "../helpers/privateChats";
-import { makeAPIPostRequest } from "../helpers/apiRequest";
+import { makePostRequest } from "../helpers/apiRequest";
 
 export default PrivateRoom = ({
   user,
@@ -49,7 +49,7 @@ export default PrivateRoom = ({
       );
       setRooms(afterDelete);
 
-      if (currentRoom.id == parsedResponse.id) {
+      if (currentRoom && currentRoom.id == parsedResponse.id) {
         setCurrentRoom(null);
       }
     };
@@ -58,15 +58,9 @@ export default PrivateRoom = ({
       console.log(value);
     };
 
-    makeAPIPostRequest(
-      url,
-      fetchBody,
-      method,
-      errorSetter,
-      setState,
-      null,
-      currentRoom
-    );
+    makePostRequest(url, fetchBody, method)
+      .then((data) => setState(data, currentRoom))
+      .catch((error) => errorSetter(error));
   };
 
   return (

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { makeAPIPostRequest } from "../helpers/apiRequest";
+import { makePostRequest } from "../helpers/apiRequest";
 
 export default NewRoomForm = () => {
   const [name, setName] = useState("");
@@ -8,11 +8,6 @@ export default NewRoomForm = () => {
   const changeHandler = (e) => {
     const input = e.target.value;
     setName(input);
-  };
-
-  const resetForm = () => {
-    setName("");
-    setError(null);
   };
 
   const submitHandler = (e) => {
@@ -27,12 +22,28 @@ export default NewRoomForm = () => {
     const fetchBody = { name };
     const method = "POST";
 
+    const resetForm = () => {
+      setName("");
+      setError(null);
+    };
+
+    const setState = (data) => {
+      if (data.hasOwnProperty("errors")) {
+        console.log(data);
+        errorSetter(data.errors.join(", "));
+      } else {
+        resetForm();
+      }
+    }
+
     const errorSetter = (value) => {
-      console.log(error);
+      console.log(value);
       setError(value);
     };
 
-    makeAPIPostRequest(url, fetchBody, method, errorSetter, null, resetForm);
+    makePostRequest(url, fetchBody, method)
+      .then((data) => setState(data))
+      .catch((error) => errorSetter(error));
   };
 
   return (
@@ -45,7 +56,7 @@ export default NewRoomForm = () => {
       </h2>
       <div className="flex items-center gap-1">
         <label className="flex flex-col lowercase">
-          <span className="text-coolpink-500 overflow-x-auto dark:text-melon-500">
+          <span className="text-sm text-coolpink-500 overflow-x-auto dark:text-melon-500">
             {error}
           </span>
           <input

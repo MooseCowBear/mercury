@@ -34,8 +34,13 @@ class Api::V1::RoomsController < ApplicationController
   end
 
   def update
-    @room.update(room_params)
-    render json: @room
+    if @room.update(room_params)
+      render json: @room
+    else
+      render json: { message: "Validations Failed", 
+                    errors: @room.errors.full_messages }, 
+                    status: :unprocessable_entity
+    end
   end
 
   private 

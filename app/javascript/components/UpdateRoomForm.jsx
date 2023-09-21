@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import copyObjectArr from "../helpers/copy";
-import { makeAPIPostRequest } from "../helpers/apiRequest";
+import { makePostRequest } from "../helpers/apiRequest";
 
 export default UpdateRoomForm = ({ room, rooms, setRooms, setEditing }) => {
   const [name, setName] = useState(room.name);
@@ -27,23 +27,30 @@ export default UpdateRoomForm = ({ room, rooms, setRooms, setEditing }) => {
     const fetchBody = { name };
     const method = "POST";
 
-    const setState = (parsedResponse) => {
-      const newRooms = copyObjectArr(rooms);
-      const index = rooms.findIndex((elem) => elem.id === parsedResponse.id);
-      if (index > -1) {
-        newRooms[index] = parsedResponse;
-        setRooms(newRooms);
+    const setState = (data) => {
+      if (data.hasOwnProperty("errors")) {
+        console.log(data);
+        errorSetter(data.errors.join(", "));
+      } else {
+        const newRooms = copyObjectArr(rooms);
+        const index = rooms.findIndex((elem) => elem.id === data.id);
+        if (index > -1) {
+          newRooms[index] = data;
+          setRooms(newRooms);
+        }
+        setEditing(false);
+        setError(null);
       }
-      setEditing(false);
-      setError(null);
     };
 
     const errorSetter = (value) => {
-      console.log(error);
+      console.log(value);
       setError(value);
     };
 
-    makeAPIPostRequest(url, fetchBody, method, errorSetter, setState);
+    makePostRequest(url, fetchBody, method)
+      .then((data) => setState(data))
+      .catch((error) => errorSetter(error));
   };
   return (
     <div className="flex flex-col items-center">

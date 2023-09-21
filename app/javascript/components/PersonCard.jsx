@@ -1,6 +1,6 @@
 import React from "react";
 import { isUserActive } from "../helpers/users";
-import { makeAPIPostRequest } from "../helpers/apiRequest";
+import { makePostRequest } from "../helpers/apiRequest";
 
 export default PersonCard = ({
   person,
@@ -15,8 +15,8 @@ export default PersonCard = ({
     const fetchBody = { user_id: person.id };
     const method = "POST";
 
-    const setState = (parsedResponse) => {
-      setCurrentRoom(parsedResponse);
+    const setState = (data) => {
+      setCurrentRoom(data);
       setError(null);
       setViewPeople(false);
     };
@@ -26,7 +26,9 @@ export default PersonCard = ({
       setError(value);
     };
 
-    makeAPIPostRequest(url, fetchBody, method, errorSetter, setState);
+    makePostRequest(url, fetchBody, method)
+      .then((data) => setState(data))
+      .catch((error) => errorSetter(error));
   };
 
   // TODO: when we have profiles this will be updated.

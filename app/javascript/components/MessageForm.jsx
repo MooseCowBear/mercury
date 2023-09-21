@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { makeAPIPostRequest } from "../helpers/apiRequest";
+import { makePostRequest } from "../helpers/apiRequest";
 
 export default MessageForm = ({
   currentRoom,
@@ -44,20 +44,20 @@ export default MessageForm = ({
       setError(error);
     };
 
-    const setState = () => {
-      if (setEditing) {
-        setEditing(false);
+    const setState = (data) => {
+      if (data.hasOwnProperty("errors")) {
+        errorSetter(data.errors.join(", "));
+      } else {
+        resetForm();
+        if (setEditing) {
+          setEditing(false);
+        }
       }
     };
 
-    makeAPIPostRequest(
-      url,
-      fetchBody,
-      method,
-      errorSetter,
-      setState,
-      resetForm
-    );
+    makePostRequest(url, fetchBody, method)
+      .then((data) => setState(data))
+      .catch((error) => errorSetter(error));
   };
 
   return (
@@ -70,8 +70,10 @@ export default MessageForm = ({
           {error}
         </span>
         <div className="flex items-center gap-3">
-          <label className="flex items-center gap-2 w-full" aria-label="message input">
-            {!setEditing && <span>Message:</span>}
+          <label
+            className="flex items-center gap-2 w-full"
+            aria-label="message input"
+          >
             <input
               id="body"
               type="text"

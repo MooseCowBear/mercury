@@ -3,7 +3,7 @@ import MessageContent from "./MessageContent";
 import MessageForm from "./MessageForm";
 import { displayDateTime } from "../helpers/datetime";
 import copyObjectArr from "../helpers/copy";
-import { makeAPIPostRequest } from "../helpers/apiRequest";
+import { makePostRequest } from "../helpers/apiRequest";
 
 export default Message = ({
   user,
@@ -46,7 +46,9 @@ export default Message = ({
       console.log(error);
     };
 
-    makeAPIPostRequest(url, fetchBody, method, errorSetter, setState);
+    makePostRequest(url, fetchBody, method)
+      .then((data) => setState(data))
+      .catch((error) => errorSetter(error));
   };
 
   return (

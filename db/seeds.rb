@@ -4,11 +4,11 @@ Message.destroy_all
 Notification.destroy_all
 
 rooms = [
-          {name: "Welcome"}, 
-          {name: "Music"}, 
-          {name: "Sports"}, 
-          {name: "Art"}, 
-          {name: "Pets"}
+          {name: "welcome"}, 
+          {name: "music"}, 
+          {name: "sports"}, 
+          {name: "art"}, 
+          {name: "pets"}
         ]
 
 rooms.each do |room|
