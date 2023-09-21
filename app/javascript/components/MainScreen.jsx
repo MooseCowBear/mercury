@@ -4,6 +4,7 @@ import Welcome from "./Welcome";
 import ChatMessages from "./ChatMessages";
 import People from "./People";
 import { makeGetRequest, makeMultiGetRequest } from "../helpers/apiRequest";
+import useActionCable from "../helpers/useActionCable";
 
 export default MainScreen = () => {
   const [user, setUser] = useState(null);
@@ -14,12 +15,14 @@ export default MainScreen = () => {
   const [privateChats, setPrivateChats] = useState([]);
   const [viewPeople, setViewPeople] = useState(false);
 
+  const actionCable = useActionCable();
+
   const setUserAndRooms = (data) => {
     const [userData, roomsData] = data;
     setUser(userData);
     setRooms(roomsData);
     setError(null);
-  }
+  };
 
   useEffect(() => {
     makeMultiGetRequest(["/api/v1/users/show", "/api/v1/rooms/index"])
@@ -31,7 +34,7 @@ export default MainScreen = () => {
   const setPrivateChatsAndError = (data) => {
     setPrivateChats(data);
     setError(null);
-  }
+  };
 
   useEffect(() => {
     if (user) {
@@ -39,7 +42,7 @@ export default MainScreen = () => {
         .then((data) => setPrivateChatsAndError(data))
         .catch((error) => setError(error));
     }
-  }, [user])
+  }, [user]);
 
   if (error) return <p>Something went wrong.</p>;
   if (loading) return <p>Loading...</p>;
@@ -55,6 +58,7 @@ export default MainScreen = () => {
         privateChats={privateChats}
         setPrivateChats={setPrivateChats}
         setViewPeople={setViewPeople}
+        actionCable={actionCable}
       />
       <div className="p-1 md:p-5 md:col-start-2 row-start-1 grid-cols-1 grid-rows-[auto_1fr] place-items-center">
         {user && <p className="text-right">{`Hello, ${user.username}!`}</p>}
@@ -65,7 +69,11 @@ export default MainScreen = () => {
           />
         )}
         {!viewPeople && currentRoom && (
-          <ChatMessages user={user} currentRoom={currentRoom} />
+          <ChatMessages
+            user={user}
+            currentRoom={currentRoom}
+            actionCable={actionCable}
+          />
         )}
         {!viewPeople && !currentRoom && <Welcome />}
       </div>

@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import PublicRooms from "./PublicRooms";
-import consumer from "../channels/consumer";
+//import consumer from "../channels/consumer";
+
 import PrivateChats from "./PrivateChats";
 import copyObjectArr from "../helpers/copy";
 import { makeGetRequest } from "../helpers/apiRequest";
@@ -14,6 +15,7 @@ export default SideBar = ({
   privateChats,
   setPrivateChats,
   setViewPeople,
+  actionCable,
 }) => {
   const roomsChannel = useRef(null);
   const userChannel = useRef(null);
@@ -31,7 +33,7 @@ export default SideBar = ({
 
   useEffect(() => {
     if (user) {
-      notificationsChannel.current = consumer.subscriptions.create(
+      notificationsChannel.current = actionCable.subscriptions.create(
         {
           channel: "NotificationChannel",
           user_id: user.id,
@@ -45,6 +47,12 @@ export default SideBar = ({
         }
       );
     }
+    return () => {
+      if (notificationsChannel.current) {
+        actionCable.subscriptions.remove(notificationsChannel.current);
+        notificationsChannel.current = null;
+      }
+    };
   }, [user, notifications]);
 
   const viewPeopleClickHandler = () => {
@@ -59,7 +67,7 @@ export default SideBar = ({
 
   useEffect(() => {
     if (user) {
-      roomsChannel.current = consumer.subscriptions.create(
+      roomsChannel.current = actionCable.subscriptions.create(
         { channel: "RoomsChannel" },
         {
           received(data) {
@@ -70,14 +78,15 @@ export default SideBar = ({
         }
       );
 
-      userChannel.current = consumer.subscriptions.create(
+      userChannel.current = actionCable.subscriptions.create(
         {
           channel: "UsersChannel",
           user_id: user.id,
         },
         {
           received(data) {
-            const newChats = copyObjectArr(privateChats); //ugh change to to update
+            const newChats = copyObjectArr(privateChats);
+            console.log("existing chats are: ", newChats);
             const index = newChats.findIndex((elem) => elem.id === data.id);
             if (index > -1) {
               newChats[index] = data;
@@ -92,11 +101,11 @@ export default SideBar = ({
 
     return () => {
       if (roomsChannel.current) {
-        consumer.subscriptions.remove(roomsChannel.current);
+        actionCable.subscriptions.remove(roomsChannel.current);
         roomsChannel.current = null;
       }
-      if (userChannel) {
-        consumer.subscriptions.remove(userChannel.current);
+      if (userChannel.current) {
+        actionCable.subscriptions.remove(userChannel.current);
         userChannel.current = null;
       }
     };

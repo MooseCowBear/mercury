@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
-import consumer from "../channels/consumer";
+//import consumer from "../channels/consumer";
+
 import copyObjectArr from "../helpers/copy";
 import Message from "./Message";
 import MessageForm from "./MessageForm";
 import { getInterlocutor } from "../helpers/privateChats";
 import { makeGetRequest } from "../helpers/apiRequest";
 
-export default ChatMessages = ({ user, currentRoom }) => {
+export default ChatMessages = ({ user, currentRoom, actionCable }) => {
   const [messages, setMessages] = useState([]);
   const [error, setError] = useState(null);
   const [scroll, setScroll] = useState(true);
@@ -51,7 +52,7 @@ export default ChatMessages = ({ user, currentRoom }) => {
    */
   useEffect(() => {
     if (currentRoom) {
-      chatChannel.current = consumer.subscriptions.create(
+      chatChannel.current = actionCable.subscriptions.create(
         {
           channel: "ChatChannel",
           room_id: currentRoom.id,
@@ -73,7 +74,7 @@ export default ChatMessages = ({ user, currentRoom }) => {
     }
     return () => {
       if (chatChannel.current) {
-        consumer.subscriptions.remove(chatChannel.current);
+        actionCable.subscriptions.remove(chatChannel.current);
         chatChannel.current = null;
       }
     };
