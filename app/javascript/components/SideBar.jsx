@@ -3,6 +3,7 @@ import PublicRooms from "./PublicRooms";
 import consumer from "../channels/consumer";
 import PrivateChats from "./PrivateChats";
 import copyObjectArr from "../helpers/copy";
+import { makeGetRequest } from "../helpers/apiRequest";
 
 export default SideBar = ({
   user,
@@ -21,23 +22,10 @@ export default SideBar = ({
   const notificationsChannel = useRef(null);
 
   useEffect(() => {
-    // get notifications after we get user
-    const getNotifications = async () => {
-      try {
-        const response = await fetch("/api/v1/notifications/index");
-
-        if (!response.ok) {
-          throw new Error("Server error");
-        }
-        const data = await response.json();
-        setNotifications(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     if (user) {
-      getNotifications();
+      makeGetRequest("/api/v1/notifications/index")
+        .then((data) => setNotifications(data))
+        .catch((error) => console.log(error));
     }
   }, [user]);
 

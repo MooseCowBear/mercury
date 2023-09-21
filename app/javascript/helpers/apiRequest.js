@@ -1,4 +1,4 @@
-export const makeAPIrequest = async (
+export const makeAPIPostRequest = async (
   url,
   body,
   method,
@@ -35,4 +35,23 @@ export const makeAPIrequest = async (
   } catch (error) {
     errorSetter(error);
   }
+};
+
+export const makeGetRequest = async (url) => {
+  const response = await fetch(url);
+
+  if (response.ok) {
+    console.log("response was ok", response);
+    return response.json(); //returns promise
+  }
+  throw new Error("Server Error");
+};
+
+export const makeMultiGetRequest = async (urls) => {
+  const response = await Promise.all(urls.map((u) => fetch(u)));
+
+  if (response.every((r) => r.ok)) {
+    return Promise.all(response.map(async (data) => await data.json())); //returns promise array that needs to be unpacked
+  }
+  throw new Error("Server Error");
 };

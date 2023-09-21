@@ -4,6 +4,7 @@ import copyObjectArr from "../helpers/copy";
 import Message from "./Message";
 import MessageForm from "./MessageForm";
 import { getInterlocutor } from "../helpers/privateChats";
+import { makeGetRequest } from "../helpers/apiRequest";
 
 export default ChatMessages = ({ user, currentRoom }) => {
   const [messages, setMessages] = useState([]);
@@ -26,34 +27,20 @@ export default ChatMessages = ({ user, currentRoom }) => {
   const setMessagesAndScroll = (data) => {
     setMessages(data);
     setScroll((scroll) => !scroll);
+    setError(null);
   };
+
+  useEffect(() => {
+    if (currentRoom) {
+      makeGetRequest(`/api/v1/rooms/show/${currentRoom.id}`)
+        .then((data) => setMessagesAndScroll(data))
+        .catch((error) => setError(error));
+    }
+  }, [currentRoom]);
 
   const displayTitle = currentRoom.is_private
     ? getInterlocutor(currentRoom, user)
     : currentRoom.name;
-
-  useEffect(() => {
-    const getMessages = async () => {
-      try {
-        const response = await fetch(`/api/v1/rooms/show/${currentRoom.id}`);
-
-        if (!response.ok) {
-          throw new Error("Server error");
-        }
-        const data = await response.json();
-
-        setMessagesAndScroll(data);
-        setError(null);
-      } catch (error) {
-        console.log(error);
-        setError(error);
-      }
-    };
-
-    if (currentRoom) {
-      getMessages();
-    }
-  }, [currentRoom]);
 
   useEffect(() => {
     if (currentRoom) {

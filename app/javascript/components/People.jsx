@@ -1,13 +1,23 @@
-import React, { useState } from "react";
-import useOtherUsers from "../helpers/useOtherUsers";
+import React, { useState, useEffect } from "react";
 import PersonCard from "./PersonCard";
+import { makeGetRequest } from "../helpers/apiRequest";
 
 export default People = ({ setCurrentRoom, setViewPeople }) => {
   const [people, setPeople] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useOtherUsers(setPeople, setError, setLoading);
+  const setPeopleAndError = (data) => {
+    setPeople(data);
+    setError(null);
+  }
+
+  useEffect(() => {
+    makeGetRequest("/api/v1/users/index")
+      .then((data) => setPeopleAndError(data))
+      .catch((error) => setError(error))
+      .finally(() => setLoading(false));
+  }, []);
 
   if (error) return <p>Something went wrong</p>;
   if (loading) return <p>Loading...</p>;

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import useCurrUserAndInitialRooms from "../helpers/useCurrUserAndInitialRooms";
 import SideBar from "./SideBar";
 import Welcome from "./Welcome";
 import ChatMessages from "./ChatMessages";
 import People from "./People";
+import { makeGetRequest, makeMultiGetRequest } from "../helpers/apiRequest";
 
 export default MainScreen = () => {
   const [user, setUser] = useState(null);
@@ -14,30 +14,32 @@ export default MainScreen = () => {
   const [privateChats, setPrivateChats] = useState([]);
   const [viewPeople, setViewPeople] = useState(false);
 
-  useCurrUserAndInitialRooms(setUser, setRooms, setError, setLoading);
+  const setUserAndRooms = (data) => {
+    const [userData, roomsData] = data;
+    setUser(userData);
+    setRooms(roomsData);
+    setError(null);
+  }
 
   useEffect(() => {
-    // get the initial private rooms after we get user
-    const getPrivateChats = async () => {
-      try {
-        const response = await fetch("/api/v1/private_rooms/index");
+    makeMultiGetRequest(["/api/v1/users/show", "/api/v1/rooms/index"])
+      .then((data) => setUserAndRooms(data))
+      .catch((error) => setError(error))
+      .finally(() => setLoading(false));
+  }, []);
 
-        if (!response.ok) {
-          throw new Error("Server error");
-        }
-        const data = await response.json();
-        setPrivateChats(data);
-        setError(null);
-      } catch (error) {
-        console.log(error);
-        setError(error);
-      }
-    };
+  const setPrivateChatsAndError = (data) => {
+    setPrivateChats(data);
+    setError(null);
+  }
 
+  useEffect(() => {
     if (user) {
-      getPrivateChats();
+      makeGetRequest("/api/v1/private_rooms/index")
+        .then((data) => setPrivateChatsAndError(data))
+        .catch((error) => setError(error));
     }
-  }, [user]);
+  }, [user])
 
   if (error) return <p>Something went wrong.</p>;
   if (loading) return <p>Loading...</p>;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { makeAPIrequest } from "../helpers/apiRequest";
+import { makeAPIPostRequest } from "../helpers/apiRequest";
 
 export default MessageForm = ({
   currentRoom,
@@ -50,7 +50,14 @@ export default MessageForm = ({
       }
     };
 
-    makeAPIrequest(url, fetchBody, method, errorSetter, setState, resetForm);
+    makeAPIPostRequest(
+      url,
+      fetchBody,
+      method,
+      errorSetter,
+      setState,
+      resetForm
+    );
   };
 
   return (

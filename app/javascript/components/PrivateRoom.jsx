@@ -1,7 +1,7 @@
 import React from "react";
 import { removeRoomNotifications } from "../helpers/notifications";
 import { getInterlocutor } from "../helpers/privateChats";
-import { makeAPIrequest } from "../helpers/apiRequest";
+import { makeAPIPostRequest } from "../helpers/apiRequest";
 
 export default PrivateRoom = ({
   user,
@@ -58,7 +58,7 @@ export default PrivateRoom = ({
       console.log(value);
     };
 
-    makeAPIrequest(
+    makeAPIPostRequest(
       url,
       fetchBody,
       method,

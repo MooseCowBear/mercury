@@ -1,6 +1,6 @@
 import React from "react";
 import { isUserActive } from "../helpers/users";
-import { makeAPIrequest } from "../helpers/apiRequest";
+import { makeAPIPostRequest } from "../helpers/apiRequest";
 
 export default PersonCard = ({
   person,
@@ -26,7 +26,7 @@ export default PersonCard = ({
       setError(value);
     };
 
-    makeAPIrequest(url, fetchBody, method, errorSetter, setState);
+    makeAPIPostRequest(url, fetchBody, method, errorSetter, setState);
   };
 
   // TODO: when we have profiles this will be updated.

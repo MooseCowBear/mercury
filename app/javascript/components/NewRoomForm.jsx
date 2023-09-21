@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { makeAPIrequest } from "../helpers/apiRequest";
+import { makeAPIPostRequest } from "../helpers/apiRequest";
 
 export default NewRoomForm = () => {
   const [name, setName] = useState("");
@@ -32,7 +32,7 @@ export default NewRoomForm = () => {
       setError(value);
     };
 
-    makeAPIrequest(url, fetchBody, method, errorSetter, null, resetForm);
+    makeAPIPostRequest(url, fetchBody, method, errorSetter, null, resetForm);
   };
 
   return (

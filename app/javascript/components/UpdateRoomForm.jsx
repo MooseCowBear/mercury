@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import copyObjectArr from "../helpers/copy";
-import { makeAPIrequest } from "../helpers/apiRequest";
+import { makeAPIPostRequest } from "../helpers/apiRequest";
 
 export default UpdateRoomForm = ({ room, rooms, setRooms, setEditing }) => {
   const [name, setName] = useState(room.name);
@@ -43,7 +43,7 @@ export default UpdateRoomForm = ({ room, rooms, setRooms, setEditing }) => {
       setError(value);
     };
 
-    makeAPIrequest(url, fetchBody, method, errorSetter, setState);
+    makeAPIPostRequest(url, fetchBody, method, errorSetter, setState);
   };
   return (
     <div className="flex flex-col items-center">
