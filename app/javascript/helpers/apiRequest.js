@@ -1,3 +1,4 @@
+//Q: can this be refactored to make it more testable? ie. we can mock return values?
 export const makeAPIPostRequest = async (
   url,
   body,
@@ -37,6 +38,7 @@ export const makeAPIPostRequest = async (
   }
 };
 
+// Q: could we get away with only multiget?
 export const makeGetRequest = async (url) => {
   const response = await fetch(url);
 

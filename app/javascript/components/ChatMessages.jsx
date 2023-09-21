@@ -42,6 +42,13 @@ export default ChatMessages = ({ user, currentRoom }) => {
     ? getInterlocutor(currentRoom, user)
     : currentRoom.name;
 
+  /* what could it take to move these to their own files?
+    - need to pass the ref: chatChannel
+    - need to import copyObjectArr into file
+    - need custom function to setMessages, scroll ...
+    - which can maybe be in this file if we return recieved data from the subscription?
+    - again, which maybe we can do if we set the ref in the function...
+   */
   useEffect(() => {
     if (currentRoom) {
       chatChannel.current = consumer.subscriptions.create(
