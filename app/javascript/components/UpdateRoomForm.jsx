@@ -53,7 +53,7 @@ export default UpdateRoomForm = ({ room, rooms, setRooms, setEditing }) => {
       .catch((error) => errorSetter(error));
   };
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center my-1">
       {error && <p className="text-coolpink-500 lowercase text-sm">{error}</p>}
       <form onSubmit={submitHandler} className="flex items-center gap-1">
         <input
@@ -61,16 +61,16 @@ export default UpdateRoomForm = ({ room, rooms, setRooms, setEditing }) => {
           id={`name-${room.id}`}
           value={name}
           onChange={changeHandler}
-          className="px-3 py-1 border-2 border-gray-200 rounded-lg max-w-[150px] max-h-[50px] text-sm"
+          className="mx-1 px-2 py-1 border-2 border-gray-200 rounded-lg max-w-[120px] max-h-[50px] text-sm"
         />
         <div className="flex gap-1 items-center">
           <input
             type="submit"
             value="Update"
-            className="lowercase text-sm cursor-pointer"
+            className="lowercase text-xs cursor-pointer"
           />
           |
-          <button onClick={cancelClickHandler} className="text-sm">
+          <button onClick={cancelClickHandler} className="text-xs">
             cancel
           </button>
         </div>

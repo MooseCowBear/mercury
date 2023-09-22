@@ -10,6 +10,11 @@ export default NewRoomForm = () => {
     setName(input);
   };
 
+  const resetForm = () => {
+    setName("");
+    setError(null);
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
     const input = document.getElementById("name").value.trim();
@@ -22,11 +27,6 @@ export default NewRoomForm = () => {
     const fetchBody = { name };
     const method = "POST";
 
-    const resetForm = () => {
-      setName("");
-      setError(null);
-    };
-
     const setState = (data) => {
       if (data.hasOwnProperty("errors")) {
         console.log(data);
@@ -34,7 +34,7 @@ export default NewRoomForm = () => {
       } else {
         resetForm();
       }
-    }
+    };
 
     const errorSetter = (value) => {
       console.log(value);
@@ -46,16 +46,25 @@ export default NewRoomForm = () => {
       .catch((error) => errorSetter(error));
   };
 
+  const cancelClickHandler = () => {
+    resetForm();
+  };
+
+  // TODO: TEST!! add a cancel button that resets the form and sets error to null -- in case of mind change
+
   return (
     <form
       onSubmit={submitHandler}
       className="bg-gray-50 rounded-md px-3 py-2 max-w-[250px] dark:bg-gray-700"
     >
-      <h2 className="font-semibold uppercase tracking-wider leading-tight">
+      <label
+        htmlFor="name"
+        className="font-semibold uppercase tracking-wider leading-tight"
+      >
         New room
-      </h2>
+      </label>
       <div className="flex items-center gap-1">
-        <label className="flex flex-col lowercase">
+        <div className="flex flex-col lowercase items-center">
           <span className="text-sm text-coolpink-500 overflow-x-auto dark:text-melon-500">
             {error}
           </span>
@@ -66,7 +75,12 @@ export default NewRoomForm = () => {
             onChange={changeHandler}
             className="px-3 py-1 border-2 border-gray-200 rounded-lg max-w-[200px] max-h-[50px] text-sm dark:bg-gray-800 dark:border-gray-500"
           />
-        </label>
+          {error && (
+            <button className="text-sm" onClick={cancelClickHandler}>
+              cancel
+            </button>
+          )}
+        </div>
         <button type="submit" aria-label="create room">
           <svg
             className="h-9"
