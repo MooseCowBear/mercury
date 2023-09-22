@@ -33,8 +33,6 @@ class Message < ApplicationRecord
   end
 
   def create_notification
-    # update to also take message id!!
-    # can be self.notifications.create(user_id: recipient.id, room_id: room.id)
     unless recipient.nil? || recipient.current_room == room
       room.notifications.create(user_id: recipient.id, message_id: self.id)
     end
