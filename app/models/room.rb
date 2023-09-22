@@ -43,6 +43,28 @@ class Room < ApplicationRecord
     retry
   end
 
+  def self.private_room_create(user, other_user_id)
+    other_user = User.find(other_user_id)
+
+    sorted_users = sort_users(user, other_user)
+    room_name = generate_name(sorted_users)
+
+    room = Room.safe_find_or_create_by(
+      name: room_name, 
+      is_private: true, 
+      interlocutor_one_id: sorted_users[0].id, 
+      interlocutor_two_id: sorted_users[1].id
+    )
+ 
+    if room.restoring_for_one?(user)
+      room.update(marked_delete_one: false, restored_at_one: DateTime.current)
+    elsif room.restoring_for_two?(user)
+      room.update(marked_delete_two: false, restored_at_two: DateTime.current)
+    end
+
+    room
+  end
+
   def interlocutor_one?(user)
     interlocutor_one == user
   end
@@ -109,6 +131,18 @@ class Room < ApplicationRecord
     end
     unless marked_delete_two
       ActionCable.server.broadcast("user_#{self.interlocutor_two_id}", room)
+    end
+  end
+
+  def self.generate_name(sorted_users)
+    "pc_#{sorted_users[0].username}_#{sorted_users[1].username}"
+  end
+
+  def self.sort_users(one, two)
+    if one.id < two.id 
+      [one, two]
+    else
+      [two, one]
     end
   end
 end

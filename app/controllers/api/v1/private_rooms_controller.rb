@@ -11,21 +11,7 @@ class Api::V1::PrivateRoomsController < ApplicationController
   def create
     # moved to using usernames instead of ids bc still unique 
     # and then frontend still has access to the username if user deletes account
-    other_user = User.find(params[:user_id])
-    sorted_users = sort_users(current_user, other_user)
-    room_name = generate_name(sorted_users)
-    room = Room.safe_find_or_create_by(
-      name: room_name, 
-      is_private: true, 
-      interlocutor_one_id: sorted_users[0].id, 
-      interlocutor_two_id: sorted_users[1].id
-    )
- 
-    if room.restoring_for_one?(current_user)
-      room.update(marked_delete_one: false, restored_at_one: DateTime.current)
-    elsif room.restoring_for_two?(current_user)
-      room.update(marked_delete_two: false, restored_at_two: DateTime.current)
-    end
+    room = Room.private_room_create(current_user, params[:user_id])
 
     render json: room, include: [:interlocutor_one, :interlocutor_two]
   end
@@ -47,18 +33,6 @@ class Api::V1::PrivateRoomsController < ApplicationController
       flash[:alert] = "You're request could not be completed."
       redirect_to root_path
     end
-  end
-
-  def sort_users(one, two)
-    if one.id < two.id 
-      [one, two]
-    else
-      [two, one]
-    end
-  end
-
-  def generate_name(sorted_users)
-    "pc_#{sorted_users[0].username}_#{sorted_users[1].username}"
   end
 
   def private_room_params
