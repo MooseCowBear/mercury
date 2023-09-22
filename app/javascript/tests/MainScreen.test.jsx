@@ -2,12 +2,17 @@ import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import MainScreen from "../components/MainScreen";
 import { makeGetRequest, makeMultiGetRequest } from "../helpers/apiRequest";
-import { useActionCable } from "../helpers/useActionCable"
 
-// why did this result in error?
-// jest.mock("../helpers/useActionCable", () => {
-//   useActionCable: jest.fn();
-// })
+// why does this not seem to be working?
+jest.mock("../helpers/useActionCable", () => {
+  const originalModule = jest.requireActual("../helpers/useActionCable");
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    useActionCable: jest.fn(),
+  };
+});
 
 jest.mock("../helpers/apiRequest", () => ({
   makeMultiGetRequest: jest.fn(),

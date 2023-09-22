@@ -110,10 +110,3 @@ describe("Message", () => {
     expect(screen.queryByTestId("mock-message-form")).not.toBeNull();
   });
 });
-
-// user,
-//   message,
-//   currentRoom,
-//   messages,
-//   setMessages,
-//   interlocutor,
