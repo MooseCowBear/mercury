@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import PublicRooms from "./PublicRooms";
 import PrivateChats from "./PrivateChats";
-import copyObjectArr from "../helpers/copy";
 import { makeGetRequest } from "../helpers/apiRequest";
 import {
   subscribeToNotificationsChannel,
