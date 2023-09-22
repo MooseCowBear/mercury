@@ -3,6 +3,18 @@ import PublicRooms from "./PublicRooms";
 import PrivateChats from "./PrivateChats";
 import copyObjectArr from "../helpers/copy";
 import { makeGetRequest } from "../helpers/apiRequest";
+import {
+  subscribeToNotificationsChannel,
+  unsubscribeToNotificationsChannel,
+} from "../channels/notification_channel";
+import {
+  subscribeToRoomsChannel,
+  unsubscribeToRoomsChannel,
+} from "../channels/rooms_channel";
+import {
+  subscribeToUsersChannel,
+  unsubscribeToUsersChannel,
+} from "../channels/users_channel";
 
 export default SideBar = ({
   user,
@@ -43,25 +55,16 @@ export default SideBar = ({
 
   useEffect(() => {
     if (user) {
-      notificationsChannel.current = actionCable.subscriptions.create(
-        {
-          channel: "NotificationChannel",
-          user_id: user.id,
-        },
-        {
-          received(data) {
-            setNotifications((notifications) =>
-              updateNotifications(data, notifications)
-            );
-          },
-        }
+      subscribeToNotificationsChannel(
+        notificationsChannel,
+        actionCable,
+        user,
+        setNotifications,
+        updateNotifications
       );
     }
     return () => {
-      if (notificationsChannel.current) {
-        actionCable.subscriptions.remove(notificationsChannel.current);
-        notificationsChannel.current = null;
-      }
+      unsubscribeToNotificationsChannel(notificationsChannel, actionCable);
     };
   }, [user]);
 
@@ -95,39 +98,20 @@ export default SideBar = ({
 
   useEffect(() => {
     if (user) {
-      roomsChannel.current = actionCable.subscriptions.create(
-        { channel: "RoomsChannel" },
-        {
-          received(data) {
-            setRooms((rooms) => addRoom(data, rooms));
-          },
-        }
-      );
+      subscribeToRoomsChannel(roomsChannel, actionCable, setRooms, addRoom);
 
-      userChannel.current = actionCable.subscriptions.create(
-        {
-          channel: "UsersChannel",
-          user_id: user.id,
-        },
-        {
-          received(data) {
-            setPrivateChats((privateChats) =>
-              updatePrivateChats(data, privateChats)
-            );
-          },
-        }
+      subscribeToUsersChannel(
+        userChannel,
+        actionCable,
+        user,
+        setPrivateChats,
+        updatePrivateChats
       );
     }
 
     return () => {
-      if (roomsChannel.current) {
-        actionCable.subscriptions.remove(roomsChannel.current);
-        roomsChannel.current = null;
-      }
-      if (userChannel.current) {
-        actionCable.subscriptions.remove(userChannel.current);
-        userChannel.current = null;
-      }
+      unsubscribeToRoomsChannel(roomsChannel, actionCable);
+      unsubscribeToUsersChannel(userChannel, actionCable);
     };
   }, [user]);
 

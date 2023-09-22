@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
-//import consumer from "../channels/consumer";
-
 import copyObjectArr from "../helpers/copy";
 import Message from "./Message";
 import MessageForm from "./MessageForm";
 import { getInterlocutor } from "../helpers/privateChats";
 import { makeGetRequest } from "../helpers/apiRequest";
+import {
+  subscribeToChatChannel,
+  unsubscribeToChatChannel,
+} from "../channels/chat_channel";
 
 export default ChatMessages = ({ user, currentRoom, actionCable }) => {
   const [messages, setMessages] = useState([]);
@@ -43,14 +45,6 @@ export default ChatMessages = ({ user, currentRoom, actionCable }) => {
     ? getInterlocutor(currentRoom, user)
     : currentRoom.name;
 
-  /* what could it take to move these to their own files?
-    - need to pass the ref: chatChannel
-    - need to import copyObjectArr into file
-    - need custom function to setMessages, scroll ...
-    - which can maybe be in this file if we return recieved data from the subscription?
-    - again, which maybe we can do if we set the ref in the function...
-   */
-
   const updateMessages = (data, messages) => {
     const newMessages = copyObjectArr(messages);
     const index = newMessages.findIndex((elem) => elem.id === data.id);
@@ -58,31 +52,24 @@ export default ChatMessages = ({ user, currentRoom, actionCable }) => {
       newMessages[index] = data;
     } else {
       newMessages.push(data);
-      setScroll((scroll) => !scroll); 
+      setScroll((scroll) => !scroll);
     }
     return newMessages;
   };
   useEffect(() => {
     if (currentRoom) {
-      chatChannel.current = actionCable.subscriptions.create(
-        {
-          channel: "ChatChannel",
-          room_id: currentRoom.id,
-        },
-        {
-          received(data) {
-            setMessages((messages) => updateMessages(data, messages));
-          },
-        }
+      subscribeToChatChannel(
+        chatChannel,
+        actionCable,
+        currentRoom,
+        setMessages,
+        updateMessages
       );
     }
     return () => {
-      if (chatChannel.current) {
-        actionCable.subscriptions.remove(chatChannel.current);
-        chatChannel.current = null;
-      }
+      unsubscribeToChatChannel(chatChannel, actionCable);
     };
-  }, [currentRoom]); 
+  }, [currentRoom]);
 
   if (error) return <p>Something went wrong.</p>;
 
