@@ -10,7 +10,7 @@ class Api::V1::PrivateRoomsController < ApplicationController
 
   def create
     # moved to using usernames instead of ids bc still unique 
-    # and then front end still has access to the username if user deletes account
+    # and then frontend still has access to the username if user deletes account
     other_user = User.find(params[:user_id])
     sorted_users = sort_users(current_user, other_user)
     room_name = generate_name(sorted_users)
@@ -27,7 +27,7 @@ class Api::V1::PrivateRoomsController < ApplicationController
       room.update(marked_delete_two: false, restored_at_two: DateTime.current)
     end
 
-    render json: room, include: [:interlocutor_one, :interlocutor_two] # do we still need this include?
+    render json: room, include: [:interlocutor_one, :interlocutor_two]
   end
 
   def destroy

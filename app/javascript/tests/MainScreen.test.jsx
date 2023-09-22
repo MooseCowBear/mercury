@@ -2,7 +2,6 @@ import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import MainScreen from "../components/MainScreen";
 import { makeGetRequest, makeMultiGetRequest } from "../helpers/apiRequest";
-import { useActionCable } from "../helpers/useActionCable"
 
 jest.mock("../helpers/useActionCable", () => ({
   useActionCable: jest.fn(),

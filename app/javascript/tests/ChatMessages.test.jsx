@@ -2,7 +2,6 @@ import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import ChatMessages from "../components/ChatMessages";
 import { makeGetRequest } from "../helpers/apiRequest";
-//import { subscribeToChatChannel, unsubscribeToChatChannel } from "../channels/chat_channel";
 
 jest.mock("../helpers/apiRequest", () => ({
   makeGetRequest: jest.fn(),
