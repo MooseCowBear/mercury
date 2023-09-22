@@ -31,6 +31,13 @@ export default SideBar = ({
     }
   }, [user]);
 
+  const addNotification = (data, notifications) => {
+    console.log("in add notificaitons, prev:", notifications);
+    const newNotifications = copyObjectArr(notifications);
+    newNotifications.push(data);
+    return newNotifications;
+  };
+
   useEffect(() => {
     if (user) {
       notificationsChannel.current = actionCable.subscriptions.create(
@@ -40,9 +47,9 @@ export default SideBar = ({
         },
         {
           received(data) {
-            const newNotifications = copyObjectArr(notifications);
-            newNotifications.push(data);
-            setNotifications(newNotifications);
+            setNotifications((notifications) =>
+              addNotification(data, notifications)
+            );
           },
         }
       );
@@ -53,7 +60,7 @@ export default SideBar = ({
         notificationsChannel.current = null;
       }
     };
-  }, [user, notifications]);
+  }, [user]); 
 
   const viewPeopleClickHandler = () => {
     setCurrentRoom(null);
@@ -65,15 +72,32 @@ export default SideBar = ({
     setViewPeople(false);
   };
 
+  const addRoom = (data, rooms) => {
+    const newRooms = copyObjectArr(rooms);
+    newRooms.push(data);
+    return newRooms;
+  };
+
+  const updatePrivateChats = (data, privateChats) => {
+    const newChats = copyObjectArr(privateChats);
+    console.log("existing chats are: ", newChats);
+    const index = newChats.findIndex((elem) => elem.id === data.id);
+    if (index > -1) {
+      newChats[index] = data;
+    } else {
+      newChats.push(data);
+    }
+    return newChats;
+  };
+
   useEffect(() => {
     if (user) {
+      console.log("adding roomsChannel and userChannel");
       roomsChannel.current = actionCable.subscriptions.create(
         { channel: "RoomsChannel" },
         {
           received(data) {
-            const newRooms = copyObjectArr(rooms);
-            newRooms.push(data);
-            setRooms(newRooms);
+            setRooms((rooms) => addRoom(data, rooms));
           },
         }
       );
@@ -85,15 +109,9 @@ export default SideBar = ({
         },
         {
           received(data) {
-            const newChats = copyObjectArr(privateChats);
-            console.log("existing chats are: ", newChats);
-            const index = newChats.findIndex((elem) => elem.id === data.id);
-            if (index > -1) {
-              newChats[index] = data;
-            } else {
-              newChats.push(data);
-            }
-            setPrivateChats(newChats);
+            setPrivateChats((privateChats) =>
+              updatePrivateChats(data, privateChats)
+            );
           },
         }
       );
@@ -109,7 +127,7 @@ export default SideBar = ({
         userChannel.current = null;
       }
     };
-  }, [user, rooms, privateChats]);
+  }, [user]);
 
   // TODO: add profile?
   return (

@@ -34,12 +34,12 @@ export default Message = ({
     const method = "DELETE";
     const fetchBody = {};
 
-    const setState = (parsedResponse) => {
+    const updateMessagesAfterDelete = (parsedResponse, messages) => {
       const newMessages = copyObjectArr(messages);
       const afterDelete = newMessages.filter(
         (elem) => elem.id !== parsedResponse.id
       );
-      setMessages(afterDelete);
+      return afterDelete;
     };
 
     const errorSetter = (error) => {
@@ -47,7 +47,9 @@ export default Message = ({
     };
 
     makePostRequest(url, fetchBody, method)
-      .then((data) => setState(data))
+      .then((data) =>
+        setMessages((messages) => updateMessagesAfterDelete(data, messages))
+      )
       .catch((error) => errorSetter(error));
   };
 

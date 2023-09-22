@@ -50,6 +50,18 @@ export default ChatMessages = ({ user, currentRoom, actionCable }) => {
     - which can maybe be in this file if we return recieved data from the subscription?
     - again, which maybe we can do if we set the ref in the function...
    */
+
+  const updateMessages = (data, messages) => {
+    const newMessages = copyObjectArr(messages);
+    const index = newMessages.findIndex((elem) => elem.id === data.id);
+    if (index > -1) {
+      newMessages[index] = data;
+    } else {
+      newMessages.push(data);
+      setScroll((scroll) => !scroll); 
+    }
+    return newMessages;
+  };
   useEffect(() => {
     if (currentRoom) {
       chatChannel.current = actionCable.subscriptions.create(
@@ -59,15 +71,7 @@ export default ChatMessages = ({ user, currentRoom, actionCable }) => {
         },
         {
           received(data) {
-            const newMessages = copyObjectArr(messages);
-            const index = newMessages.findIndex((elem) => elem.id === data.id);
-            if (index > -1) {
-              newMessages[index] = data;
-              setMessages(newMessages); // don't scroll away from an edited message
-            } else {
-              newMessages.push(data);
-              setMessagesAndScroll(newMessages);
-            }
+            setMessages((messages) => updateMessages(data, messages));
           },
         }
       );
@@ -78,7 +82,7 @@ export default ChatMessages = ({ user, currentRoom, actionCable }) => {
         chatChannel.current = null;
       }
     };
-  }, [currentRoom, messages]);
+  }, [currentRoom]); 
 
   if (error) return <p>Something went wrong.</p>;
 
