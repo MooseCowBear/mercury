@@ -2,6 +2,8 @@ class Message < ApplicationRecord
   belongs_to :user
   belongs_to :room, touch: true
 
+  has_one :notification, dependent: :destroy
+
   validates_presence_of :body 
   validates :body, length: { maximum: 1000 }
 
@@ -31,8 +33,10 @@ class Message < ApplicationRecord
   end
 
   def create_notification
+    # update to also take message id!!
+    # can be self.notifications.create(user_id: recipient.id, room_id: room.id)
     unless recipient.nil? || recipient.current_room == room
-      room.notifications.create(user_id: recipient.id)
+      room.notifications.create(user_id: recipient.id, message_id: self.id)
     end
   end
 end

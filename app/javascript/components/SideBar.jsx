@@ -1,7 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
 import PublicRooms from "./PublicRooms";
-//import consumer from "../channels/consumer";
-
 import PrivateChats from "./PrivateChats";
 import copyObjectArr from "../helpers/copy";
 import { makeGetRequest } from "../helpers/apiRequest";
@@ -31,10 +29,15 @@ export default SideBar = ({
     }
   }, [user]);
 
-  const addNotification = (data, notifications) => {
-    console.log("in add notificaitons, prev:", notifications);
-    const newNotifications = copyObjectArr(notifications);
-    newNotifications.push(data);
+  const updateNotifications = (data, notifications) => {
+    let newNotifications = copyObjectArr(notifications);
+    const index = newNotifications.findIndex((elem) => elem.id === data.id);
+    if (index > -1) {
+      // if it exists, then the broadcast was after a destroy
+      newNotifications = newNotifications.filter((elem) => elem.id !== data.id);
+    } else {
+      newNotifications.push(data);
+    }
     return newNotifications;
   };
 
@@ -48,7 +51,7 @@ export default SideBar = ({
         {
           received(data) {
             setNotifications((notifications) =>
-              addNotification(data, notifications)
+              updateNotifications(data, notifications)
             );
           },
         }
@@ -60,7 +63,7 @@ export default SideBar = ({
         notificationsChannel.current = null;
       }
     };
-  }, [user]); 
+  }, [user]);
 
   const viewPeopleClickHandler = () => {
     setCurrentRoom(null);
@@ -92,7 +95,6 @@ export default SideBar = ({
 
   useEffect(() => {
     if (user) {
-      console.log("adding roomsChannel and userChannel");
       roomsChannel.current = actionCable.subscriptions.create(
         { channel: "RoomsChannel" },
         {
