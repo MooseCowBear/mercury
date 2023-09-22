@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 export default ErrorPage = () => {
   return (
-    <div>
-      <h1>The route you're looking for doesn't exist.</h1>
+    <div className="mx-auto text-center">
+      <h1 className="text-2xl font-semibold">Well, this is embarrassing...</h1>
       <Link to="/chat">Go back</Link>
     </div>
   );
