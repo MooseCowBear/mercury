@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import MessageContent from "./MessageContent";
 import MessageForm from "./MessageForm";
 import { displayDateTime } from "../helpers/datetime";
-import copyObjectArr from "../helpers/copy";
 import { makePostRequest } from "../helpers/apiRequest";
+import { updateMessagesAfterDelete } from "../helpers/message";
 
 export default Message = ({
   user,
@@ -33,14 +33,6 @@ export default Message = ({
     const url = `/api/v1/messages/destroy/${message.id}`;
     const method = "DELETE";
     const fetchBody = {};
-
-    const updateMessagesAfterDelete = (parsedResponse, messages) => {
-      const newMessages = copyObjectArr(messages);
-      const afterDelete = newMessages.filter(
-        (elem) => elem.id !== parsedResponse.id
-      );
-      return afterDelete;
-    };
 
     const errorSetter = (error) => {
       console.log(error);

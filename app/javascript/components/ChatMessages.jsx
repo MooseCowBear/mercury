@@ -56,6 +56,7 @@ export default ChatMessages = ({ user, currentRoom, actionCable }) => {
     }
     return newMessages;
   };
+
   useEffect(() => {
     if (currentRoom) {
       subscribeToChatChannel(
