@@ -4,7 +4,7 @@ import Welcome from "./Welcome";
 import ChatMessages from "./ChatMessages";
 import People from "./People";
 import { makeGetRequest, makeMultiGetRequest } from "../helpers/apiRequest";
-import useActionCable from "../helpers/useActionCable";
+import { useActionCable } from "../helpers/useActionCable";
 
 export default MainScreen = () => {
   const [user, setUser] = useState(null);
