@@ -1,6 +1,10 @@
 import React from "react";
 import { removeRoomNotifications } from "../helpers/notifications";
-import { getInterlocutor } from "../helpers/privateChats";
+import {
+  getInterlocutor,
+  notificationCount,
+  removeRoom,
+} from "../helpers/privateChats";
 import { makePostRequest } from "../helpers/apiRequest";
 
 export default PrivateRoom = ({
@@ -18,17 +22,7 @@ export default PrivateRoom = ({
 
   const thisIsCurrentRoom = currentRoom?.id === room.id;
 
-  const notificationCount = (room) => {
-    if (room.is_private) {
-      const notificationsForRoom = notifications.filter(
-        (e) => e.room_id == room.id
-      );
-      return notificationsForRoom.length;
-    }
-    return null;
-  };
-
-  const count = notificationCount(room);
+  const count = notificationCount(room, notifications);
 
   const selectRoomClickHandler = () => {
     setCurrentRoom(room);
@@ -47,10 +41,7 @@ export default PrivateRoom = ({
       rooms,
       currentRoom
     ) => {
-      const newRooms = copyObjectArr(rooms);
-      const afterDelete = newRooms.filter(
-        (elem) => elem.id !== parsedResponse.id
-      );
+      const afterDelete = removeRoom(rooms, parsedResponse);
 
       if (currentRoom && currentRoom.id == parsedResponse.id) {
         setCurrentRoom(null);
@@ -97,7 +88,7 @@ export default PrivateRoom = ({
           {count}
         </div>
       )}
-      <button onClick={deleteRoomClickHandler}>
+      <button onClick={deleteRoomClickHandler} aria-label="delete">
         <svg
           className="h-4 w-4 fill-[#1f2937] dark:fill-gray-50"
           xmlns="http://www.w3.org/2000/svg"
