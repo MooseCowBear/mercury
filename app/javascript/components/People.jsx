@@ -23,7 +23,7 @@ export default People = ({ setCurrentRoom, setViewPeople }) => {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <ul className="grid grid-cols-autofit gap-5 w-full">
+    <ul className="grid grid-cols-autofit gap-5 w-full p-5 md:py-5 md:px-0">
       {people.map((person) => {
         return (
           <li

@@ -75,7 +75,7 @@ export default ChatMessages = ({ user, currentRoom, actionCable }) => {
   if (error) return <p>Something went wrong.</p>;
 
   return (
-    <div className="w-full h-full grid grid-cols-1 grid-rows-[auto_1fr_auto] text-center p-1 min-h-[300px] max-h-[400px] md:max-h-none">
+    <div className="w-full grid grid-cols-1 grid-rows-[auto_1fr_auto] text-center p-1 min-h-[400px] md:h-full">
       <h1 className="font-semibold text-2xl capitalize truncate">
         {displayTitle}
       </h1>

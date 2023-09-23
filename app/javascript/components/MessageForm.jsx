@@ -63,25 +63,21 @@ export default MessageForm = ({
   return (
     <form
       onSubmit={submitHandler}
-      className="bg-gray-50 rounded-md py-3 flex items-stretch justify-stretch w-full dark:bg-gray-700"
+      className="bg-gray-50 rounded-md md:pt-3 md:pb-5 flex items-stretch justify-stretch w-full dark:bg-gray-700"
     >
       <div className="flex flex-col w-full">
         <span className="text-coolpink-500 text-sm dark:text-melon-500">
           {error}
         </span>
-        <div className="flex items-center gap-3">
-          <label
-            className="flex items-center gap-2 w-full"
+        <div className={`flex items-center gap-3 ${setEditing ? "" : "mx-4"}`}>
+          <input
+            id="body"
+            type="text"
             aria-label="message input"
-          >
-            <input
-              id="body"
-              type="text"
-              onChange={changeHandler}
-              value={body}
-              className="px-3 py-1 border-2 border-gray-200 rounded-lg w-full max-h-[50px] text-sm dark:bg-gray-800 dark:border-gray-500"
-            />
-          </label>
+            onChange={changeHandler}
+            value={body}
+            className="px-3 py-2 border-2 border-gray-200 rounded-xl w-full max-h-[50px] text-sm dark:bg-gray-800 dark:border-gray-500"
+          />
           <input type="hidden" id="room_id" value={currentRoom.id} />
           <button type="submit" aria-label="Send">
             {!setEditing && (

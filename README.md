@@ -1,24 +1,21 @@
-# README
+# Chat App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is an implementation of the [Odin Project's](https://www.theodinproject.com) Messaging App project. It is a fullstack messaging app with a React frontend and Rails backend. 
 
-Things you may want to cover:
+## Features
 
-* Ruby version
+- Realtime messaging using WebSockets.
+- Public and private chats.
+- Notifications for new messages received in private chats (when user is not in the private chat at the time the message is sent).
+- Ability to delete and edit messages. 
+- Authentication with Devise. 
 
-* System dependencies
+### A note about deleting private chats
 
-* Configuration
+Requests to delete a private chat won't actually delete the room unless the other user has deleted their account. This way the chat remains visible to the other user. If a user restarts a conversation, the messages they see in their side of the chat are those that are sent on or after the reinstatement. 
 
-* Database creation
+#### Built with
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- Ruby on Rails
+- React
+- Tailwind

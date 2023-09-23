@@ -18,7 +18,7 @@ export default Message = ({
   const isOwner = message.user && message.user.id == user.id;
 
   const messageDisplayName = isOwner
-    ? message.user.username
+    ? ""
     : interlocutor
     ? interlocutor
     : message.user
@@ -49,7 +49,7 @@ export default Message = ({
     <>
       {!editing && (
         <div
-          className={`flex flex-col w-5/6 items-end ${
+          className={`flex flex-col w-11/12 items-end ${
             isOwner ? "" : "self-end"
           }`}
         >
@@ -81,7 +81,7 @@ export default Message = ({
           isOwner ? "self-end" : "self-start"
         } flex items-center gap-1`}
       >
-        <span>{messageDisplayName}</span>
+        <span className="text-sm">{messageDisplayName}</span>
         <span className="text-sm">{displayDateTime(message.created_at)}</span>
       </p>
     </>
