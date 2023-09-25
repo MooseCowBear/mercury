@@ -8,11 +8,16 @@ import {
   subscribeToChatChannel,
   unsubscribeToChatChannel,
 } from "../channels/chat_channel";
+import NewMessageForm from "./NewMessageForm";
+import ImageForm from "./ImageForm";
 
 export default ChatMessages = ({ user, currentRoom, actionCable }) => {
   const [messages, setMessages] = useState([]);
   const [error, setError] = useState(null);
   const [scroll, setScroll] = useState(true);
+
+  // MARK: for image uploads
+  const [uploadImage, setUploadImage] = useState(false);
 
   const chatChannel = useRef(null);
 
@@ -100,7 +105,16 @@ export default ChatMessages = ({ user, currentRoom, actionCable }) => {
           })}
         </ul>
       </div>
-      <MessageForm currentRoom={currentRoom} />
+      {/* this has been changed from <MessageForm currentRoom={currentRoom} /> */}
+      {!uploadImage && (
+        <NewMessageForm
+          currentRoom={currentRoom}
+          setImageUpload={setUploadImage}
+        />
+      )}
+      {uploadImage && (
+        <ImageForm currentRoom={currentRoom} setUploadImage={setUploadImage} />
+      )}
     </div>
   );
 };
