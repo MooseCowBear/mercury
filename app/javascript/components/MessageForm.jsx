@@ -69,7 +69,7 @@ export default MessageForm = ({
         <span className="text-coolpink-500 text-sm dark:text-melon-500">
           {error}
         </span>
-        <div className={`flex items-center gap-3 ${setEditing ? "" : "mx-4"}`}>
+        <div className={`flex items-center gap-3 ${setEditing ? "" : ""}`}>
           <input
             id="body"
             type="text"

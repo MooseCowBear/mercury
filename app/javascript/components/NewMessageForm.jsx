@@ -7,7 +7,7 @@ export default NewMessageForm = ({ currentRoom, setImageUpload }) => {
   };
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center gap-2">
       <button onClick={clickHandler} aria-label="add image">
         <svg
           className="h-9 w-9 fill-teal-500"

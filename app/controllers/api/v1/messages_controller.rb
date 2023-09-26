@@ -53,14 +53,6 @@ class Api::V1::MessagesController < ApplicationController
     end
   end
 
-  # def confirm_participant 
-  #   @room = Room.find(params[:room_id])
-  #   unless @room.participant?(current_user)
-  #     flash[:alert] = "You cannot post messages to private rooms that do not belong to you."
-  #       redirect_to root_path
-  #   end
-  # end
-
   def delete_from_cloudinary
     return unless @message.public_id 
     res = Cloudinary::Uploader.destroy(@message.public_id)
