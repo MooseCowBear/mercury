@@ -4,8 +4,8 @@ class Message < ApplicationRecord
 
   has_one :notification, dependent: :destroy
 
-  validates_presence_of :body 
   validates :body, length: { maximum: 1000 }
+  validate :has_content
 
   after_commit :broadcast_message, on: [:create, :update]
   after_create_commit :create_notification
@@ -35,6 +35,12 @@ class Message < ApplicationRecord
   def create_notification
     unless recipient.nil? || recipient.current_room == room
       room.notifications.create(user_id: recipient.id, message_id: self.id)
+    end
+  end
+
+  def has_content
+    if self.body.blank? && self.image.blank?
+      errors.add(:message, "must have content")
     end
   end
 end

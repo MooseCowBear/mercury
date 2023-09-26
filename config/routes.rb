@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      post 'image_messages/create'
       get 'notifications/index'
       get 'rooms/index'
       post 'rooms/create'

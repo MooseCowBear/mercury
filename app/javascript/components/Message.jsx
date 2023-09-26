@@ -56,7 +56,12 @@ export default Message = ({
           <MessageContent user={user} message={message} isOwner={isOwner} />
           {isOwner && (
             <div className="flex gap-2 items-center">
-              <button onClick={editClickHandler}>edit</button>|
+              {/* EDIT needs to be conditional, depending on whether the message has body */}
+              {message.body && (
+                <>
+                  <button onClick={editClickHandler}>edit</button>|
+                </>
+              )}
               <button
                 className="text-coolpink-500 dark:text-melon-500"
                 onClick={deleteClickHandler}

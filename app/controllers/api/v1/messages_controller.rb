@@ -1,18 +1,16 @@
 class Api::V1::MessagesController < ApplicationController
+  include ConfirmParticipantConcern
+
   before_action :set_message, only: [:update, :destroy]
+  before_action :confirm_participant, only: [:create]
   before_action :confirm_ownership, only: [:update, :destroy]
+  before_action :delete_from_cloudinary, only: [:destroy]
+  before_action :confirm_text_message, only: [:update]
   after_action -> { current_user.update_last_active if current_user }
 
   def create
     message = Message.new(message_params)
     message.user = current_user
-
-    unless message.room.participant?(current_user)
-      render json: { message: "Unauthorized", 
-                    errors: ["This private chat does not belong to you"] }, 
-                    status: 401
-      return
-    end
 
     if message.save 
       render json: message.to_json(include: [:user])
@@ -41,7 +39,7 @@ class Api::V1::MessagesController < ApplicationController
   private 
 
   def message_params 
-    params.require(:message).permit(:body, :room_id)
+    params.require(:message).permit(:body, :room_id, :image)
   end
 
   def set_message
@@ -52,6 +50,31 @@ class Api::V1::MessagesController < ApplicationController
     unless @message.user == current_user
       flash[:alert] = "You cannot modify a message that doesn't belong to you."
       redirect_to root_path
+    end
+  end
+
+  # def confirm_participant 
+  #   @room = Room.find(params[:room_id])
+  #   unless @room.participant?(current_user)
+  #     flash[:alert] = "You cannot post messages to private rooms that do not belong to you."
+  #       redirect_to root_path
+  #   end
+  # end
+
+  def delete_from_cloudinary
+    return unless @message.public_id 
+    res = Cloudinary::Uploader.destroy(@message.public_id)
+
+    unless res["result"] == "ok"
+      flash[:alert] = "Message could not be deleted at this time."
+      redirect_to chat_path # is this what we want?
+    end
+  end
+
+  def confirm_text_message
+    unless @message.body
+      flash[:alert] = "Only text messages can be edited."
+      redirect_to chat_path
     end
   end
 end

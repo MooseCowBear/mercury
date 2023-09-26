@@ -78,15 +78,14 @@ export default MessageForm = ({
             value={body}
             className="px-3 py-2 border-2 border-gray-200 rounded-xl w-full max-h-[50px] text-sm dark:bg-gray-800 dark:border-gray-500"
           />
-          <input type="hidden" id="room_id" value={currentRoom.id} />
           <button type="submit" aria-label="Send">
             {!setEditing && (
               <svg
-                className="h-9 w-9"
+                className="h-9 w-9 fill-teal-500"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
               >
-                <path fill="#14b8a6" d="M2,21L23,12L2,3V10L17,12L2,14V21Z" />
+                <path fill="" d="M2,21L23,12L2,3V10L17,12L2,14V21Z" />
               </svg>
             )}
             {setEditing && <span>update</span>}

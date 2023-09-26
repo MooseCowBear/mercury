@@ -83,12 +83,12 @@ export default NewRoomForm = () => {
         </div>
         <button type="submit" aria-label="create room">
           <svg
-            className="h-9"
+            className="h-9 w-9 fill-teal-500"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
             <path
-              fill="#14b8a6"
+              fill=""
               d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"
             />
           </svg>

@@ -31,12 +31,12 @@ export default PublicRoom = ({
             onClick={selectRoomClickHandler}
           >
             <svg
-              className="h-3 w-3"
+              className="h-3 w-3 fill-teal-500"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
             >
               <path
-                fill="#14b8a6"
+                fill="#"
                 d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"
               />
             </svg>

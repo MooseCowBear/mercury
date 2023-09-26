@@ -46,19 +46,16 @@ export default ImageForm = ({ currentRoom, setUploadImage }) => {
   const handleDrag = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log("in handle drag");
   };
 
   const handleDrop = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log("dropped");
+
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       setSelectedFile(e.dataTransfer.files[0]);
     }
   };
-
-  // TODO: set up backend then finish this:
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -68,10 +65,41 @@ export default ImageForm = ({ currentRoom, setUploadImage }) => {
       return;
     }
 
-    // TODO: the post to backend...
+    const fetchBody = new FormData();
+    fetchBody.append("image", selectedFile);
+    fetchBody.append("room_id", currentRoom.id);
 
-    //when finished want to go back to text form..
-    setUploadImage(false);
+    const method = "POST";
+    const url = "/api/v1/image_messages/create";
+
+    const errorSetter = (value) => {
+      console.log(value);
+      setError(error);
+    };
+
+    const setState = (data) => {
+      if (data.hasOwnProperty("errors")) {
+        errorSetter(data.errors.join(", "));
+      } else {
+        setUploadImage(false);
+        setError(null);
+      }
+    };
+
+    const postImage = (url, body, method) => {
+      const token = document.querySelector('meta[name="csrf-token"]').content;
+      fetch(url, {
+        method: method,
+        headers: {
+          "X-CSRF-Token": token,
+        },
+        body: body,
+      })
+        .then((data) => setState(data))
+        .catch((error) => errorSetter(error));
+    };
+
+    postImage(url, fetchBody, method);
   };
 
   return (
@@ -102,7 +130,10 @@ export default ImageForm = ({ currentRoom, setUploadImage }) => {
             className="bg-[#ffffff] px-3 py-2 border-2 border-gray-200 rounded-xl w-full text-sm dark:bg-gray-800 dark:border-gray-500 flex flex-col items-center justify-center"
           >
             {selectedFile && (
-              <img src={preview} className="w-[130px] rounded-md" />
+              <img
+                src={preview}
+                className="max-w-[150px] max-h-[150px] rounded-md"
+              />
             )}
             {!selectedFile && (
               <>

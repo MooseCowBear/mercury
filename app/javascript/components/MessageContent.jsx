@@ -11,7 +11,14 @@ export default MessageContent = ({ message, isOwner }) => {
           : "bg-gray-100 self-end dark:bg-gray-500/50 rounded-br-xl dark:border-gray-500"
       }`}
     >
-      <span className="self-start">{message.body}</span>
+      {message.body && <span className="self-start">{message.body}</span>}
+      {message.image && (
+        <img
+          src={message.image}
+          alt=""
+          className="self-center max-w-[150px] max-h-[150px] rounded-md"
+        />
+      )}
       {edited && <span className="text-xs text-gray-400 self-end">edited</span>}
     </p>
   );
