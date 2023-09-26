@@ -5,14 +5,15 @@ This is an implementation of the [Odin Project's](https://www.theodinproject.com
 ## Features
 
 - Realtime messaging using WebSockets.
-- Public and private chats.
-- Notifications for new messages received in private chats (when user is not in the private chat at the time the message is sent).
-- Ability to delete and edit messages.
-- Authentication with Devise.
+- Messages may be text or an image (with Cloudinary for image storage)
+- Public and private chats
+- Notifications for new messages received in private chats (when user is not in the private chat at the time the message is sent)
+- Ability to delete and edit text messages, delete image messages
+- Authentication with Devise
 
 ### A note about deleting private chats
 
-Requests to delete a private chat won't actually delete the room unless the other user has deleted their account. This way the chat remains visible to the other user like it would be for mobile text messaging. Unlike mobile messaging, however, the "deletor" of a private chat will not receive messages from that room until they restart the conversation on their end (so requests to delete a private chat function essentially like blocking someone). If a user restarts a conversation, the messages they see in their side of the chat are those that are sent on or after the reinstatement.
+Requests to delete a private chat won't actually delete the room unless the other user has deleted their account. This way the chat remains visible to the other user like it would be for mobile text messaging. Unlike mobile messaging, however, the "deletor" of a private chat will not receive messages from that room until they restart the conversation on their end (so requests to delete a private chat function essentially like blocking someone). If a user restarts a conversation, the messages they see on their side of the chat are those that are sent on or after the reinstatement.
 
 ### A note about public rooms
 

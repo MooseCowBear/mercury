@@ -56,7 +56,6 @@ export default Message = ({
           <MessageContent user={user} message={message} isOwner={isOwner} />
           {isOwner && (
             <div className="flex gap-2 items-center">
-              {/* EDIT needs to be conditional, depending on whether the message has body */}
               {message.body && (
                 <>
                   <button onClick={editClickHandler}>edit</button>|
@@ -83,8 +82,8 @@ export default Message = ({
       )}
       <p
         className={`${
-          isOwner ? "self-end" : "self-start"
-        } flex items-center gap-1`}
+          isOwner ? "self-end mt-[-15px]" : "self-start"
+        } flex items-center gap-1 mb-2`}
       >
         <span className="text-sm">{messageDisplayName}</span>
         <span className="text-sm">{displayDateTime(message.created_at)}</span>

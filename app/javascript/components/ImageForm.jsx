@@ -141,11 +141,14 @@ export default ImageForm = ({ currentRoom, setUploadImage }) => {
                   className="text-xs uppercase text-gray-400"
                   htmlFor="file"
                 >
-                  Drag and drop a file
+                  Drag and drop a jpeg/jpg or png file
                 </label>
                 <span className="text-xs text-gray-400">or</span>
-                <button className="upload-button" onClick={uploadClickHandler}>
-                  Upload a file
+                <button
+                  className="text-sm lowercase tracking-wider"
+                  onClick={uploadClickHandler}
+                >
+                  Click to Upload
                 </button>
                 <input
                   ref={inputRef}
