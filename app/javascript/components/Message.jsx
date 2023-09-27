@@ -82,7 +82,7 @@ export default Message = ({
       )}
       <p
         className={`${
-          isOwner ? "self-end mt-[-15px]" : "self-start"
+          isOwner ? "self-end" : "self-start"
         } flex items-center gap-1 mb-2`}
       >
         <span className="text-sm">{messageDisplayName}</span>

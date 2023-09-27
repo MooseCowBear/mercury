@@ -31,8 +31,6 @@ export default PersonCard = ({
       .catch((error) => errorSetter(error));
   };
 
-  // TODO: when we have profiles this will be updated.
-
   return (
     <div className="flex items-center gap-2">
       <div
