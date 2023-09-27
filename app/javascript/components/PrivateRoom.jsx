@@ -90,7 +90,7 @@ export default PrivateRoom = ({
       )}
       <button onClick={deleteRoomClickHandler} aria-label="delete">
         <svg
-          className="h-4 w-4 fill-[#1f2937] dark:fill-gray-50"
+          className="h-4 w-4 fill-[#1f2937] dark:fill-gray-50/80"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 448 512"
         >

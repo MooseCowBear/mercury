@@ -38,8 +38,8 @@ export default PersonCard = ({
       <div
         className={`flex items-center justify-center p-4 rounded-full h-9 w-9 border-2 border-cyan-800 dark:bg-gray-800 dark:border-teal-600 ${
           active
-            ? "bg-cyan-800 text-gray-50 dark:bg-teal-600"
-            : "text-cyan-800 dark:text-teal-600"
+            ? "bg-teal-800 text-gray-50 dark:bg-teal-600"
+            : "text-teal-800 dark:text-teal-600"
         }`}
       >
         {person.username[0]}
@@ -50,7 +50,7 @@ export default PersonCard = ({
           {active && <span className="text-xs text-gray-500">active</span>}
         </div>
         <button
-          className="lowercase hover:text-cyan-800 focus:text-cyan-800"
+          className="lowercase hover:text-teal-500 focus:text-teal-500 dark:hover:text-teal-300 dark:focus:text-teal-300"
           onClick={clickHandler}
         >
           Send a message

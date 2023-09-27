@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+  <linearGradient id="gradient-pink-yellow-dark" x2="1" y2="1">
+      <stop offset="0%" stop-color="#CFAF76" />
+      <stop offset="100%" stop-color="#AD62A8" />
+    </linearGradient>
+  </defs>
+  <path fill="url(#gradient-pink-yellow-dark)" d="M9,22A1,1 0 0,1 8,21V18H4A2,2 0 0,1 2,16V4C2,2.89 2.9,2 4,2H20A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H13.9L10.2,21.71C10,21.9 9.75,22 9.5,22V22H9Z" />
+</svg>

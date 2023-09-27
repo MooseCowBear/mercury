@@ -89,9 +89,8 @@ export default SideBar = ({
     };
   }, [user]);
 
-  // TODO: add profile?
   return (
-    <div className="row-start-2 md:row-start-1 md:col-start-1 bg-gray-200 border-r-2 py-3 px-1 md:p-5 flex flex-col justify-between dark:bg-gray-800 dark:border-gray-700">
+    <div className="row-start-2 md:row-start-1 md:col-start-1 bg-gray-200 border-r-2 py-3 px-1 md:p-5 flex flex-col justify-between dark:border-[#263238] dark:bg-[#263238]">
       <div>
         <h2 className="flex-no-shrink text-lg px-3 font-semibold flex gap-3 items-center">
           <svg

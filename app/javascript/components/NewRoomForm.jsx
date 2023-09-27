@@ -55,7 +55,7 @@ export default NewRoomForm = () => {
   return (
     <form
       onSubmit={submitHandler}
-      className="bg-gray-50 rounded-md px-3 py-2 max-w-[250px] dark:bg-gray-700"
+      className="bg-gray-50 rounded-md px-3 py-2 max-w-[250px] dark:bg-gray-700 dark:bg-[#212C31]"
     >
       <label
         htmlFor="name"
@@ -73,7 +73,7 @@ export default NewRoomForm = () => {
             type="text"
             value={name}
             onChange={changeHandler}
-            className="px-3 py-1 border-2 border-gray-200 rounded-lg max-w-[200px] max-h-[50px] text-sm dark:bg-gray-800 dark:border-gray-500"
+            className="px-3 py-1 border-2 border-gray-200 rounded-lg max-w-[200px] max-h-[50px] text-sm dark:bg-[#263238] dark:border-gray-500"
           />
           {error && (
             <button className="text-sm" onClick={cancelClickHandler}>
@@ -87,10 +87,7 @@ export default NewRoomForm = () => {
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
-            <path
-              fill=""
-              d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"
-            />
+            <path fill="" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
           </svg>
         </button>
       </div>

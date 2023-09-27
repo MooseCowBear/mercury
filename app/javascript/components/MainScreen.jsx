@@ -48,7 +48,7 @@ export default MainScreen = () => {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="border grid grid-cols-1 md:grid-cols-[auto_1fr] grid-rows-[auto_1fr] md:grid-rows-1 md:gap-3 rounded-lg shadow-sm bg-gray-50 h-full dark:bg-gray-700 dark:border-gray-600">
+    <div className="border grid grid-cols-1 md:grid-cols-[auto_1fr] grid-rows-[auto_1fr] md:grid-rows-1 md:gap-3 rounded-lg shadow-sm bg-gray-50 h-full dark:border-[#263238] dark:bg-[#212C31] dark:shadow-none">
       <SideBar
         user={user}
         rooms={rooms}
@@ -61,7 +61,9 @@ export default MainScreen = () => {
         actionCable={actionCable}
       />
       <div className="px-1 py-5 md:px-5 md:col-start-2 row-start-1 grid-cols-1 grid-rows-[auto_1fr] place-items-center">
-        {user && <p className="text-right mr-4 md:mr-0">{`Hello, ${user.username}!`}</p>}
+        {user && (
+          <p className="text-right mr-4 md:mr-0">{`Hello, ${user.username}!`}</p>
+        )}
         {viewPeople && (
           <People
             setCurrentRoom={setCurrentRoom}

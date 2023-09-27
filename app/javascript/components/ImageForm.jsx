@@ -118,7 +118,7 @@ export default ImageForm = ({ currentRoom, setUploadImage }) => {
       </button>
       <form
         onSubmit={submitHandler}
-        className="rounded-md md:pt-3 md:pb-5 flex items-stretch justify-stretch gap-3 w-full dark:bg-gray-700"
+        className="rounded-md md:pt-3 md:pb-5 flex items-stretch justify-stretch gap-3 w-full dark:bg-[#212C31]"
       >
         <div className="flex flex-col w-full">
           {error && <span className="text-sm text-coolpink-500">{error}</span>}
@@ -127,7 +127,7 @@ export default ImageForm = ({ currentRoom, setUploadImage }) => {
             onDragLeave={handleDrag}
             onDragOver={handleDrag}
             onDrop={handleDrop}
-            className="bg-[#ffffff] px-3 py-2 border-2 border-gray-200 rounded-xl w-full text-sm dark:bg-gray-800 dark:border-gray-500 flex flex-col items-center justify-center"
+            className="bg-[#ffffff] px-3 py-2 border-2 border-gray-200 rounded-xl w-full text-sm dark:bg-[#212C31] dark:border-gray-500 flex flex-col items-center justify-center"
           >
             {selectedFile && (
               <img

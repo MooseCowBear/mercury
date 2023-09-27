@@ -7,7 +7,7 @@ export default MessageContent = ({ message, isOwner }) => {
     <p
       className={`flex flex-col px-5 py-2 border-2 w-full rounded-tr-xl rounded-tl-xl ${
         isOwner
-          ? "bg-teal-400/10 self-start border-teal-200/60 rounded-bl-xl"
+          ? "bg-teal-500/10 self-start border-teal-200/60 dark:border-teal-500/60 rounded-bl-xl"
           : "bg-gray-100 self-end dark:bg-gray-500/50 rounded-br-xl dark:border-gray-500"
       }`}
     >

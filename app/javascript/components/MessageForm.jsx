@@ -63,7 +63,7 @@ export default MessageForm = ({
   return (
     <form
       onSubmit={submitHandler}
-      className="bg-gray-50 rounded-md md:pt-3 md:pb-5 flex items-stretch justify-stretch w-full dark:bg-gray-700"
+      className="bg-gray-50 rounded-md md:pt-3 md:pb-5 flex items-stretch justify-stretch w-full dark:bg-[#212C31]"
     >
       <div className="flex flex-col w-full">
         <span className="text-coolpink-500 text-sm dark:text-melon-500">
@@ -76,7 +76,7 @@ export default MessageForm = ({
             aria-label="message input"
             onChange={changeHandler}
             value={body}
-            className="px-3 py-2 border-2 border-gray-200 rounded-xl w-full max-h-[50px] text-sm dark:bg-gray-800 dark:border-gray-500"
+            className="px-3 py-2 border-2 border-gray-200 rounded-xl w-full max-h-[50px] text-sm dark:bg-[#212C31] dark:border-gray-500"
           />
           <button type="submit" aria-label="Send">
             {!setEditing && (
