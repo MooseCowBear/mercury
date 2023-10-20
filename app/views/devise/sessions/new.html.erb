@@ -41,11 +41,11 @@
     </h3>
     <%= button_to "Sign in as Alice", 
       demo_sessions_path, 
-      params: { user_id: 1 }, 
+      params: { email: "alice@fake.com" }, 
       method: :post, 
       class: "cursor-pointer w-full rounded border-2 border-gray-800 bg-gray-800 text-gray-50 lowercase tracking-widest py-1 hover:bg-gray-50 hover:text-gray-800 dark:hover:bg-gray-50/80 dark:bg-[#263238] dark:border-gray-500" %>
     <%= button_to "Sign in as Bob", 
-      demo_sessions_path, params: { user_id: 2 }, 
+      demo_sessions_path, params: { email: "bob@fake.com }, 
       method: :post, 
       class: "cursor-pointer w-full rounded border-2 border-gray-800 bg-gray-800 text-gray-50 lowercase tracking-widest py-1 hover:bg-gray-50 hover:text-gray-800 dark:hover:bg-gray-50/80 dark:bg-[#263238] dark:border-gray-500" %>
   </div>

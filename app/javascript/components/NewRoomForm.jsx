@@ -50,8 +50,6 @@ export default NewRoomForm = () => {
     resetForm();
   };
 
-  // TODO: TEST!! add a cancel button that resets the form and sets error to null -- in case of mind change
-
   return (
     <form
       onSubmit={submitHandler}

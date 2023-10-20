@@ -10,9 +10,9 @@ class DemoSessionsController < ApplicationController
   private 
 
   def set_user
-    unless params[:user_id].to_i == 1 || params[:user_id].to_i == 2
+    unless params[:email] == "alice@fake.com"|| params[:email] == "bob@fake.com"
       redirect_to root_path
     end
-    @user = User.find(params[:user_id])
+    @user = User.find_by(email: params[:email])
   end
 end
