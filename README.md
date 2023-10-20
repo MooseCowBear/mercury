@@ -4,7 +4,7 @@ This is an implementation of the [Odin Project's](https://www.theodinproject.com
 
 ## Features
 
-- Realtime messaging using WebSockets.
+- Real time messaging using WebSockets.
 - Messages may be text or an image (with Cloudinary for image storage)
 - Public and private chats
 - Notifications for new messages received in private chats (when user is not in the private chat at the time the message is sent)

@@ -121,7 +121,9 @@ class Room < ApplicationRecord
   private 
 
   def broadcast_public_room
-    ActionCable.server.broadcast("RoomsChannel", self)
+    if creator_id
+      ActionCable.server.broadcast("RoomsChannel", self)
+    end
   end
 
   def broadcast_private_room
