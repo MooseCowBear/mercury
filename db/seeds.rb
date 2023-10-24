@@ -1,8 +1,3 @@
-Room.destroy_all
-User.destroy_all
-Message.destroy_all
-Notification.destroy_all
-
 rooms = [
           {name: "welcome"}, 
           {name: "music"}, 
