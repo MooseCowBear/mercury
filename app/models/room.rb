@@ -13,7 +13,8 @@ class Room < ApplicationRecord
     foreign_key: "interlocutor_two_id", 
     optional: true
 
-  validates :name, presence: true, uniqueness: true, length: { within: 1..45 }
+  # change this, only public rooms need names
+  validates :name, presence: true, uniqueness: true, length: { within: 1..45 }, if: -> {!is_private}
   
   scope :public_rooms, -> { where(is_private: false) }
   scope :user_private_rooms, 
@@ -24,7 +25,7 @@ class Room < ApplicationRecord
   scope :active, 
     -> { where("updated_at >= ?", 1.week.ago).or(where(creator_id: nil)) } 
 
-  # for registrations destroy callback
+  # for registrations destroy callback -- TODO: Change this to no participants
   scope :private_destroyable,
     -> (user) { 
       where(interlocutor_one_id: nil).or(where(interlocutor_two_id: nil)).
@@ -41,6 +42,7 @@ class Room < ApplicationRecord
     retry
   end
 
+  # TODO: this will change
   def self.private_room_create(user, other_user_id)
     other_user = User.find(other_user_id)
 
@@ -63,6 +65,7 @@ class Room < ApplicationRecord
     room
   end
 
+  # won't need
   def interlocutor_one?(user)
     interlocutor_one == user
   end
@@ -71,11 +74,13 @@ class Room < ApplicationRecord
   interlocutor_two == user
   end
 
+  # will change
   def participant?(user)
     return true unless is_private?
     interlocutor_one?(user) || interlocutor_two?(user)
   end
 
+  # will change
   def room_messages(user)
     if interlocutor_one?(user) && restored_at_one
       messages.active_messages(restored_at_one)
@@ -86,6 +91,7 @@ class Room < ApplicationRecord
     end
   end
 
+  # will change
   def restoring_for_one?(user)
     interlocutor_one?(user) && marked_delete_one
   end
@@ -94,6 +100,7 @@ class Room < ApplicationRecord
     interlocutor_two?(user) && marked_delete_two
   end
 
+  # will change
   def private_room_destroy(user)
     # bc want private chats to remain until both parties "delete"
     # so that non-deleter retains chats on their end
@@ -134,6 +141,7 @@ class Room < ApplicationRecord
     end
   end
 
+  # won't need these...
   def self.generate_name(sorted_users)
     "pc_#{sorted_users[0].username}_#{sorted_users[1].username}"
   end
