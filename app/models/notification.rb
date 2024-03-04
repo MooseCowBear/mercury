@@ -1,10 +1,10 @@
 class Notification < ApplicationRecord
   belongs_to :user
-  belongs_to :room
+  belongs_to :chat
   belongs_to :message
 
   scope :for_user, ->(user) { where(user: user) }
-  scope :for_room, ->(room) { where(room: room) }
+  scope :for_chat, ->(chat) { where(chat: chat) }
 
   after_commit :broadcast_notification, on: [:create, :destroy]
 

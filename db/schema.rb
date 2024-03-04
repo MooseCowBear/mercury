@@ -10,55 +10,47 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_04_204419) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_04_213145) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "chat_participants", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.bigint "room_id", null: false
+    t.bigint "chat_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["room_id"], name: "index_chat_participants_on_room_id"
+    t.index ["chat_id"], name: "index_chat_participants_on_chat_id"
     t.index ["user_id"], name: "index_chat_participants_on_user_id"
+  end
+
+  create_table "chats", force: :cascade do |t|
+    t.string "name"
+    t.boolean "is_private", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "messages", force: :cascade do |t|
     t.text "body"
     t.bigint "user_id"
-    t.bigint "room_id", null: false
+    t.bigint "chat_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image"
     t.string "public_id"
-    t.index ["room_id"], name: "index_messages_on_room_id"
+    t.index ["chat_id"], name: "index_messages_on_chat_id"
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "notifications", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.bigint "room_id", null: false
+    t.bigint "chat_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "message_id", null: false
+    t.index ["chat_id"], name: "index_notifications_on_chat_id"
     t.index ["message_id"], name: "index_notifications_on_message_id"
-    t.index ["room_id"], name: "index_notifications_on_room_id"
     t.index ["user_id"], name: "index_notifications_on_user_id"
-  end
-
-  create_table "rooms", force: :cascade do |t|
-    t.string "name"
-    t.boolean "is_private", default: false
-    t.bigint "interlocutor_one_id"
-    t.bigint "interlocutor_two_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "marked_delete_one", default: false
-    t.boolean "marked_delete_two", default: false
-    t.datetime "restored_at_one"
-    t.datetime "restored_at_two"
-    t.index ["interlocutor_one_id"], name: "index_rooms_on_interlocutor_one_id"
-    t.index ["interlocutor_two_id"], name: "index_rooms_on_interlocutor_two_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -70,23 +62,21 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_04_204419) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "username"
-    t.bigint "current_room_id"
+    t.bigint "current_chat_id"
     t.datetime "last_active"
     t.boolean "editable", default: true
-    t.index ["current_room_id"], name: "index_users_on_current_room_id"
+    t.index ["current_chat_id"], name: "index_users_on_current_chat_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
-  add_foreign_key "chat_participants", "rooms"
+  add_foreign_key "chat_participants", "chats"
   add_foreign_key "chat_participants", "users"
-  add_foreign_key "messages", "rooms"
+  add_foreign_key "messages", "chats"
   add_foreign_key "messages", "users"
+  add_foreign_key "notifications", "chats"
   add_foreign_key "notifications", "messages"
-  add_foreign_key "notifications", "rooms"
   add_foreign_key "notifications", "users"
-  add_foreign_key "rooms", "users", column: "interlocutor_one_id"
-  add_foreign_key "rooms", "users", column: "interlocutor_two_id"
-  add_foreign_key "users", "rooms", column: "current_room_id"
+  add_foreign_key "users", "chats", column: "current_chat_id"
 end

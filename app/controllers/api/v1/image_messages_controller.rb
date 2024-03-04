@@ -20,7 +20,7 @@ class Api::V1::ImageMessagesController < ApplicationController
     message.public_id = res["public_id"]
 
     message.user = current_user
-    message.room = @room
+    message.chat = @chat
 
     if message.save 
       render json: message.to_json(include: [:user])
@@ -34,6 +34,6 @@ class Api::V1::ImageMessagesController < ApplicationController
   private
 
   def message_params 
-    params.permit(:room_id, :image)
+    params.permit(:chat_id, :image)
   end
 end

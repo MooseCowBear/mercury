@@ -5,13 +5,13 @@ Rails.application.routes.draw do
     namespace :v1 do
       post 'image_messages/create'
       get 'notifications/index'
-      get 'rooms/index'
-      post 'rooms/create'
-      get 'rooms/show/:id', to: "rooms#show"
-      post 'rooms/update/:id', to: "rooms#update"
-      get 'private_rooms/index'
-      post 'private_rooms/create'
-      delete 'private_rooms/destroy/:id', to: "private_rooms#destroy"
+      get 'public_chats/index'
+      post 'public_chats/create'
+      get 'public_chats/show/:id', to: "public_chats#show"
+      post 'public_chats/update/:id', to: "public_chats#update"
+      get 'private_chats/index'
+      post 'private_chats/create'
+      delete 'private_chats/destroy/:id', to: "private_chats#destroy"
       get 'users/show'
       get 'users/index'
       post 'messages/create'

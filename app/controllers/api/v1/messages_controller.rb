@@ -39,7 +39,7 @@ class Api::V1::MessagesController < ApplicationController
   private 
 
   def message_params 
-    params.require(:message).permit(:body, :room_id, :image)
+    params.require(:message).permit(:body, :chat_id, :image)
   end
 
   def set_message

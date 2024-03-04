@@ -7,11 +7,11 @@ class User < ApplicationRecord
   has_many :messages, dependent: :nullify
   has_many :notifications, dependent: :destroy
   has_many :chat_participants, dependent: :destroy
-  has_many :rooms, through: :chat_participants # group chats
+  has_many :chats, through: :chat_participants # group chats
 
-  belongs_to :current_room, 
-    foreign_key: "current_room_id", 
-    class_name: "Room", 
+  belongs_to :current_chat, 
+    foreign_key: "current_chat_id", 
+    class_name: "Chat", 
     optional: true
 
   validates :username, 
@@ -23,7 +23,7 @@ class User < ApplicationRecord
   scope :ordered_by_username, -> { order(username: :asc) }
 
   before_validation :clean_username
-  after_update :clear_user_notifications, if: :saved_change_to_current_room_id?
+  after_update :clear_user_notifications, if: :saved_change_to_current_chat_id?
 
   def update_last_active
     self.touch(:last_active)
@@ -38,8 +38,8 @@ class User < ApplicationRecord
   private 
 
   def clear_user_notifications
-    if current_room
-      self.notifications.where(room_id: current_room_id).delete_all
+    if current_chat
+      self.notifications.where(chat_id: current_chat_id).delete_all
     end
   end
 end

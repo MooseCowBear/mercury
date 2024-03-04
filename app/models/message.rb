@@ -1,6 +1,6 @@
 class Message < ApplicationRecord
   belongs_to :user
-  belongs_to :room, touch: true
+  belongs_to :chat, touch: true
 
   has_one :notification, dependent: :destroy
 
@@ -10,31 +10,27 @@ class Message < ApplicationRecord
   after_commit :broadcast_message, on: [:create, :update]
   after_create_commit :create_notification
 
-  # the messages that someone would see in a private room
+  # the messages that someone would see in a private chat
   scope :active_messages, 
     ->(datetime) { where("created_at > ?", datetime).order(created_at: :asc) }
 
+  # will change..
   def recipient
-    return nil unless room.is_private
-    if user != room.interlocutor_one
-      room.interlocutor_one
-    else
-      room.interlocutor_two
-    end
   end
 
   private 
 
   def broadcast_message
     ActionCable.server.broadcast(
-      "chat_#{self.room_id}", 
+      "chat_#{self.chat_id}", 
       self.as_json(include: :user)
     )
   end
 
+  # will change
   def create_notification
-    unless recipient.nil? || recipient.current_room == room
-      room.notifications.create(user_id: recipient.id, message_id: self.id)
+    unless recipient.nil? || recipient.current_chat == chat
+      chat.notifications.create(user_id: recipient.id, message_id: self.id)
     end
   end
 
