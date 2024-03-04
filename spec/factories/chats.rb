@@ -1,14 +1,7 @@
 FactoryBot.define do
-  factory :room do
-    name { "test room" }
+  factory :chat do
+    name { "test chat" }
     is_private { false }
-    marked_delete_one { false }
-    marked_delete_two { false }
-    restored_at_one { nil }
-    restored_at_two { nil }
-    creator { nil }
-    interlocutor_one { nil }
-    interlocutor_two { nil }
 
     trait :over_week_old do
       name { "old room" }
