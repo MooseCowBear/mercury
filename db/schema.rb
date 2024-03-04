@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_04_193826) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_04_204419) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,7 +49,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_04_193826) do
   create_table "rooms", force: :cascade do |t|
     t.string "name"
     t.boolean "is_private", default: false
-    t.bigint "creator_id"
     t.bigint "interlocutor_one_id"
     t.bigint "interlocutor_two_id"
     t.datetime "created_at", null: false
@@ -58,7 +57,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_04_193826) do
     t.boolean "marked_delete_two", default: false
     t.datetime "restored_at_one"
     t.datetime "restored_at_two"
-    t.index ["creator_id"], name: "index_rooms_on_creator_id"
     t.index ["interlocutor_one_id"], name: "index_rooms_on_interlocutor_one_id"
     t.index ["interlocutor_two_id"], name: "index_rooms_on_interlocutor_two_id"
   end
@@ -88,7 +86,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_04_193826) do
   add_foreign_key "notifications", "messages"
   add_foreign_key "notifications", "rooms"
   add_foreign_key "notifications", "users"
-  add_foreign_key "rooms", "users", column: "creator_id"
   add_foreign_key "rooms", "users", column: "interlocutor_one_id"
   add_foreign_key "rooms", "users", column: "interlocutor_two_id"
   add_foreign_key "users", "rooms", column: "current_room_id"

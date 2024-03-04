@@ -13,12 +13,6 @@ class Room < ApplicationRecord
     foreign_key: "interlocutor_two_id", 
     optional: true
 
-  # this is for destorying public rooms
-  belongs_to :creator, 
-    class_name: "User", 
-    foreign_key: "creator_id", 
-    optional: true
-
   validates :name, presence: true, uniqueness: true, length: { within: 1..45 }
   
   scope :public_rooms, -> { where(is_private: false) }

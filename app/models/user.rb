@@ -7,20 +7,7 @@ class User < ApplicationRecord
   has_many :messages, dependent: :nullify
   has_many :notifications, dependent: :destroy
   has_many :chat_participants, dependent: :destroy
-  has_many :rooms, through: :chat_participants
-
-  has_many :created_rooms, 
-    foreign_key: "creator_id", 
-    class_name: "Room",
-    dependent: :nullify
-  has_many :private_chats_a, 
-    foreign_key: "interlocutor_one_id", 
-    class_name: "Room",
-    dependent: :nullify
-  has_many :private_chats_b, 
-    foreign_key: "interlocutor_two_id", 
-    class_name: "Room",
-    dependent: :nullify
+  has_many :rooms, through: :chat_participants # group chats
 
   belongs_to :current_room, 
     foreign_key: "current_room_id", 
