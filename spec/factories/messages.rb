@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :message do
     body { "i am a test message" }
     user 
-    room 
+    chat 
 
     trait :over_week_old do
       created_at { 10.days.ago }

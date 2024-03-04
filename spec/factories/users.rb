@@ -3,6 +3,6 @@ FactoryBot.define do
     username { "joe" }
     email { "joe@test.com" }
     password { "123456" }
-    current_room { nil }
+    current_chat { nil }
   end
 end
