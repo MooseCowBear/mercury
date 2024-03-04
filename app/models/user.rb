@@ -6,6 +6,8 @@ class User < ApplicationRecord
 
   has_many :messages, dependent: :nullify
   has_many :notifications, dependent: :destroy
+  has_many :chat_participants, dependent: :destroy
+  has_many :rooms, through: :chat_participants
 
   has_many :created_rooms, 
     foreign_key: "creator_id", 

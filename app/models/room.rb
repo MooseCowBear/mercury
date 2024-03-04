@@ -1,6 +1,8 @@
 class Room < ApplicationRecord 
   has_many :messages, dependent: :destroy
   has_many :notifications, dependent: :destroy
+  has_many :chat_participants, dependent: :destroy
+  has_many :users, through :chat_participants
 
   belongs_to :interlocutor_one, 
     class_name: "User", 
@@ -10,6 +12,8 @@ class Room < ApplicationRecord
     class_name: "User", 
     foreign_key: "interlocutor_two_id", 
     optional: true
+
+  # this is for destorying public rooms
   belongs_to :creator, 
     class_name: "User", 
     foreign_key: "creator_id", 
