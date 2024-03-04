@@ -2,7 +2,7 @@ class Room < ApplicationRecord
   has_many :messages, dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :chat_participants, dependent: :destroy
-  has_many :users, through :chat_participants
+  has_many :users, through: :chat_participants
 
   belongs_to :interlocutor_one, 
     class_name: "User", 
@@ -23,7 +23,7 @@ class Room < ApplicationRecord
       or(where(interlocutor_two: user, marked_delete_two: false)) 
     }
   scope :active, 
-    -> { where("updated_at >= ?", 1.week.ago).or(where(creator_id: nil)) } 
+    -> { where("updated_at >= ?", 1.week.ago) } 
 
   # for registrations destroy callback -- TODO: Change this to no participants
   scope :private_destroyable,
@@ -126,7 +126,7 @@ class Room < ApplicationRecord
   private 
 
   def broadcast_public_room
-    if creator_id
+    unless is_private
       ActionCable.server.broadcast("RoomsChannel", self)
     end
   end

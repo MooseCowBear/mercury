@@ -11,7 +11,7 @@ class Api::V1::ImageMessagesController < ApplicationController
       message_params[:image], 
       { 
         allowed_formats: ["jpeg", "jpg", "png"], 
-        folder: "ChatApp", 
+        folder: "Mercury", 
         upload_preset: "frcpb9q2" 
       }
     )
