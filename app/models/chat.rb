@@ -32,10 +32,12 @@ class Chat < ApplicationRecord
 
   # will change
   def participant?(user)
+    return true unless is_private
   end
 
   # will change
   def chat_messages(user)
+    return messages unless is_private
   end
 
   protected
