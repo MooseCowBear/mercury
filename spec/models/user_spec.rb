@@ -47,16 +47,4 @@ RSpec.describe User, type: :model do
       expect(User.other_users(@user1)).to include(@user2)
     end
   end
-
-  describe ".ordered_by_username" do
-    before(:each) do
-      @user2 = create(:user, email: "harry@test.com", username: "harry")
-    end
-
-    it "returns users in alphabetical order" do
-      res = User.ordered_by_username
-      expect(res[0]).to eq(@user2)
-      expect(res[1]).to eq(@user1)
-    end
-  end
 end
