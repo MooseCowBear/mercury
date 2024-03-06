@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :chat do
-    name { "test chat" }
 
     trait :public do
       is_private { false }
+      name {"public chat"}
     end
 
     trait :private do
