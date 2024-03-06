@@ -15,12 +15,12 @@ RSpec.describe Chat, type: :model do
     expect(chat2).not_to be_valid
   end
 
-  it "has a unigue name" do
+  it "public chat has a unigue name" do
     chat2 = build(:chat, :public)
     expect(chat2).not_to be_valid
   end
 
-  it "has a name 45 characters or less" do
+  it "public chat has a name 45 characters or less" do
     chat2 = build(:chat, name: "a" * 46)
     expect(chat2).not_to be_valid
   end
@@ -35,9 +35,14 @@ RSpec.describe Chat, type: :model do
     expect(chat2.name).to eq("test")
   end
 
+  it "allows private chat to have no name" do
+    chat2 = build(:chat, :private)
+    expect(chat2).to be_valid
+  end
+
   describe ".public_chats" do
     before(:each) do
-      @chat2 = create(:chat, :private, name: "private chat")
+      @chat2 = create(:chat, :private)
     end
 
     it "includes public chats" do
@@ -85,10 +90,20 @@ RSpec.describe Chat, type: :model do
       @user1 = create(:user)
     end
 
-    # update
-
     it "returns true if chat is public" do
       expect(@chat1.participant?(@user1)).to be true
+    end
+
+    it "returns true if user is in chat users" do
+      private_chat = create(:chat, :private)
+      allow(private_chat).to receive_message_chain(:users, :exists?).and_return(true)
+      expect(private_chat.participant?(@user1)).to be true
+    end
+
+    it "returns false if user not in chat users" do
+      private_chat = create(:chat, :private)
+      allow(private_chat).to receive_message_chain(:users, :exists?).and_return(false)
+      expect(private_chat.participant?(@user1)).to be false
     end
   end
 
@@ -102,7 +117,7 @@ RSpec.describe Chat, type: :model do
       expect(@chat1.chat_messages(@user1)).to include(message)
     end
 
-    # update
+    # needs updating
   end
 
 
