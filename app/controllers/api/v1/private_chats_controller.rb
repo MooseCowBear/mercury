@@ -8,7 +8,7 @@ class Api::V1::PrivateChatsController < ApplicationController
   end
 
   def create
-    chat = PrivateChatCreateService.new(private_chat_params).call
+    chat = PrivateChatCreateService.new(private_chat_params, current_user).call
     render json: chat.to_json(include: [:user])
   end
 

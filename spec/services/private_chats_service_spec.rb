@@ -10,19 +10,17 @@ RSpec.describe PrivateChatCreateService, type: :service do
 
     context "chat between users does not exist" do
       it "creates and chat participants" do
-        # .previously_new_record? => true
-        chat = PrivateChatCreateService.new(@params).call
+        chat = PrivateChatCreateService.new(@params, @user1).call
         expect(chat.previously_new_record?).to be true
       end
     end
 
     context "chat between users already exists" do
       it "returns existing chat without creating new chat participants" do
-        # .previously_new_record? => false
         existing_chat = create(:chat, :private)
         create(:chat_participant, chat: existing_chat, user: @user1)
         create(:chat_participant, chat: existing_chat, user: @user2)
-        chat = PrivateChatCreateService.new(@params).call
+        chat = PrivateChatCreateService.new(@params, @user1).call
         expect(chat.previously_new_record?).to be false
       end
     end
