@@ -1,13 +1,14 @@
 module ConfirmParticipantConcern 
   extend ActiveSupport::Concern
 
+  # for making sure someone can't send a message to a private chat they do not belong to
+  
   included do
     def confirm_participant 
-      room_id = params[:room_id] || params[:message][:room_id]
-      @room = Room.find(room_id)
-      unless @room.participant?(current_user)
-        flash[:alert] = "You cannot post messages to private rooms that do not belong to you."
-          redirect_to root_path
+      chat_id = params[:chat_id] || params[:message][:chat_id]
+      @chat = Chat.find(room_id)
+      unless @chat.participant?(current_user)
+        raise ActiveRecord::RecordNotFound # need to update to redirect all errors to 404 page 
       end
     end
   end
