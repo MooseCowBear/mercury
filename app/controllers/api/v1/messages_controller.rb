@@ -3,7 +3,6 @@ class Api::V1::MessagesController < ApplicationController
 
   before_action :set_message, only: [:update, :destroy]
   before_action :confirm_participant, only: [:create]
-  before_action :confirm_ownership, only: [:update, :destroy]
   before_action :delete_from_cloudinary, only: [:destroy]
   before_action :confirm_text_message, only: [:update]
   after_action -> { current_user.update_last_active if current_user }
@@ -33,7 +32,7 @@ class Api::V1::MessagesController < ApplicationController
 
   def destroy
     @message.destroy
-    render json: @message.to_json(include: [:user])
+    render json: @message.to_json(include: [:user]) # so frontend can remove the message
   end
 
   private 
@@ -43,14 +42,7 @@ class Api::V1::MessagesController < ApplicationController
   end
 
   def set_message
-    @message = Message.find(params[:id])
-  end
-
-  def confirm_ownership
-    unless @message.user == current_user
-      flash[:alert] = "You cannot modify a message that doesn't belong to you."
-      redirect_to root_path
-    end
+    @message = current_user.messages.find(params[:id])
   end
 
   def delete_from_cloudinary
@@ -58,8 +50,9 @@ class Api::V1::MessagesController < ApplicationController
     res = Cloudinary::Uploader.destroy(@message.public_id)
 
     unless res["result"] == "ok"
-      flash[:alert] = "Message could not be deleted at this time."
-      redirect_to chat_path # is this what we want?
+      render json: { message: "Image could not be deleted at this time", 
+                    errors: "Cloud storage failure." }, 
+                    status: :unprocessable_entity
     end
   end
 

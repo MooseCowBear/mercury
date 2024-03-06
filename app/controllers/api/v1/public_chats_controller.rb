@@ -20,17 +20,11 @@ class Api::V1::PublicChatsController < ApplicationController
   end
 
   def show
-    if @chat.participant?(current_user)
-      messages = @chat.chat_messages(current_user)
-      render json: messages, include: [:user]
-    else
-      render json: { message: "Unauthorized", 
-                    errors: ["This private chat does not belong to you"] },
-                    status: 401
-    end
+    messages = @chat.messages
+    render json: messages, include: [:user]
   end
 
-  def update
+  def update # do i want to allow updating a public chat?
     if @chat.update(chat_params)
       render json: @chat
     else
@@ -47,6 +41,6 @@ class Api::V1::PublicChatsController < ApplicationController
   end
 
   def set_chat
-    @chat = Chat.find(params[:id])
+    @chat = Chat.public_chats.find(params[:id])
   end
 end
