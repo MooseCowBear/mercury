@@ -8,14 +8,17 @@ class Message < ApplicationRecord
   validate :has_content
 
   after_commit :broadcast_message, on: [:create, :update]
-  after_create_commit :create_notification
+  after_create_commit :notify
 
-  # the messages that someone would see in a private chat
-  scope :active_messages, 
+  # the messages that someone would see in a private chat - if they had deleted the chat at some point
+  scope :visible_messages, 
     ->(datetime) { where("created_at > ?", datetime).order(created_at: :asc) }
 
-  # will change..
-  def recipient
+  def notification_recipients
+    # public chats have no chat participants
+    # everyone accepting notifications in a private chat not currently in the room should be notified when a new message is sent
+    # active users are receiving notifications
+    chat.active_users.outside_chat(chat)
   end
 
   private 
@@ -27,10 +30,9 @@ class Message < ApplicationRecord
     )
   end
 
-  # will change
-  def create_notification
-    unless recipient.nil? || recipient.current_chat == chat
-      chat.notifications.create(user_id: recipient.id, message_id: self.id)
+  def notify
+    notification_recipients.each do |recipient|
+      recipient.notifications.create(user_id: recipient.id, message_id: self.id)
     end
   end
 
