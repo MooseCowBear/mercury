@@ -6,6 +6,8 @@ class Chat < ApplicationRecord
   has_many :active_users, -> { where(chat_participants: { silence: false }) }, through: :chat_participants, source: :user
 
   validates :name, presence: true, uniqueness: true, length: { within: 1..45 }, if: -> {!is_private}
+
+  accepts_nested_attributes_for :chat_participants
   
   scope :public_chats, -> { where(is_private: false) }
   scope :active, -> { where("updated_at >= ?", 1.week.ago) } 
@@ -23,11 +25,6 @@ class Chat < ApplicationRecord
   before_validation :clean_name
   after_create_commit :broadcast_public_chat, unless: :is_private?
   after_commit :broadcast_private_chat, if: :is_private?
-
-  def self.private_chat_create(user_ids)
-    # need to check if the chat with these participants exists already or not.
-    # if yes, just return it otherwise create it along with its chat participants 
-  end
 
   def participant?(user)
     return true unless is_private
