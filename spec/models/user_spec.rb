@@ -47,4 +47,14 @@ RSpec.describe User, type: :model do
       expect(User.other_users(@user1)).to include(@user2)
     end
   end
+
+  describe ".outside_chat" do
+    it "returns users not currently in chat" do
+      chat = create(:chat, :public)
+      user_in_chat = create(:user, username: "test", email: "test@test.com", current_chat_id: chat.id)
+      outside_users = User.outside_chat(chat)
+      expect(outside_users.include?(@user1)).to be true
+      expect(outside_users.include?(user_in_chat)).to be false
+    end
+  end
 end
