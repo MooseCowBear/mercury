@@ -12,22 +12,22 @@ class Chat < ApplicationRecord
   scope :public_chats, -> { where(is_private: false) }
   scope :active, -> { where("updated_at >= ?", 1.week.ago) } 
 
-  # for registrations destroy callback 
-  # if a chat has only this user then it should be destroyed when the user is destroyed
-  scope :private_destroyable, 
-    ->(user) {
+  scope :with_participants, 
+    -> (user_ids) {
       where(
-      id: ChatParticipant.select(:chat_id)
-      .group(:chat_id)
-      .where(user_id: user.id)
-      .having("count(user_id) = ?", 1)
+        id: ChatParticipant.select(:chat_id)
+        .where(user_id: [user_ids])
+        .group(:chat_id)
+        .having("count(user_id) = ?", user_ids.count)
       )
       .where(
         id: ChatParticipant.select(:chat_id)
         .group(:chat_id)
-        .having("count(user_id) = ?", 1)
+        .having("count(user_id) = ?", user_ids.count)
       )
-  }
+    }
+
+  # TODO: Make sure to make chat participant unique to user, chat!!!!!!!!!
 
   before_validation :clean_name
   after_create_commit :broadcast_public_chat, unless: :is_private?

@@ -20,17 +20,7 @@ class PrivateChatCreateService < ApplicationService
     user_ids = params.dig(:chat_participants_attributes).map { |key| key[:user_id] }
     return unless user_ids.include?(current_user.id)
 
-    chat = Chat.where(
-      id: ChatParticipant.select(:chat_id)
-      .group(:chat_id)
-      .where(user_id: user_ids)
-      .having("count(user_id) = ?", user_ids.count)
-      )
-      .where(
-        id: ChatParticipant.select(:chat_id)
-        .group(:chat_id)
-        .having("count(user_id) = ?", user_ids.count)
-      ).first
+    chat = Chat.with_participants(user_ids).first
 
     unless chat
       chat = Chat.create(params.merge(is_private: true))

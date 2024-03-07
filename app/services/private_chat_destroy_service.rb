@@ -16,7 +16,7 @@ class PrivateChatDestroyService < ApplicationService
 
   def destroy_chats
     current_user.update(current_chat_id: nil)
-    Chat.private_destroyable(current_user).destroy_all
+    Chat.with_participants([current_user.id]).destroy_all
   end
 end
 
