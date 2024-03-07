@@ -21,7 +21,8 @@ class User < ApplicationRecord
 
   scope :other_users, ->(user) { where.not(id: user) }
   scope :ordered_by_username, -> { order(username: :asc) }
-  scope :outside_chat, ->(chat) { where.not(current_chat_id: chat).or(where(current_chat_id: nil)) }
+  scope :outside_chat, 
+    ->(chat) { where.not(current_chat_id: chat).or(where(current_chat_id: nil)) }
 
   before_validation :clean_username
   after_update :clear_user_notifications, if: :saved_change_to_current_chat_id?
