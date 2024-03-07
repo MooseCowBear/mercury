@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PrivateChatCreateService, type: :service do
+RSpec.describe PrivateChat::CreateService, type: :service do
   describe "self.call" do
     before(:each) do
       @user1 = create(:user)
@@ -10,7 +10,7 @@ RSpec.describe PrivateChatCreateService, type: :service do
 
     context "chat between users does not exist" do
       it "creates and chat participants" do
-        chat = PrivateChatCreateService.call(@params, @user1)
+        chat = PrivateChat::CreateService.call(@params, @user1)
         expect(chat.previously_new_record?).to be true
       end
     end
@@ -20,7 +20,7 @@ RSpec.describe PrivateChatCreateService, type: :service do
         existing_chat = create(:chat, :private)
         create(:chat_participant, chat: existing_chat, user: @user1)
         create(:chat_participant, chat: existing_chat, user: @user2)
-        chat = PrivateChatCreateService.call(@params, @user1)
+        chat = PrivateChat::CreateService.call(@params, @user1)
         expect(chat.previously_new_record?).to be false
       end
     end

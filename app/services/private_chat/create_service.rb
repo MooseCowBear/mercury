@@ -1,4 +1,4 @@
-class PrivateChatCreateService < ApplicationService
+class PrivateChat::CreateService < ApplicationService
   # want private chats to be unique to set of participants
   # so if a chat already exists with participants, want to find it
   # and if doesn't exist, then want to create both it and the participants that 

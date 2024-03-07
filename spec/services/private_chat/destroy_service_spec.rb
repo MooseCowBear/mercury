@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PrivateChatDestroyService, type: :service do
+RSpec.describe PrivateChat::DestroyService, type: :service do
   describe "self.call" do
     before(:each) do
       @user1 = create(:user)
@@ -13,7 +13,7 @@ RSpec.describe PrivateChatDestroyService, type: :service do
     end
 
     it "only destroys chats where user was only participant" do
-      PrivateChatDestroyService.call(@user1)
+      PrivateChat::DestroyService.call(@user1)
       expect { Chat.find(@destroyable_chat.id) }.to raise_exception(ActiveRecord::RecordNotFound)
       expect { Chat.find(@nondestroyable_chat.id) }.not_to raise_error
     end

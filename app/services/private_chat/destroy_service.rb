@@ -1,4 +1,4 @@
-class PrivateChatDestroyService < ApplicationService
+class PrivateChat::DestroyService < ApplicationService
   # if a user deletes their account and they were the only remaining user for one 
   # or more private chats, want to destroy those chats and by extension their 
   # messages, notifications, chat participant records
@@ -19,5 +19,3 @@ class PrivateChatDestroyService < ApplicationService
     Chat.with_participants([current_user.id]).destroy_all
   end
 end
-
-# TODO: figure out how to load if organize these into directories
