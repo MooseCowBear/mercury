@@ -13,6 +13,10 @@ module.exports = {
     "./app/**/*.{html,js,jsx}",
   ],
   theme: {
+    screens: {
+      xs: "450px",
+      ...defaultTheme.screens,
+    },
     extend: {
       fontFamily: {
         sans: ["Inter var", ...defaultTheme.fontFamily.sans],
