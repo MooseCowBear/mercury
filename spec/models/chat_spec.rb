@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# UPDATE THIS
 RSpec.describe Chat, type: :model do
   before(:each) do
     @chat1 = create(:chat, :public)
@@ -54,14 +53,6 @@ RSpec.describe Chat, type: :model do
     end
   end
 
-  describe ".user_private_chats" do
-    before(:each) do
-      @user1 = create(:user)
-    end
-
-    # rethink this
-  end
-
   describe ".active" do
     before(:each) do
       @old = create(:old_chat)
@@ -77,12 +68,23 @@ RSpec.describe Chat, type: :model do
     end
   end
 
-  describe ".private_destroyable" do
-    before(:each) do
-      @user1 = create(:user)
-    end
+  describe ".with_participants" do
+    it "returns chats with exactly participants provided and no more" do
+      user1 = create(:user)
+      user2 = create(:user, username: "two", email: "two@test.com")
+      user3 = create(:user, username: "three", email: "three@test.com")
+      chat_with_participants = create(:chat, :private)
+      create(:chat_participant, user: user1, chat: chat_with_participants)
+      create(:chat_participant, user: user2, chat: chat_with_participants)
+      chat_with_additional_participants = create(:chat, :private)
+      create(:chat_participant, user: user1, chat: chat_with_additional_participants)
+      create(:chat_participant, user: user2, chat: chat_with_additional_participants)
+      create(:chat_participant, user: user3, chat: chat_with_additional_participants)
 
-   # update
+      res = Chat.with_participants([user1.id, user2.id])
+      expect(res.include?(chat_with_participants)).to be true
+      expect(res.include?(chat_with_additional_participants)).to be false
+    end
   end
 
   describe "#participant?" do
@@ -117,15 +119,6 @@ RSpec.describe Chat, type: :model do
       expect(@chat1.chat_messages(@user1)).to include(message)
     end
 
-    # needs updating
-  end
-
-
-  describe "#private_chat_destroy" do
-    before(:each) do
-      @user1 = create(:user)
-    end
-
-    # update
+    # TODO: after figure out what the behavior of private chat rooms is finish this
   end
 end

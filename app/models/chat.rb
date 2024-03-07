@@ -27,8 +27,6 @@ class Chat < ApplicationRecord
       )
     }
 
-  # TODO: Make sure to make chat participant unique to user, chat!!!!!!!!!
-
   before_validation :clean_name
   after_create_commit :broadcast_public_chat, unless: :is_private?
   after_commit :broadcast_private_chat, if: :is_private?
