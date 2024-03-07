@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import PersonCard from "./PersonCard";
 import { makeGetRequest } from "../helpers/apiRequest";
 
+//OLD
+
 export default People = ({ setCurrentRoom, setViewPeople }) => {
   const [people, setPeople] = useState([]);
   const [error, setError] = useState(null);

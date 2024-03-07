@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
+//OLD
+
 export default ImageForm = ({ currentRoom, setUploadImage }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);

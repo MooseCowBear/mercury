@@ -6,6 +6,8 @@ import People from "./People";
 import { makeGetRequest, makeMultiGetRequest } from "../helpers/apiRequest";
 import { useActionCable } from "../helpers/useActionCable";
 
+//OLD
+
 export default MainScreen = () => {
   const [user, setUser] = useState(null);
   const [rooms, setRooms] = useState([]);

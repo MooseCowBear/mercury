@@ -2,6 +2,8 @@ import React from "react";
 import { isUserActive } from "../helpers/users";
 import { makePostRequest } from "../helpers/apiRequest";
 
+//OLD
+
 export default PersonCard = ({
   person,
   setCurrentRoom,

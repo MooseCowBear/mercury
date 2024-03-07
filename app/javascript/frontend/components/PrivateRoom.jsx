@@ -7,6 +7,8 @@ import {
 } from "../helpers/privateChats";
 import { makePostRequest } from "../helpers/apiRequest";
 
+//OLD
+
 export default PrivateRoom = ({
   user,
   room,

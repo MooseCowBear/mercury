@@ -11,6 +11,8 @@ import {
 import NewMessageForm from "./NewMessageForm";
 import ImageForm from "./ImageForm";
 
+//OLD -- where the scroll happens
+
 export default ChatMessages = ({ user, currentRoom, actionCable }) => {
   const [messages, setMessages] = useState([]);
   const [error, setError] = useState(null);

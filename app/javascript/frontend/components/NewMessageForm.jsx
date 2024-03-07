@@ -1,6 +1,8 @@
 import React from "react";
 import MessageForm from "./MessageForm";
 
+//OLD
+
 export default NewMessageForm = ({ currentRoom, setImageUpload }) => {
   const clickHandler = () => {
     setImageUpload(true);

@@ -31,7 +31,7 @@ module.exports = {
           500: "#ffcc70",
         },
         poppy: {
-          500: "#eb592b",
+          500: "#fe794e",
         },
         white: "#ffffff",
       },

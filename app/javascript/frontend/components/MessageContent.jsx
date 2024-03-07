@@ -1,5 +1,7 @@
 import React from "react";
 
+//OLD
+
 export default MessageContent = ({ message, isOwner }) => {
   const edited = message.created_at !== message.updated_at;
 

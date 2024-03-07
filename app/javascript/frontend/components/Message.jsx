@@ -5,6 +5,8 @@ import { displayDateTime } from "../helpers/datetime";
 import { makePostRequest } from "../helpers/apiRequest";
 import { updateMessagesAfterDelete } from "../helpers/message";
 
+//OLD
+
 export default Message = ({
   user,
   message,

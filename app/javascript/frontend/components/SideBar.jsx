@@ -20,6 +20,8 @@ import {
   addRoom,
 } from "../helpers/sidebar";
 
+//OLD
+
 export default SideBar = ({
   user,
   rooms,

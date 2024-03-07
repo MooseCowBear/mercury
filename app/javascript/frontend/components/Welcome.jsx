@@ -1,5 +1,6 @@
 import React from "react";
 
+// OLD
 export default Welcome = () => {
   return (
     <div className="flex flex-col items-center justify-center h-5/6 text-center min-h-[400px]">

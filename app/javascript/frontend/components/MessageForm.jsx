@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { makePostRequest } from "../helpers/apiRequest";
 
+//OLD
+
 export default MessageForm = ({
   currentRoom,
   setEditing = null,

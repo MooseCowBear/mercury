@@ -16,7 +16,7 @@ export default function Menu() {
       <div className="flex flex-col gap-3">
         <button aria-label="chats">
           <svg
-            className="size-6 fill-white"
+            className="size-5 fill-white"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
@@ -28,7 +28,7 @@ export default function Menu() {
         </button>
         <button aria-label="find people">
           <svg
-            className="size-6 fill-white"
+            className="size-5 fill-white"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
@@ -38,7 +38,7 @@ export default function Menu() {
       </div>
       <button aria-label="account">
         <svg
-          className="size-6 fill-white"
+          className="size-5 fill-white"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
         >

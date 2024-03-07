@@ -2,6 +2,8 @@ import React from "react";
 import NewRoomForm from "./NewRoomForm";
 import PublicRoom from "./PublicRoom";
 
+//OLD
+
 export default PublicRooms = ({
   user,
   rooms,

@@ -1,6 +1,8 @@
 import React from "react";
 import PrivateRoom from "./PrivateRoom";
 
+//OLD
+
 export default PrivateChats = ({
   user,
   privateChats,
