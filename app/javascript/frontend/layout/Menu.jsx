@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Menu() {
   return (
-    <div className="flex flex-col justify-between items-center bg-neutral-800 rounded-xl p-5">
+    <div className="flex flex-col justify-between items-center bg-neutral-800 rounded-xl p-5 shadow">
       <svg
         className="size-8 fill-poppy-500"
         xmlns="http://www.w3.org/2000/svg"
