@@ -21,9 +21,16 @@ class PrivateChatCreateService < ApplicationService
     return unless user_ids.include?(current_user.id)
 
     chat = Chat.where(
-      id: ChatParticipant.select(:chat_id).group(:chat_id).where(user_id: user_ids)
+      id: ChatParticipant.select(:chat_id)
+      .group(:chat_id)
+      .where(user_id: user_ids)
+      .having("count(user_id) = ?", user_ids.count)
+      )
+      .where(
+        id: ChatParticipant.select(:chat_id)
+        .group(:chat_id)
         .having("count(user_id) = ?", user_ids.count)
-    ).first
+      ).first
 
     unless chat
       chat = Chat.create(params.merge(is_private: true))

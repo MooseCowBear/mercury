@@ -14,13 +14,20 @@ class Chat < ApplicationRecord
 
   # for registrations destroy callback 
   # if a chat has only this user then it should be destroyed when the user is destroyed
-  # is this going to be a problem? 
-  # is there a way to do this without 2 queries?
   scope :private_destroyable, 
     ->(user) {
-      where(id: ChatParticipant.select(:chat_id).group(:chat_id).where(user_id: user_id)
-      .having("count(user_id) = ?", 1))
-    }
+      where(
+      id: ChatParticipant.select(:chat_id)
+      .group(:chat_id)
+      .where(user_id: user.id)
+      .having("count(user_id) = ?", 1)
+      )
+      .where(
+        id: ChatParticipant.select(:chat_id)
+        .group(:chat_id)
+        .having("count(user_id) = ?", 1)
+      )
+  }
 
   before_validation :clean_name
   after_create_commit :broadcast_public_chat, unless: :is_private?
