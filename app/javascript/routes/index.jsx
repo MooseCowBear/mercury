@@ -1,13 +1,13 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import React from "react";
-import MainScreen from "../../components/MainScreen";
-import ErrorPage from "../../components/ErrorPage";
+import Dashboard from "../frontend/pages/Dashboard"
+import ErrorPage from "../frontend/pages/ErrorPage";
 
 export default Router = () => {
   const router = createBrowserRouter([
     {
       path: "/chat",
-      element: <MainScreen />,
+      element: <Dashboard />,
       errorElement: <ErrorPage />,
     },
   ]);
@@ -15,5 +15,3 @@ export default Router = () => {
 };
 
 // TODO: want to have the dashboard layout that will render the chat as a child
-
-// is this going to be ok inside the frontend folder?
