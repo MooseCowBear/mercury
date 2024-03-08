@@ -27,11 +27,13 @@ export default function Dashboard() {
         setMessageVisibility={setMessageVisible}
         setSidebarVisibility={setSidebarVisible}
       />
-      {sidebarVisible.chats && <ChatSidebar />}
-      {sidebarVisible.people && <PeopleSidebar />}
-      {messageVisible && <ChatMain />}
+      <ChatSidebar visible={sidebarVisible.chats} />
+      <PeopleSidebar visible={sidebarVisible.people} />
+      <ChatMain visible={messageVisible} />
     </div>
   );
 }
 
-// NOTE: not ideal in terms of re-rendering... 
+// NOTE: not ideal in terms of re-rendering...
+
+// think we can have the side bars listening for changes now...
