@@ -5,7 +5,7 @@ class Api::V1::PublicChatsController < ApplicationController
   
   def index
     chats = Chat.public_chats.active.order(:created_at)
-    render json: chats 
+    render json: chats, methods: :last_message
   end
 
   def create

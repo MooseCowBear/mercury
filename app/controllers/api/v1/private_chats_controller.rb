@@ -4,7 +4,8 @@ class Api::V1::PrivateChatsController < ApplicationController
   
   def index
     chats = current_user.chats # these are the chats had through chat participants
-    render json: chats, include: [:users] # check this
+    pp chats
+    render json: chats, methods: :last_message, include: [:users] # check this
   end
 
   def create
