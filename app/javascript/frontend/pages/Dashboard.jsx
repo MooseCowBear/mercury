@@ -38,7 +38,3 @@ export default function Dashboard() {
 }
 
 // NOTE: not ideal in terms of re-rendering...
-
-// think we can have the side bars listening for changes now...
-
-// NEXT TRY TO ACCESS curr user/chat!
