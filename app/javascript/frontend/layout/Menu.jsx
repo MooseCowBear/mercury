@@ -56,9 +56,9 @@ export default function Menu({ setSidebarVisibility, setMessageVisibility }) {
           <PeopleIcon />
         </button>
       </div>
-      <button aria-label="account">
+      <a href="/users/edit" aria-label="account">
         <AccountIcon />
-      </button>
+      </a>
     </div>
   );
 }
