@@ -4,6 +4,7 @@ import Menu from "../layout/Menu.jsx";
 import ChatSidebar from "../layout/ChatSidebar.jsx";
 import PeopleSidebar from "../layout/PeopleSidebar.jsx";
 import { useWindowResize } from "../hooks/useWindowResize.jsx";
+import { CurrentChatProvider } from "../contexts/CurrentChatContext.jsx";
 
 const MOBILE_LAYOUT_BREAKPOINT = 768;
 
@@ -22,18 +23,22 @@ export default function Dashboard() {
   );
 
   return (
-    <div className="grid grid-cols-1 grid-rows-[1fr,_auto] xs:grid-cols-[auto,_1fr] md:grid-cols-[auto,_1fr,_2fr] xs:grid-rows-1 gap-2 h-full">
-      <Menu
-        setMessageVisibility={setMessageVisible}
-        setSidebarVisibility={setSidebarVisible}
-      />
-      <ChatSidebar visible={sidebarVisible.chats} />
-      <PeopleSidebar visible={sidebarVisible.people} />
-      <ChatMain visible={messageVisible} />
-    </div>
+    <CurrentChatProvider>
+      <div className="grid grid-cols-1 grid-rows-[1fr,_auto] xs:grid-cols-[auto,_1fr] md:grid-cols-[auto,_1fr,_2fr] xs:grid-rows-1 gap-2 h-full">
+        <Menu
+          setMessageVisibility={setMessageVisible}
+          setSidebarVisibility={setSidebarVisible}
+        />
+        <ChatSidebar visible={sidebarVisible.chats} />
+        <PeopleSidebar visible={sidebarVisible.people} />
+        <ChatMain visible={messageVisible} />
+      </div>
+    </CurrentChatProvider>
   );
 }
 
 // NOTE: not ideal in terms of re-rendering...
 
 // think we can have the side bars listening for changes now...
+
+// NEXT TRY TO ACCESS curr user/chat!
