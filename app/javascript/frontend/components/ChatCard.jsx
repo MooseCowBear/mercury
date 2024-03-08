@@ -1,7 +1,10 @@
 import React from "react";
 import { displayDateTime } from "../utils/datetime";
+import { useCurrentChatContext } from "../contexts/CurrentChatContext";
 
 export default function ChatCard({ chat }) {
+  const { currChat, setCurrChat } = useCurrentChatContext();
+
   const isPrivate = chat.is_private;
 
   const privateTitle = (chat) => {
@@ -20,8 +23,17 @@ export default function ChatCard({ chat }) {
       : ""
     : "";
 
+  const clickHandler = () => {
+    setCurrChat(chat.id);
+  };
+
   return (
-    <button className="w-full flex justify-between items-center py-2">
+    <button
+      className={`w-full flex justify-between items-center p-2 ${
+        currChat == chat.id && "bg-neutral-100"
+      }`}
+      onClick={clickHandler}
+    >
       <div className="grid grid-col-[auto,_1fr] grid-rows-2 gap-x-2 items-center">
         <div className="size-10 rounded-full row-span-2 bg-neutral-800"></div>
         <h4 className="text-sm font-medium col-start-2 text-left text-ellipsis overflow-hidden">

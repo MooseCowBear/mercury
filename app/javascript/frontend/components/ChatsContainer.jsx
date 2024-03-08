@@ -54,8 +54,8 @@ export default function ChatsContainer({ title, isPrivate }) {
   }, []);
 
   return (
-    <div className="py-4 px-2 min-h-0 min-w-0">
-      <h3 className="text-xs uppercase text-neutral-500">{title}</h3>
+    <div className="py-4 min-h-0 min-w-0">
+      <h3 className="px-2 text-xs uppercase text-neutral-500">{title}</h3>
       <div className="flex flex-col divide-y-[1px]">
         {chats.map((chat) => {
           return <ChatCard key={chat.id} chat={chat} />;
