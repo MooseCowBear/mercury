@@ -42,6 +42,10 @@ class Chat < ApplicationRecord
     
   end
 
+  def last_message
+    messages.order(created_at: :desc).first
+  end
+
   protected
 
   def clean_name
