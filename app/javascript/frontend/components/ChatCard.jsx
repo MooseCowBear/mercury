@@ -25,6 +25,7 @@ export default function ChatCard({ chat }) {
 
   const clickHandler = () => {
     setCurrChat(chat.id);
+    // TODO: needs to send a fetch to back end to update
   };
 
   return (
