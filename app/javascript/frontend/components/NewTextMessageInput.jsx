@@ -1,6 +1,8 @@
 import React from "react";
 
 // TODO: add state
+// IF not current room, then disable
+
 export default function NewTextMessageInput() {
   return (
     <input

@@ -1,6 +1,7 @@
 import React from "react";
 import { displayDateTime } from "../utils/datetime";
 import { useCurrentChatContext } from "../contexts/CurrentChatContext";
+import { postResource } from "../utils/apiRequest";
 
 export default function ChatCard({ chat }) {
   const { currChat, setCurrChat } = useCurrentChatContext();
@@ -24,8 +25,15 @@ export default function ChatCard({ chat }) {
     : "";
 
   const clickHandler = () => {
-    setCurrChat(chat.id);
-    // TODO: needs to send a fetch to back end to update
+    const dataHandler = () => {
+      setCurrChat(chat.id);
+    };
+    postResource(
+      "/api/v1/users/update",
+      JSON.stringify({ user: { current_chat_id: chat.id } }),
+      "post",
+      dataHandler
+    );
   };
 
   return (
@@ -58,3 +66,5 @@ export default function ChatCard({ chat }) {
     </button>
   );
 }
+
+// TODO: needs notifications!

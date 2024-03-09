@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ChatCard from "./ChatCard";
+import { getResource } from "../utils/apiRequest";
 
 export default function ChatsContainer({ title, isPrivate }) {
   const [chats, setChats] = useState([]);
@@ -7,49 +8,14 @@ export default function ChatsContainer({ title, isPrivate }) {
   useEffect(() => {
     const abortController = new AbortController();
 
-    const getPrivateChats = async () => {
-      try {
-        const response = await fetch("/api/v1/private_chats/index", {
-          mode: "cors",
-          signal: abortController.signal,
-        });
+    const url = isPrivate
+      ? "/api/v1/private_chats/index"
+      : "/api/v1/public_chats/index";
 
-        if (response.status >= 400) {
-          console.log(response.status);
-          throw new Error("server error");
-        }
-        const data = await response.json();
-        setChats(data);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
-    const getPublicChats = async () => {
-      try {
-        const response = await fetch("/api/v1/public_chats/index", {
-          mode: "cors",
-          signal: abortController.signal,
-        });
-
-        if (response.status >= 400) {
-          console.log(response.status);
-          throw new Error("server error");
-        }
-        const data = await response.json();
-        setChats(data);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    if (isPrivate) {
-      getPrivateChats();
-    } else {
-      getPublicChats();
-    }
+    getResource(url, abortController, setChats);
 
     return () => {
-      abortController.abort(); // cancel request if unmount
+      abortController.abort();
     };
   }, []);
 
@@ -64,6 +30,8 @@ export default function ChatsContainer({ title, isPrivate }) {
     </div>
   );
 }
+
+// TODO: add cable subscription
 
 // this is where we will want to consume the action cable broadcast for chats
 // if chats is a state of this container, is that ok?
