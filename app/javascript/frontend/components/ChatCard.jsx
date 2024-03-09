@@ -4,12 +4,15 @@ import { useCurrentChatContext } from "../contexts/CurrentChatContext";
 import { postResource } from "../utils/apiRequest";
 
 export default function ChatCard({ chat }) {
-  const { currChat, setCurrChat } = useCurrentChatContext();
+  const { currUser, currChat, setCurrChat } = useCurrentChatContext();
 
   const isPrivate = chat.is_private;
 
   const privateTitle = (chat) => {
-    return chat.users.map((u) => u.username).join(", ");
+    return chat.users
+      .filter((u) => u.username !== currUser.username)
+      .map((u) => u.username)
+      .join(", ");
   };
 
   const title = isPrivate ? privateTitle(chat) : chat.name;
@@ -38,7 +41,7 @@ export default function ChatCard({ chat }) {
 
   return (
     <button
-      className={`w-full flex justify-between items-center p-2 ${
+      className={`w-full flex justify-between items-center py-2 px-3 ${
         currChat == chat.id && "bg-neutral-100"
       }`}
       onClick={clickHandler}
@@ -68,3 +71,5 @@ export default function ChatCard({ chat }) {
 }
 
 // TODO: needs notifications!
+
+// add max width to the card
