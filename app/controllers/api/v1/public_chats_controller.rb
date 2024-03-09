@@ -19,11 +19,6 @@ class Api::V1::PublicChatsController < ApplicationController
     end
   end
 
-  def show
-    messages = @chat.messages
-    render json: messages, include: [:user]
-  end
-
   def update # do i want to allow updating a public chat?
     if @chat.update(chat_params)
       render json: @chat

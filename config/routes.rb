@@ -7,7 +7,6 @@ Rails.application.routes.draw do
       get 'notifications/index'
       get 'public_chats/index'
       post 'public_chats/create'
-      get 'public_chats/show/:id', to: "public_chats#show"
       post 'public_chats/update/:id', to: "public_chats#update"
       get 'private_chats/index'
       post 'private_chats/create'
