@@ -10,14 +10,11 @@ Rails.application.routes.draw do
       get 'public_chats/show/:id', to: "public_chats#show"
       post 'public_chats/update/:id', to: "public_chats#update"
       get 'private_chats/index'
-      get 'messages/index'
       post 'private_chats/create'
       delete 'private_chats/destroy/:id', to: "private_chats#destroy"
       get 'users/show'
       get 'users/index'
-      post 'messages/create'
-      post 'messages/update/:id', to: "messages#update"
-      delete 'messages/destroy/:id', to: 'messages#destroy'
+      resources :messages, only: [:index, :update, :create, :destroy]
     end
   end
   
