@@ -4,7 +4,11 @@ import Searchbar from "../components/SearchBar";
 export default function PeopleSidebar({ visible }) {
   return (
     <div
-      className={`${visible ? "grid grid-rows-[auto,_1fr] gap-2" : "hidden"}`}
+      className={`${
+        visible
+          ? "grid grid-rows-[auto,_1fr] gap-2 overflow-y-auto  min-w-fit"
+          : "hidden"
+      }`}
     >
       <Searchbar title="People" />
       <div className="bg-white rounded-xl shadow divide-y-[1px]"></div>
