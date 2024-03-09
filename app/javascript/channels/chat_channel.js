@@ -1,14 +1,14 @@
 export const subscribeToChatChannel = (
   chatChannelRef,
-  actionCable,
-  currentRoom,
+  cable,
+  currChat,
   setMessages,
   updateMessages
 ) => {
-  chatChannelRef.current = actionCable.subscriptions.create(
+  chatChannelRef.current = cable.subscriptions.create(
     {
       channel: "ChatChannel",
-      room_id: currentRoom.id,
+      chat_id: currChat.id,
     },
     {
       received(data) {
@@ -18,9 +18,9 @@ export const subscribeToChatChannel = (
   );
 };
 
-export const unsubscribeToChatChannel = (chatChannelRef, actionCable) => {
+export const unsubscribeToChatChannel = (chatChannelRef, cable) => {
   if (chatChannelRef.current) {
-    actionCable.subscriptions.remove(chatChannelRef.current);
+    cable.subscriptions.remove(chatChannelRef.current);
     chatChannelRef.current = null;
   }
 };
