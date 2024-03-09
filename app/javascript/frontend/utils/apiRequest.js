@@ -1,34 +1,61 @@
-export const makeGetRequest = async (url) => {
-  const response = await fetch(url);
+// might want to make error handler optional
 
-  if (response.ok) {
-    return response.json();
+export const getResource = async (
+  url,
+  abortController,
+  dataHandler,
+  errorHandler
+) => {
+  try {
+    const response = await fetch(url, {
+      mode: "cors",
+      signal: abortController.signal,
+    });
+
+    if (response.status >= 400) {
+      console.log(response.status);
+      throw new Error("server error");
+    }
+    const data = await response.json();
+    dataHandler(data);
+  } catch (e) {
+    console.log(e);
+    errorHandler(e);
   }
-  throw new Error("Server Error");
 };
 
-export const makeMultiGetRequest = async (urls) => {
-  const response = await Promise.all(urls.map((u) => fetch(u)));
+// not stringifying means it will also worth with the image
 
-  if (response.every((r) => r.ok)) {
-    return Promise.all(response.map(async (data) => await data.json()));
+export const postResource = async (
+  url,
+  body,
+  method,
+  dataHandler,
+  errorHandler = null
+) => {
+  try {
+    const token = document.querySelector('meta[name="csrf-token"]').content;
+    const response = await fetch(url, {
+      mode: "cors",
+      method: method,
+      headers: {
+        "X-CSRF-Token": token,
+        "Content-Type": "application/json",
+      },
+      body: body,
+    });
+
+    if (response.status >= 400) {
+      console.log(response.status);
+      throw new Error("server error");
+    }
+    const data = await response.json();
+
+    dataHandler(data);
+  } catch (e) {
+    console.log(e);
+    if (errorHandler) {
+      errorHandler(e);
+    }
   }
-  throw new Error("Server Error");
-};
-
-export const makePostRequest = async (url, body, method) => {
-  const token = document.querySelector('meta[name="csrf-token"]').content;
-  const response = await fetch(url, {
-    method: method,
-    headers: {
-      "X-CSRF-Token": token,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  });
-
-  if (response.status === 200 || response.status === 422) {
-    return response.json();
-  }
-  throw new Error("Request could not be completed.");
 };
