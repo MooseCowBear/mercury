@@ -7,6 +7,11 @@ class Api::V1::MessagesController < ApplicationController
   before_action :confirm_text_message, only: [:update]
   after_action -> { current_user.update_last_active if current_user }
 
+  def index
+    messages = current_user.current_chat.chat_messages(current_user) # not sure this param  will stay
+    render json: messages, include: [:user] # check this
+  end
+
   def create
     message = Message.new(message_params)
     message.user = current_user
