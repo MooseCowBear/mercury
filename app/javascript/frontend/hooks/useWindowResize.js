@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export const useWindowResize = (threshold, messageHandler, sidebarHandler) => {
   const prevWidth = useRef(window.innerWidth);
@@ -12,12 +12,12 @@ export const useWindowResize = (threshold, messageHandler, sidebarHandler) => {
         return prev;
       }
     });
-  }
+  };
 
   const setMobileLayout = () => {
     messageHandler(true);
     sidebarHandler({ chats: false, people: false });
-  }
+  };
 
   useEffect(() => {
     const handleResize = () => {

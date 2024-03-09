@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getResource } from "../utils/apiRequest";
 
 /* hook used to fetch the currently signed in user, provided by context to the 
 components that care about either the user or the current chat. 
@@ -11,26 +12,12 @@ export const useCurrentUser = () => {
   useEffect(() => {
     const abortController = new AbortController();
 
-    const getUser = async () => {
-      console.log("fetching current user"); // for testing
-      try {
-        const response = await fetch("/api/v1/users/show", {
-          mode: "cors",
-          signal: abortController.signal,
-        });
-
-        if (response.status >= 400) {
-          console.log(response.status);
-          throw new Error("server error");
-        }
-        const data = await response.json();
-        setCurrUser(data);
-        setCurrChat(data.current_chat_id);
-      } catch (e) {
-        console.log(e);
-      }
+    const dataHandler = (data) => {
+      setCurrUser(data);
+      setCurrChat(data.current_chat_id);
     };
-    getUser();
+
+    getResource("/api/v1/users/show", abortController, dataHandler);
 
     return () => {
       abortController.abort(); // cancel request if unmount
