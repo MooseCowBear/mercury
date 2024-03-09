@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get 'public_chats/show/:id', to: "public_chats#show"
       post 'public_chats/update/:id', to: "public_chats#update"
       get 'private_chats/index'
+      get 'messages/index'
       post 'private_chats/create'
       delete 'private_chats/destroy/:id', to: "private_chats#destroy"
       get 'users/show'
