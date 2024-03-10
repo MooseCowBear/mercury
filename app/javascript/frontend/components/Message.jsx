@@ -1,95 +1,27 @@
 import React, { useState } from "react";
+import EditMessageForm from "./EditMessageForm";
 import MessageContent from "./MessageContent";
-import MessageForm from "./MessageForm";
-import { displayDateTime } from "../helpers/datetime";
-import { makePostRequest } from "../helpers/apiRequest";
-import { updateMessagesAfterDelete } from "../helpers/message";
+import { useUserInfoContext } from "../contexts/UserInfoContext";
 
-//OLD
-
-export default Message = ({
-  user,
-  message,
-  currentRoom,
-  messages,
-  setMessages,
-  interlocutor,
-}) => {
+export default function Message({ message }) {
+  const { userInfo } = useUserInfoContext();
   const [editing, setEditing] = useState(false);
 
-  const isOwner = message.user && message.user.id == user.id;
-
-  const messageDisplayName = isOwner
-    ? ""
-    : interlocutor
-    ? interlocutor
-    : message.user
-    ? message.user.username
-    : "user no longer exists";
-
-  const editClickHandler = () => {
-    setEditing(true);
-  };
-
-  const deleteClickHandler = () => {
-    const url = `/api/v1/messages/destroy/${message.id}`;
-    const method = "DELETE";
-    const fetchBody = {};
-
-    const errorSetter = (error) => {
-      console.log(error);
-    };
-
-    makePostRequest(url, fetchBody, method)
-      .then((data) =>
-        setMessages((messages) => updateMessagesAfterDelete(data, messages))
-      )
-      .catch((error) => errorSetter(error));
-  };
+  const isOwner = message.user.id === userInfo.id;
 
   return (
-    <>
-      {!editing && (
-        <div
-          className={`flex flex-col w-11/12 items-end ${
-            isOwner ? "" : "self-end"
-          }`}
-        >
-          <MessageContent user={user} message={message} isOwner={isOwner} />
-          {isOwner && (
-            <div className="flex gap-2 items-center">
-              {message.body && (
-                <>
-                  <button onClick={editClickHandler}>edit</button>|
-                </>
-              )}
-              <button
-                className="text-coolpink-500 dark:text-melon-500"
-                onClick={deleteClickHandler}
-              >
-                delete
-              </button>
-            </div>
-          )}
-        </div>
+    <button
+      onClick={() => setEditing(true)}
+      disabled={!isOwner || editing}
+      className="w-full flex flex-col gap-1"
+    >
+      {editing ? (
+        <EditMessageForm message={message} setEditing={setEditing} />
+      ) : (
+        <MessageContent message={message} />
       )}
-      {editing && (
-        <div className="flex gap-2 items-center justify-center">
-          <MessageForm
-            message={message}
-            currentRoom={currentRoom}
-            setEditing={setEditing}
-          />
-        </div>
-      )}
-      <p
-        className={`${
-          isOwner ? "self-end" : "self-start"
-        } flex items-center gap-1 mb-2`}
-      >
-        <span className="text-sm">{messageDisplayName}</span>
-        <span className="text-sm">{displayDateTime(message.created_at)}</span>
-      </p>
-    </>
+    </button>
   );
-};
+}
+
+// do we want a tool tip or something to indicate can be edited?

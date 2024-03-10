@@ -6,7 +6,7 @@ import {
   unsubscribeToChatChannel,
 } from "../../channels/chat_channel";
 import { getResource } from "../utils/apiRequest";
-import Message2 from "./Message2";
+import Message from "./Message";
 
 export default function MessageContainer() {
   const { userInfo } = useUserInfoContext();
@@ -81,15 +81,8 @@ export default function MessageContainer() {
   return (
     <div className="overflow-y-auto flex flex-col gap-3">
       {messages.map((message) => {
-        return <Message2 key={message.id} message={message} />;
+        return <Message key={message.id} message={message} />;
       })}
     </div>
   );
 }
-
-// for each message need a container that either holds the message content OR a form to update it (if it is text)
-// form should have submit/cancel options
-// so each message container holds a state editing?
-// message content has button to set edit to true
-// form's cancel button sets edit to false
-// form's submit button makes post request and sets edit to false
