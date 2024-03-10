@@ -47,7 +47,7 @@ export default function MessageContainer() {
   }, [scroll]);
 
   useEffect(() => {
-    if (userInfo.current_chat) {
+    if (userInfo && userInfo.current_chat) {
       const abortController = new AbortController();
 
       getResource(
@@ -57,11 +57,11 @@ export default function MessageContainer() {
         setError
       );
 
-      console.log("curr chat", currChat);
+      console.log("curr chat", userInfo.current_chat);
       subscribeToChatChannel(
         chatChannelRef,
         cable,
-        currChat,
+        userInfo.current_chat,
         setMessages,
         updateMessages
       );

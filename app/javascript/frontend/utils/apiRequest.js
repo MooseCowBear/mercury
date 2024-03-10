@@ -4,7 +4,7 @@ export const getResource = async (
   url,
   abortController,
   dataHandler,
-  errorHandler
+  errorHandler = null
 ) => {
   try {
     const response = await fetch(url, {
@@ -17,10 +17,14 @@ export const getResource = async (
       throw new Error("server error");
     }
     const data = await response.json();
+    console.log("data from get", data);
     dataHandler(data);
+    
   } catch (e) {
     console.log(e);
-    errorHandler(e);
+    if (errorHandler) {
+      errorHandler(e);
+    }
   }
 };
 
@@ -50,8 +54,8 @@ export const postResource = async (
       throw new Error("server error");
     }
     const data = await response.json();
-
     dataHandler(data);
+
   } catch (e) {
     console.log(e);
     if (errorHandler) {

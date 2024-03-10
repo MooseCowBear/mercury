@@ -21,5 +21,6 @@ export const useUserInfo = () => {
       abortController.abort(); // cancel request if unmount
     };
   }, []);
+  console.log("current user", userInfo);
   return { userInfo, setUserInfo };
 };

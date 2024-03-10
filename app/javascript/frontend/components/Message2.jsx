@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import EditMessageForm from "./EditMessageForm";
 import MessageContent from "./MessageContent";
 
-export default function Message() {
+export default function Message({ message }) {
   const [editing, setEditing] = useState(false);
 
   const toggleEditing = () => {
@@ -11,7 +11,11 @@ export default function Message() {
 
   return (
     <div>
-      {editing ? <EditMessageForm /> : <MessageContent />}
+      {editing ? (
+        <EditMessageForm message={message} />
+      ) : (
+        <MessageContent message={message} />
+      )}
       <button onClick={toggleEditing}>{editing ? "cancel" : "edit"}</button>
     </div>
   );

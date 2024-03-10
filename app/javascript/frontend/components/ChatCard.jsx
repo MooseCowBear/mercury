@@ -4,7 +4,8 @@ import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { postResource } from "../utils/apiRequest";
 
 export default function ChatCard({ chat }) {
-  const { userInfo } = useUserInfoContext();
+  const { userInfo, setUserInfo } = useUserInfoContext();
+  const currChatId = userInfo ? userInfo.current_chat_id : null;
 
   const isPrivate = chat.is_private;
 
@@ -28,8 +29,8 @@ export default function ChatCard({ chat }) {
     : "";
 
   const clickHandler = () => {
-    const dataHandler = () => {
-      setCurrChat(chat.id);
+    const dataHandler = (data) => {
+      setUserInfo(data);
     };
     postResource(
       "/api/v1/users/update",
@@ -42,7 +43,7 @@ export default function ChatCard({ chat }) {
   return (
     <button
       className={`w-full flex justify-between items-center py-2 px-3 ${
-        currChat == chat.id && "bg-neutral-100"
+        currChatId == chat.id && "bg-neutral-100"
       }`}
       onClick={clickHandler}
     >

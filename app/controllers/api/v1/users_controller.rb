@@ -14,7 +14,7 @@ class Api::V1::UsersController < ApplicationController
   def update
     if @chat.participant?(current_user)
       current_user.update(user_params) 
-      render json: current_user
+      render json: current_user, include: [:current_chat]
     else
       render json: { message: "Bad Request" }, 
                     status: :unprocessable_entity
