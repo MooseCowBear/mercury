@@ -1,16 +1,16 @@
 import React from "react";
 import { displayDateTime } from "../utils/datetime";
-import { useCurrentChatContext } from "../contexts/CurrentChatContext";
+import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { postResource } from "../utils/apiRequest";
 
 export default function ChatCard({ chat }) {
-  const { currUser, currChat, setCurrChat } = useCurrentChatContext();
+  const { userInfo } = useUserInfoContext();
 
   const isPrivate = chat.is_private;
 
   const privateTitle = (chat) => {
     return chat.users
-      .filter((u) => u.username !== currUser.username)
+      .filter((u) => u.username !== userInfo.username)
       .map((u) => u.username)
       .join(", ");
   };

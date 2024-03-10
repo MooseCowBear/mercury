@@ -3,7 +3,7 @@ class Api::V1::UsersController < ApplicationController
   before_action :set_chat, only: [:update]
   
   def show
-    render json: current_user
+    render json: current_user, include: [:current_chat]
   end
 
   def index

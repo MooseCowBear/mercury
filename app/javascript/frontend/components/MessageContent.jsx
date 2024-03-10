@@ -1,9 +1,12 @@
 import React from "react";
+import { useUserInfoContext } from "../contexts/UserInfoContext";
 
-//OLD
-
-export default MessageContent = ({ message, isOwner }) => {
+export default MessageContent = ({ message }) => {
+  const { userInfo } = useUserInfoContext();
   const edited = message.created_at !== message.updated_at;
+  const isOwner = message.user.id === userInfo.id;
+
+  // TODO: update STYLING
 
   return (
     <p

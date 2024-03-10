@@ -5,16 +5,14 @@ import { getResource } from "../utils/apiRequest";
 components that care about either the user or the current chat. 
 */
 
-export const useCurrentUser = () => {
-  const [currUser, setCurrUser] = useState(null);
-  const [currChat, setCurrChat] = useState(null);
+export const useUserInfo = () => {
+  const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
     const abortController = new AbortController();
 
     const dataHandler = (data) => {
-      setCurrUser(data);
-      setCurrChat(data.current_chat_id);
+      setUserInfo(data);
     };
 
     getResource("/api/v1/users/show", abortController, dataHandler);
@@ -23,5 +21,5 @@ export const useCurrentUser = () => {
       abortController.abort(); // cancel request if unmount
     };
   }, []);
-  return { currUser, currChat, setCurrChat };
+  return { userInfo, setUserInfo };
 };

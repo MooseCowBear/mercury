@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useActionCableContext } from "../contexts/ActionCableContext";
-import { useCurrentChatContext } from "../contexts/CurrentChatContext";
+import { useUserInfoContext } from "../contexts/UserInfoContext";
 import {
   subscribeToChatChannel,
   unsubscribeToChatChannel,
@@ -8,7 +8,7 @@ import {
 import { getResource } from "../utils/apiRequest";
 
 export default function MessageContainer() {
-  const { currChat } = useCurrentChatContext();
+  const { userInfo } = useUserInfoContext();
   const { cable } = useActionCableContext();
 
   const [messages, setMessages] = useState([]);
@@ -47,7 +47,7 @@ export default function MessageContainer() {
   }, [scroll]);
 
   useEffect(() => {
-    if (currChat) {
+    if (userInfo.current_chat) {
       const abortController = new AbortController();
 
       getResource(
@@ -71,7 +71,7 @@ export default function MessageContainer() {
         unsubscribeToChatChannel(chatChannelRef, cable);
       };
     }
-  }, [currChat]);
+  }, [userInfo]);
 
   if (error) return <p>Something went wrong.</p>;
 

@@ -121,4 +121,10 @@ RSpec.describe Chat, type: :model do
 
     # TODO: after figure out what the behavior of private chat rooms is finish this
   end
+
+  describe "#last_message" do
+    it "returns the last message by created at for chat" do
+      # TODO
+    end
+  end
 end
