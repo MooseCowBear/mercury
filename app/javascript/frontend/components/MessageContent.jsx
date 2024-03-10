@@ -6,12 +6,12 @@ export default MessageContent = ({ message }) => {
   const edited = message.created_at !== message.updated_at;
   const isOwner = message.user.id === userInfo.id;
 
-  // TODO: update STYLING
-
   return (
     <p
-      className={`flex flex-col px-5 py-2 border-2 w-full rounded-tr-xl rounded-tl-xl ${
-        isOwner ? "self-start rounded-bl-xl" : "self-end rounded-br-xl "
+      className={`flex flex-col px-5 py-2 w-full rounded-tr-xl rounded-tl-xl ${
+        isOwner
+          ? "self-start rounded-bl-xl bg-poppy-500 text-white"
+          : "self-end rounded-br-xl bg-neutral-100"
       }`}
     >
       {message.body && <span className="self-start">{message.body}</span>}
@@ -22,7 +22,15 @@ export default MessageContent = ({ message }) => {
           className="self-center max-w-[150px] max-h-[150px] rounded-md"
         />
       )}
-      {edited && <span className="text-xs text-gray-400 self-end">edited</span>}
+      {edited && (
+        <span
+          className={`text-xs self-end ${
+            isOwner ? "text-white" : "text-gray-400"
+          }`}
+        >
+          edited
+        </span>
+      )}
     </p>
   );
 };

@@ -10,13 +10,23 @@ export default function Message({ message }) {
   };
 
   return (
-    <div>
+    <div className="flex flex-col gap-1">
       {editing ? (
-        <EditMessageForm message={message} />
+        <EditMessageForm message={message} setEditing={setEditing} />
       ) : (
         <MessageContent message={message} />
       )}
-      <button onClick={toggleEditing}>{editing ? "cancel" : "edit"}</button>
+
+      <button
+        data-action="cancel"
+        className={`uppercase text-xs self-end`}
+        onClick={toggleEditing}
+      >
+        {editing ? "cancel" : "edit"}
+      </button>
     </div>
   );
 }
+
+// do i want to have an edit button? maybe just click the message to edit (if own message)...
+// add info about who sent the message, message.user.username

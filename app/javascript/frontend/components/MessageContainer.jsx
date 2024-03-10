@@ -6,6 +6,7 @@ import {
   unsubscribeToChatChannel,
 } from "../../channels/chat_channel";
 import { getResource } from "../utils/apiRequest";
+import Message2 from "./Message2";
 
 export default function MessageContainer() {
   const { userInfo } = useUserInfoContext();
@@ -32,6 +33,7 @@ export default function MessageContainer() {
 
   /* two ways to update messages, either by adding a new one or by updating the body of an existing message */
   const updateMessages = (data, messages) => {
+    console.log("IN UPDATE MESSAGES", data, messages);
     const messagesCopy = [...messages];
     const index = messagesCopy.findIndex((elem) => elem.id === data.id);
     if (index > -1) {
@@ -40,6 +42,7 @@ export default function MessageContainer() {
       messagesCopy.push(data);
       setScroll((scroll) => !scroll);
     }
+    return messagesCopy;
   };
 
   useEffect(() => {
@@ -75,7 +78,13 @@ export default function MessageContainer() {
 
   if (error) return <p>Something went wrong.</p>;
 
-  return <div className="overflow-y-auto"></div>;
+  return (
+    <div className="overflow-y-auto">
+      {messages.map((message) => {
+        return <Message2 key={message.id} message={message} />;
+      })}
+    </div>
+  );
 }
 
 // for each message need a container that either holds the message content OR a form to update it (if it is text)

@@ -19,7 +19,6 @@ export const getResource = async (
     const data = await response.json();
     console.log("data from get", data);
     dataHandler(data);
-    
   } catch (e) {
     console.log(e);
     if (errorHandler) {
@@ -49,13 +48,12 @@ export const postResource = async (
       body: body,
     });
 
-    if (response.status >= 400) {
+    if (response.status !== 200 && response.status !== 422) {
       console.log(response.status);
       throw new Error("server error");
     }
     const data = await response.json();
     dataHandler(data);
-
   } catch (e) {
     console.log(e);
     if (errorHandler) {

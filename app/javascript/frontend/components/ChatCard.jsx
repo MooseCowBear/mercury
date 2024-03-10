@@ -10,10 +10,12 @@ export default function ChatCard({ chat }) {
   const isPrivate = chat.is_private;
 
   const privateTitle = (chat) => {
-    return chat.users
-      .filter((u) => u.username !== userInfo.username)
-      .map((u) => u.username)
-      .join(", ");
+    if (userInfo) {
+      return chat.users
+        .filter((u) => u.username !== userInfo.username)
+        .map((u) => u.username)
+        .join(", ");
+    }
   };
 
   const title = isPrivate ? privateTitle(chat) : chat.name;
