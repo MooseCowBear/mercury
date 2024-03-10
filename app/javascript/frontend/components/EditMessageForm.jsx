@@ -15,7 +15,7 @@ export default function EditMessageForm({ message, setEditing }) {
     if (data.hasOwnProperty("errors")) {
       errorSetter(data.errors.join(", "));
     } else {
-      setEditing(false); // needs to be able to update editing...
+      setEditing(false);
     }
   };
 
@@ -29,18 +29,18 @@ export default function EditMessageForm({ message, setEditing }) {
       setError("Message must have content.");
     }
 
-    const chat_id = userInfo.current_chat_id; // is this ok? do you need null check?
+    const chat_id = userInfo.current_chat_id;
     postResource(
       `/api/v1/messages/${message.id}`,
       JSON.stringify({ body, chat_id }),
       "PATCH",
       dataHandler,
       setError
-    ); // DO I WANT TO SET ERROR HERE?
+    ); // DO I WANT TO SET ERROR HERE? -- check this
   };
 
   return (
-    <div className="flex flex-col items-center gap-1 justify-between">
+    <div className="w-full flex flex-col items-center gap-1 justify-between">
       {error && <span className="justify-self-center text-xs">{error}</span>}
       <input
         id="body"
