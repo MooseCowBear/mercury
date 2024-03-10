@@ -13,7 +13,7 @@ export default function EditMessageForm({ message, setEditing }) {
 
   const dataHandler = (data) => {
     if (data.hasOwnProperty("errors")) {
-      errorSetter(data.errors.join(", "));
+      setError(data.errors.join(", "));
     } else {
       setEditing(false);
     }
@@ -27,6 +27,9 @@ export default function EditMessageForm({ message, setEditing }) {
     const input = document.getElementById("body").value.trim();
     if (input === "") {
       setError("Message must have content.");
+    } else if (input === message.body) {
+      setEditing(false);
+      return;
     }
 
     const chat_id = userInfo.current_chat_id;
@@ -40,9 +43,10 @@ export default function EditMessageForm({ message, setEditing }) {
   };
 
   return (
-    <div className="w-full flex flex-col items-center gap-1 justify-between">
+    <div className="flex flex-col items-center gap-1 justify-between self-end">
       {error && <span className="justify-self-center text-xs">{error}</span>}
       <input
+        autoFocus
         id="body"
         type="text"
         value={body}

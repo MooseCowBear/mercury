@@ -79,7 +79,7 @@ export default function MessageContainer() {
   if (error) return <p>Something went wrong.</p>;
 
   return (
-    <div className="overflow-y-auto">
+    <div className="overflow-y-auto flex flex-col gap-3">
       {messages.map((message) => {
         return <Message2 key={message.id} message={message} />;
       })}
