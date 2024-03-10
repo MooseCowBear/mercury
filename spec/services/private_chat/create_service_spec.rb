@@ -17,7 +17,8 @@ RSpec.describe PrivateChat::CreateService, type: :service do
 
     context "chat between users already exists" do
       it "returns existing chat without creating new chat participants" do
-        existing_chat = create(:chat, :private)
+        name = [@user1.username, @user2.username].sort.join(", ")
+        existing_chat = create(:chat, :private, name: name)
         create(:chat_participant, chat: existing_chat, user: @user1)
         create(:chat_participant, chat: existing_chat, user: @user2)
         chat = PrivateChat::CreateService.call(@params, @user1)
