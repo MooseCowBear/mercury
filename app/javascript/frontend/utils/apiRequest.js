@@ -17,7 +17,6 @@ export const getResource = async (
       throw new Error("server error");
     }
     const data = await response.json();
-    console.log("data from get", data);
     dataHandler(data);
   } catch (e) {
     console.log(e);
@@ -26,8 +25,6 @@ export const getResource = async (
     }
   }
 };
-
-// not stringifying means it will also worth with the image
 
 export const postResource = async (
   url,
