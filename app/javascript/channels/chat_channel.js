@@ -5,6 +5,7 @@ export const subscribeToChatChannel = (
   setMessages,
   updateMessages
 ) => {
+  console.log("adding subscription");
   chatChannelRef.current = cable.subscriptions.create(
     {
       channel: "ChatChannel",
@@ -12,6 +13,7 @@ export const subscribeToChatChannel = (
     },
     {
       received(data) {
+        console.log("data", data);
         setMessages((messages) => updateMessages(data, messages));
       },
     }
@@ -20,6 +22,7 @@ export const subscribeToChatChannel = (
 
 export const unsubscribeToChatChannel = (chatChannelRef, cable) => {
   if (chatChannelRef.current) {
+    console.log("removing subscription");
     cable.subscriptions.remove(chatChannelRef.current);
     chatChannelRef.current = null;
   }

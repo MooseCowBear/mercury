@@ -1,5 +1,5 @@
 class Api::V1::PrivateChatsController < ApplicationController
-  after_action -> { current_user.update_last_active if current_user }
+  #after_action -> { current_user.update_last_active if current_user }
   before_action :set_chat, only: [:destroy]
   
   def index

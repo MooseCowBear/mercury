@@ -1,23 +1,23 @@
 export const subscribeToPrivateChatsChannel = (
   privateChatsChannelRef,
   cable,
-  user,
+  userId,
   setChats,
   updateChats
 ) => {
   privateChatsChannelRef.current = cable.subscriptions.create(
-    { channel: "PrivateChatsChannel", user_id: user.id },
-
+    { channel: "PrivateChatsChannel", user_id: userId },
     {
       received(data) {
-        setChats((chats) => updateChats(data, chats));
+        setChats((chats) => updateChats(JSON.parse(data), chats));
       },
     }
   );
 };
 
-export const unsubscribeToRoomsChannel = (privateChatsChannelRef, cable) => {
+export const unsubscribeToPrivateChatsChannel = (privateChatsChannelRef, cable) => {
   if (privateChatsChannelRef.current) {
+    console.log("removing");
     cable.subscriptions.remove(privateChatsChannelRef.current);
     privateChatsChannelRef.current = null;
   }
