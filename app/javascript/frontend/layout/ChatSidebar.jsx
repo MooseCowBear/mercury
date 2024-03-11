@@ -1,12 +1,8 @@
 import React from "react";
 import Searchbar from "../components/SearchBar";
 import ChatsContainer from "../components/ChatsContainer";
-import { useActionCableContext } from "../contexts/ActionCableContext";
 
 export default function ChatSidebar({ visible }) {
-  const { cable } = useActionCableContext();
-  // needs to subscribe to chat channel
-
   return (
     <div
       className={`${
@@ -23,5 +19,3 @@ export default function ChatSidebar({ visible }) {
     </div>
   );
 }
-
-// action cable here or in children?
