@@ -12,7 +12,7 @@ export default function ChatCard({ chat }) {
   const privateTitle = (chat) => {
     /* takes chat's name, which is a string of usernames sorted alphabetically
     andn joined with commas, and replaced curr user's name with 'me', 
-    re-sorts and re-joins NOT WORKING GET A NULL ERROR... */
+    re-sorts and re-joins */
     if (!userInfo) return;
     return chat.name
       .split(", ")
@@ -72,16 +72,14 @@ export default function ChatCard({ chat }) {
         <p className="text-xs self-start">{time}</p>
         <div
           className={`flex items-center justify-center rounded-full size-6 text-white text-sm ${
-            isPrivate && "bg-poppy-500"
+            (isPrivate && chat.notification_count > 0) && "bg-poppy-500"
           }`}
         >
-          3
+          {chat.notification_count}
         </div>
       </div>
     </button>
   );
 }
-
-// TODO: needs notifications!
 
 // add max width to the card
