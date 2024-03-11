@@ -16,6 +16,8 @@ export default function MessageContainer() {
   const [error, setError] = useState(null);
   const [scroll, setScroll] = useState(true);
 
+  console.log("messages", messages);
+
   const chatChannelRef = useRef(null); // so can remove the subscription
 
   const scrollMessages = () => {
@@ -33,13 +35,14 @@ export default function MessageContainer() {
 
   /* two ways to update messages, either by adding a new one or by updating the body of an existing message */
   const updateMessages = (data, messages) => {
-    const messagesCopy = [...messages]; 
+    console.log("messages", messages);
+    const messagesCopy = [...messages];
     const index = messagesCopy.findIndex((elem) => elem.id === data.id);
     if (index > -1) {
       messagesCopy[index] = data;
     } else {
       messagesCopy.push(data);
-      setScroll((scroll) => !scroll); 
+      setScroll((scroll) => !scroll);
     }
     return messagesCopy;
   };
@@ -75,7 +78,7 @@ export default function MessageContainer() {
     }
   }, [userInfo]);
 
-  if (error) return <p>Something went wrong.</p>;
+  if (error || messages === null) return <p>Something went wrong.</p>;
 
   return (
     <div
