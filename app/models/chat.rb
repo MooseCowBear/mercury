@@ -32,17 +32,16 @@ class Chat < ApplicationRecord
 
   before_validation :clean_name
   after_create_commit :broadcast_public_chat, unless: :is_private?
-  after_commit :broadcast_private_chat, if: :is_private?
+  #after_commit :broadcast_private_chat, if: :is_private?
 
   def participant?(user)
     return true unless is_private
     users.exists?(user.id)
   end
 
-  # if want to allow "deleting" a private chat
+  # if want to allow "deleting" a private chat, this will change
   def chat_messages(user)
-    return messages unless is_private
-    
+    messages 
   end
 
   def last_message
@@ -76,8 +75,8 @@ class Chat < ApplicationRecord
     end
   end
 
-  def broadcast_private_chat
-    chat = self.as_json(include: :users) # for broadcasting the creation of a new room
-    # needs updating
-  end
+  # def broadcast_private_chat
+  #   chat = self.as_json(include: :users) # for broadcasting the creation of a new room
+  #   # needs updating
+  # end
 end
