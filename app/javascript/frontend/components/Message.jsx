@@ -12,7 +12,7 @@ export default function Message({ message }) {
   return (
     <button
       onClick={() => setEditing(true)}
-      disabled={!isOwner || editing}
+      disabled={!isOwner || editing || !message.body}
       className="w-full flex flex-col gap-1"
     >
       {editing ? (
