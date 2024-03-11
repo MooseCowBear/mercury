@@ -1,12 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ChatCard from "./ChatCard";
 import { getResource } from "../utils/apiRequest";
-//import { useActionCableContext } from "../contexts/ActionCableContext";
-import { useActionCable } from "../hooks/useActionCable";
+import { useActionCableContext } from "../contexts/ActionCableContext";
+import {
+  subscribeToPrivateChatsChannel,
+  unsubscribeToPrivateChatsChannel,
+} from "../../channels/private_chats_channel";
+import { useUserInfoContext } from "../contexts/UserInfoContext";
 
 export default function ChatsContainer({ title, isPrivate }) {
-  const { cable } = useActionCable();
+  const { userInfo } = useUserInfoContext();
+  const { cable } = useActionCableContext();
   const [chats, setChats] = useState([]);
+
+  const chatChannelRef = useRef(null);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -21,6 +28,36 @@ export default function ChatsContainer({ title, isPrivate }) {
       abortController.abort();
     };
   }, []);
+
+  const updateChats = (data, chats) => {
+    const chatsCopy = [...chats];
+    const index = chatsCopy.findIndex((elem) => elem.id === data.id);
+    if (index > -1) {
+      chatsCopy[index] = data;
+    } else {
+      chatsCopy.push(data);
+    }
+    return chatsCopy;
+  };
+
+  useEffect(() => {
+    // need to subscribe to private chats channel
+    if (userInfo && isPrivate) {
+      subscribeToPrivateChatsChannel(
+        chatChannelRef,
+        cable,
+        userInfo.id,
+        setChats,
+        updateChats
+      );
+    } else if (userInfo && !isPrivate) {
+      // subscribe to public chats channel, currently rooms channel
+    }
+    return () => {
+      unsubscribeToPrivateChatsChannel(chatChannelRef, cable);
+    };
+    // when does it update = new message for chat
+  }, [userInfo]);
 
   // which subscription depends on private or not
 
