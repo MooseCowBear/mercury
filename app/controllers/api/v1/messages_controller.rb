@@ -5,7 +5,7 @@ class Api::V1::MessagesController < ApplicationController
   before_action :confirm_participant, only: [:create]
   before_action :delete_from_cloudinary, only: [:destroy]
   before_action :confirm_text_message, only: [:update]
-  after_action -> { current_user.update_last_active if current_user }
+  #after_action -> { current_user.update_last_active if current_user }
 
   def index
     messages = current_user.current_chat.chat_messages(current_user) # not sure this param  will stay
@@ -17,6 +17,8 @@ class Api::V1::MessagesController < ApplicationController
     message.user = current_user
 
     if message.save 
+      Notifications::CreateService.call(message)
+      PrivateChat::BroadcastService.call(message)
       render json: message.to_json(include: [:user])
     else
       render json: { message: "Validations Failed", 
