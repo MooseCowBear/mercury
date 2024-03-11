@@ -1,4 +1,6 @@
 class Chat < ApplicationRecord 
+  attr_accessor :current_user
+
   has_many :messages, dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :chat_participants, dependent: :destroy
@@ -45,6 +47,19 @@ class Chat < ApplicationRecord
 
   def last_message
     messages.order(created_at: :desc).first
+  end
+
+  def notification_count(user)
+    notifications.where(user_id: user.id).count
+  end
+
+  def as_json(options = {})
+    super(options).tap do |json|
+      if is_private
+        json[:notification_count] = notification_count(options[:user])
+      end
+      json[:last_message] = last_message
+    end
   end
 
   protected

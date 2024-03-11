@@ -4,8 +4,7 @@ class Api::V1::PrivateChatsController < ApplicationController
   
   def index
     chats = current_user.chats # these are the chats had through chat participants
-    pp chats
-    render json: chats, methods: :last_message, include: [:users] # check this
+    render json: chats.to_json({user: current_user}) # with custom as_json, that includes notifications count
   end
 
   def create
