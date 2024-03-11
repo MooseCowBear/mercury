@@ -21,7 +21,7 @@ export default function NewTextMessageInput() {
     }
     const chat_id = userInfo.current_chat_id;
     const body = input;
-    const dataHandler = () => {
+    const dataHandler = (data) => {
       if (data.hasOwnProperty("errors")) {
         setError(data.errors.join(", "));
       } else {
@@ -36,6 +36,8 @@ export default function NewTextMessageInput() {
       dataHandler
     );
   };
+
+  // PROBLEM: didn't clear input!
 
   // change to form + submit button
   return (

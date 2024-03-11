@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import ChatCard from "./ChatCard";
 import { getResource } from "../utils/apiRequest";
-import { useActionCableContext } from "../contexts/ActionCableContext";
+//import { useActionCableContext } from "../contexts/ActionCableContext";
+import { useActionCable } from "../hooks/useActionCable";
 
 export default function ChatsContainer({ title, isPrivate }) {
-  const { cable } = useActionCableContext();
+  const { cable } = useActionCable();
   const [chats, setChats] = useState([]);
 
   useEffect(() => {

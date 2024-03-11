@@ -13,6 +13,7 @@ export default function ChatCard({ chat }) {
     /* takes chat's name, which is a string of usernames sorted alphabetically
     andn joined with commas, and replaced curr user's name with 'me', 
     re-sorts and re-joins NOT WORKING GET A NULL ERROR... */
+    if (!userInfo) return;
     return chat.name
       .split(", ")
       .map((elem) => {

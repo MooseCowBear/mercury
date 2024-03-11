@@ -1,14 +1,14 @@
 export const subscribeToChatChannel = (
   chatChannelRef,
   cable,
-  currChat,
+  currChatId,
   setMessages,
   updateMessages
 ) => {
   chatChannelRef.current = cable.subscriptions.create(
     {
       channel: "ChatChannel",
-      chat_id: currChat.id,
+      chat_id: currChatId,
     },
     {
       received(data) {

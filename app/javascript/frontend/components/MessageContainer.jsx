@@ -33,14 +33,13 @@ export default function MessageContainer() {
 
   /* two ways to update messages, either by adding a new one or by updating the body of an existing message */
   const updateMessages = (data, messages) => {
-    console.log("IN UPDATE MESSAGES", data, messages);
-    const messagesCopy = [...messages];
+    const messagesCopy = [...messages]; 
     const index = messagesCopy.findIndex((elem) => elem.id === data.id);
     if (index > -1) {
       messagesCopy[index] = data;
     } else {
       messagesCopy.push(data);
-      setScroll((scroll) => !scroll);
+      setScroll((scroll) => !scroll); 
     }
     return messagesCopy;
   };
@@ -50,7 +49,16 @@ export default function MessageContainer() {
   }, [scroll]);
 
   useEffect(() => {
-    if (userInfo && userInfo.current_chat) {
+    if (userInfo && userInfo.current_chat_id) {
+      console.log("curr chat", userInfo.current_chat);
+      subscribeToChatChannel(
+        chatChannelRef,
+        cable,
+        userInfo.current_chat_id,
+        setMessages,
+        updateMessages
+      );
+
       const abortController = new AbortController();
 
       getResource(
@@ -58,15 +66,6 @@ export default function MessageContainer() {
         abortController,
         setMessagesAndScroll,
         setError
-      );
-
-      console.log("curr chat", userInfo.current_chat);
-      subscribeToChatChannel(
-        chatChannelRef,
-        cable,
-        userInfo.current_chat,
-        setMessages,
-        updateMessages
       );
 
       return () => {
@@ -79,7 +78,10 @@ export default function MessageContainer() {
   if (error) return <p>Something went wrong.</p>;
 
   return (
-    <div className="overflow-y-auto flex flex-col gap-3">
+    <div
+      id="messages-container"
+      className="overflow-y-auto flex flex-col gap-3"
+    >
       {messages.map((message) => {
         return <Message key={message.id} message={message} />;
       })}
