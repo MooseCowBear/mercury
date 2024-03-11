@@ -8,7 +8,6 @@ class Message < ApplicationRecord
   validate :has_content
 
   after_commit :broadcast_message, on: [:create, :update]
-  after_create_commit :notify
 
   # the messages that someone would see in a private chat - if they had deleted the chat at some point
   scope :visible_messages, 
@@ -21,19 +20,13 @@ class Message < ApplicationRecord
     chat.active_users.outside_chat(chat)
   end
 
-  private 
+  private
 
   def broadcast_message
     ActionCable.server.broadcast(
-      "chat_#{self.chat_id}", 
-      self.as_json(include: :user)
+      "chat_#{chat_id}",
+      as_json(include: :user)
     )
-  end
-
-  def notify
-    notification_recipients.each do |recipient|
-      recipient.notifications.create(user_id: recipient.id, message_id: self.id)
-    end
   end
 
   def has_content
