@@ -12,16 +12,18 @@ export default function ChatCard({ chat }) {
   const privateTitle = (chat) => {
     /* takes chat's name, which is a string of usernames sorted alphabetically
     andn joined with commas, and replaced curr user's name with 'me', 
-    re-sorts and re-joins */
-    chat.name
+    re-sorts and re-joins NOT WORKING GET A NULL ERROR... */
+    return chat.name
       .split(", ")
       .map((elem) => {
-        if (elem == userInfo.username) {
+        if (elem === userInfo.username) {
           return "me";
+        } else {
+          return elem;
         }
-        return elem;
       })
-      .sort.join(", ");
+      .sort()
+      .join(", ");
   };
 
   const title = isPrivate ? privateTitle(chat) : chat.name;
