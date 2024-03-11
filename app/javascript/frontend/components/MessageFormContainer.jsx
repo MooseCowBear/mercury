@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import NewTextMessageInput from "./NewTextMessageInput";
 import NewImageMessageInput from "./NewImageMessageInput";
 
-// will be either text message form or image upload
 export default function MessageFormContainer() {
   const [text, setText] = useState(true);
 
@@ -38,19 +37,17 @@ export default function MessageFormContainer() {
       )}
       {text && <NewTextMessageInput />}
       {!text && <NewImageMessageInput />}
-      <button aria-label="send">
-        <svg
-          className="size-6 fill-poppy-500"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-        >
-          <path fill="" d="M2,21L23,12L2,3V10L17,12L2,14V21Z" />
-        </svg>
-      </button>
     </div>
   );
 }
 
 // has temp form.. needs to trade out new text message form and new image message form
-// needs to submit depending on the type... maybe it would better to have the whole form, 
+// needs to submit depending on the type... maybe it would better to have the whole form,
 // ie. with the submit button as individual forms
+
+// NEXT: "send" button needs to submit the post request to the right URL
+// message inputs need state which will be passed since the submission occurs here?
+
+// also, want to disable the submission UNLESS there is a current user/chat!
+
+// Move the send button INTO the New--MessageInput. then submit handler doesn't have to be conditional

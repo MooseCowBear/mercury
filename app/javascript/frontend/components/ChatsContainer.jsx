@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import ChatCard from "./ChatCard";
 import { getResource } from "../utils/apiRequest";
+import { useActionCableContext } from "../contexts/ActionCableContext";
 
 export default function ChatsContainer({ title, isPrivate }) {
+  const { cable } = useActionCableContext();
   const [chats, setChats] = useState([]);
 
   useEffect(() => {
@@ -18,6 +20,8 @@ export default function ChatsContainer({ title, isPrivate }) {
       abortController.abort();
     };
   }, []);
+
+  // which subscription depends on private or not
 
   return (
     <div className="py-4 min-h-0 min-w-0">
@@ -40,3 +44,5 @@ export default function ChatsContainer({ title, isPrivate }) {
 // and also in the messages container...
 
 // which channel it listens to depends on whether its private or not
+
+// NEED TWO SUBSCRIPTIONS! one for private one for public each will handle own
