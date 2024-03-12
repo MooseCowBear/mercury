@@ -1,22 +1,19 @@
 import { useEffect, useRef } from "react";
 
-export const useWindowResize = (threshold, messageHandler, sidebarHandler) => {
+export const useWindowResize = (threshold, visibilityHandler) => {
   const prevWidth = useRef(window.innerWidth);
 
   const setDesktopLayout = () => {
-    messageHandler(true);
-    sidebarHandler((prev) => {
+    visibilityHandler((prev) => {
       if (!prev.chats && !prev.people) {
-        return { chats: true, people: false };
-      } else {
-        return prev;
+        return { messages: true, chats: true, people: false };
       }
+      return { messages: true, chats: prev.chats, people: prev.people };
     });
   };
 
   const setMobileLayout = () => {
-    messageHandler(true);
-    sidebarHandler({ chats: false, people: false });
+    visibilityHandler({ messages: true, chats: false, people: false });
   };
 
   useEffect(() => {

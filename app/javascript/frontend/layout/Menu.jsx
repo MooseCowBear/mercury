@@ -4,23 +4,41 @@ import CommentIcon from "../icons/CommentIcon";
 import PeopleIcon from "../icons/PeopleIcon";
 import AccountIcon from "../icons/AccountIcon";
 
-export default function Menu({ setSidebarVisibility, setMessageVisibility }) {
+/* for large screens: messages are always visible, chat button shows chats 
+and people button shows people. for small screens, 
+ */
+
+export default function Menu({ setVisibility }) {
   const smallScreenChatHandler = () => {
-    setSidebarVisibility({ chats: true, people: false });
-    setMessageVisibility(false);
+    setVisibility((val) => {
+      if (val.messages) {
+        return { messages: false, chats: true, people: false };
+      } else {
+        return { messages: true, chats: false, people: false };
+      }
+    });
   };
 
   const chatClickhandler = () => {
-    setSidebarVisibility({ chats: true, people: false });
+    setVisibility((val) => {
+      const data = { ...val };
+      data.chats = true;
+      data.people = false;
+      return data;
+    });
   };
 
   const smallScreenPeopleHandler = () => {
-    setSidebarVisibility({ chats: false, people: true });
-    setMessageVisibility(false);
+    setVisibility({ messages: false, chats: false, people: true });
   };
 
   const peopleClickhandler = () => {
-    setSidebarVisibility({ chats: false, people: true });
+    setVisibility((val) => {
+      const data = { ...val };
+      data.chats = false;
+      data.people = true;
+      return data;
+    });
   };
 
   return (
