@@ -88,6 +88,9 @@ export default function ChatsContainer({ title, isPrivate }) {
           {title}
         </h3>
         <button
+          aria-label={
+            isPrivate ? "create new private chat" : "create new public chat"
+          }
           onClick={clickHandler}
           className="bg-poppy-500 p-1 rounded-full"
         >
