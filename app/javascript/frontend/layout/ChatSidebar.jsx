@@ -1,8 +1,12 @@
 import React from "react";
 import Searchbar from "../components/SearchBar";
 import ChatsContainer from "../components/ChatsContainer";
+import { useVisibilityContext } from "../contexts/VisibilityContext";
 
-export default function ChatSidebar({ visible }) {
+export default function ChatSidebar() {
+  const { visibility } = useVisibilityContext();
+  const visible = visibility.chats;
+
   return (
     <div
       className={`${

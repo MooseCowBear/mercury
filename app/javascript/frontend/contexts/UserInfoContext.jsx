@@ -5,7 +5,7 @@ const UserInfoContext = createContext(null);
 
 export function useUserInfoContext() {
   const value = useContext(UserInfoContext);
-  if (value === null) throw Error("Can't be used outside BlogContextProvider");
+  if (value === null) throw Error("Can't be used outside ContextProvider");
   return value;
 }
 

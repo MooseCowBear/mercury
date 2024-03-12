@@ -3,43 +3,20 @@ import FeatherIcon from "../icons/FeatherIcon";
 import CommentIcon from "../icons/CommentIcon";
 import PeopleIcon from "../icons/PeopleIcon";
 import AccountIcon from "../icons/AccountIcon";
+import { useVisibilityContext } from "../contexts/VisibilityContext";
 
 /* for large screens: messages are always visible, chat button shows chats 
-and people button shows people. for small screens, 
+and people button shows people. for small screens, default start position is messages
+visible, people and chats hidden. 
  */
 
-export default function Menu({ setVisibility }) {
-  const smallScreenChatHandler = () => {
-    setVisibility((val) => {
-      if (val.messages) {
-        return { messages: false, chats: true, people: false };
-      } else {
-        return { messages: true, chats: false, people: false };
-      }
-    });
-  };
-
-  const chatClickhandler = () => {
-    setVisibility((val) => {
-      const data = { ...val };
-      data.chats = true;
-      data.people = false;
-      return data;
-    });
-  };
-
-  const smallScreenPeopleHandler = () => {
-    setVisibility({ messages: false, chats: false, people: true });
-  };
-
-  const peopleClickhandler = () => {
-    setVisibility((val) => {
-      const data = { ...val };
-      data.chats = false;
-      data.people = true;
-      return data;
-    });
-  };
+export default function Menu() {
+  const {
+    smallScreenChatHandler,
+    smallScreenPeopleHandler,
+    chatClickhandler,
+    peopleClickhandler,
+  } = useVisibilityContext();
 
   return (
     <div className="flex row-start-2 xs:row-start-1 xs:flex-col justify-between items-center bg-neutral-800 rounded-xl p-5 shadow">

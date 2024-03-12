@@ -5,7 +5,7 @@ const ActionCableContext = createContext(null);
 
 export function useActionCableContext() {
   const value = useContext(ActionCableContext);
-  if (value === null) throw Error("Can't be used outside BlogContextProvider");
+  if (value === null) throw Error("Can't be used outside ContextProvider");
   return value;
 }
 

@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import Searchbar from "../components/SearchBar";
+import { useVisibilityContext } from "../contexts/VisibilityContext";
 
-export default function PeopleSidebar({ visible }) {
+export default function PeopleSidebar() {
+  const { visibility } = useVisibilityContext();
+  const visible = visibility.people;
   const [people, setPeople] = useState([]);
   const [selectedPeople, setSelectedPeople] = useState([]);
 
