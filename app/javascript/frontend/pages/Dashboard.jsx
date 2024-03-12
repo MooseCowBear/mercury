@@ -27,7 +27,6 @@ export default function Dashboard() {
           <Menu setVisibility={setVisibility} />
           <ChatSidebar visible={visibility.chats} />
           <PeopleSidebar visible={visibility.people} />
-
           <ChatMain visible={visibility.messages} />
         </div>
       </ActionCableProvider>

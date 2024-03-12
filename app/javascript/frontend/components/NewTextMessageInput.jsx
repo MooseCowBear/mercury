@@ -3,7 +3,7 @@ import SendMessageButton from "./SendMessageButton";
 import { postResource } from "../utils/apiRequest";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 
-// IF not current room, then disable
+// IF not current room, then disable ?
 
 export default function NewTextMessageInput() {
   const { userInfo } = useUserInfoContext();
@@ -36,8 +36,6 @@ export default function NewTextMessageInput() {
       dataHandler
     );
   };
-
-  // PROBLEM: didn't clear input!
 
   // change to form + submit button
   return (

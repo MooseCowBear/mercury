@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Searchbar from "../components/SearchBar";
 
 export default function PeopleSidebar({ visible }) {
+  const [people, setPeople] = useState([]);
+  const [selectedPeople, setSelectedPeople] = useState([]);
+
   return (
     <div
       className={`${
