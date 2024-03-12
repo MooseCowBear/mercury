@@ -3,7 +3,6 @@ import ChatMain from "../layout/ChatMain.jsx";
 import Menu from "../layout/Menu.jsx";
 import ChatSidebar from "../layout/ChatSidebar.jsx";
 import PeopleSidebar from "../layout/PeopleSidebar.jsx";
-import { useWindowResize } from "../hooks/useWindowResize.js";
 import { UserInfoProvider } from "../contexts/UserInfoContext.jsx";
 import { ActionCableProvider } from "../contexts/ActionCableContext.jsx";
 import { VisibilityProvider } from "../contexts/VisibilityContext.jsx";
