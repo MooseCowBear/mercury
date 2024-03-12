@@ -41,13 +41,5 @@ export default function MessageFormContainer() {
   );
 }
 
-// has temp form.. needs to trade out new text message form and new image message form
-// needs to submit depending on the type... maybe it would better to have the whole form,
-// ie. with the submit button as individual forms
+// also, want to disable the submission UNLESS there is a current user/chat?
 
-// NEXT: "send" button needs to submit the post request to the right URL
-// message inputs need state which will be passed since the submission occurs here?
-
-// also, want to disable the submission UNLESS there is a current user/chat!
-
-// Move the send button INTO the New--MessageInput. then submit handler doesn't have to be conditional

@@ -127,4 +127,9 @@ RSpec.describe Chat, type: :model do
       # TODO
     end
   end
+
+  describe "#notifications_count" do
+    it "returns number of notifications for chat and user" do
+    end
+  end
 end

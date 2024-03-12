@@ -4,7 +4,6 @@ class Notifications::CreateService < ApplicationService
   end
 
   def call 
-    pp "CALLING NOTIFY"
     notify
   end
 
