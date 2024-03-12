@@ -31,8 +31,7 @@ class Chat < ApplicationRecord
     }
 
   before_validation :clean_name
-  after_create_commit :broadcast_public_chat, unless: :is_private?
-  #after_commit :broadcast_private_chat, if: :is_private?
+  after_create_commit :broadcast_public_chat, unless: :is_private? # will this stay or will it be after first message?
 
   def participant?(user)
     return true unless is_private
@@ -71,12 +70,7 @@ class Chat < ApplicationRecord
 
   def broadcast_public_chat
     unless is_private
-      ActionCable.server.broadcast("ChatsChannel", self)
+      ActionCable.server.broadcast("PublicChatsChannel", self)
     end
   end
-
-  # def broadcast_private_chat
-  #   chat = self.as_json(include: :users) # for broadcasting the creation of a new room
-  #   # needs updating
-  # end
 end

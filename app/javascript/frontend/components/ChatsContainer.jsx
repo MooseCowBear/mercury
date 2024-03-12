@@ -7,6 +7,10 @@ import {
   unsubscribeToPrivateChatsChannel,
 } from "../../channels/private_chats_channel";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
+import {
+  subscribeToPublicChatsChannel,
+  unsubscribeToPublicChatsChannel,
+} from "../../channels/public_chats_channel";
 
 export default function ChatsContainer({ title, isPrivate }) {
   const { userInfo } = useUserInfoContext();
@@ -52,14 +56,18 @@ export default function ChatsContainer({ title, isPrivate }) {
       );
     } else if (userInfo && !isPrivate) {
       // subscribe to public chats channel, currently rooms channel
+      subscribeToPublicChatsChannel(
+        chatChannelRef,
+        cable,
+        setChats,
+        updateChats
+      );
     }
     return () => {
       unsubscribeToPrivateChatsChannel(chatChannelRef, cable);
+      unsubscribeToPublicChatsChannel(chatChannelRef, cable);
     };
-    // when does it update = new message for chat
-  }, [userInfo]);
-
-  // which subscription depends on private or not
+  }, [userInfo]); // does this need to depend on userinfo?
 
   return (
     <div className="py-4 min-h-0 min-w-0">
@@ -72,15 +80,3 @@ export default function ChatsContainer({ title, isPrivate }) {
     </div>
   );
 }
-
-// TODO: add cable subscription
-
-// this is where we will want to consume the action cable broadcast for chats
-// if chats is a state of this container, is that ok?
-
-// current chat should be a context to be consumed here
-// and also in the messages container...
-
-// which channel it listens to depends on whether its private or not
-
-// NEED TWO SUBSCRIPTIONS! one for private one for public each will handle own
