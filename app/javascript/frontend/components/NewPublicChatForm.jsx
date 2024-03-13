@@ -3,7 +3,10 @@ import { postResource } from "../utils/apiRequest";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useVisibilityContext } from "../contexts/VisibilityContext";
 
-export default function NewPublicChatForm({ setNewChatForm }) {
+export default function NewPublicChatForm({
+  setNewChatForm,
+  setChats
+}) {
   const { setUserInfo } = useUserInfoContext();
   const { chatVisibilityHandler } = useVisibilityContext();
   const [input, setInput] = useState("");
@@ -28,6 +31,11 @@ export default function NewPublicChatForm({ setNewChatForm }) {
       } else {
         setNewChatForm(false);
         setUserInfo(data);
+        setChats((chats) => {
+          const copy = [...chats];
+          copy.push(data.current_chat);
+          return copy;
+        })
         // on desktop, won't do anything. on mobile will swap the chats for messages
         // bc if you created a room, then you probably will want to send a message to it
         chatVisibilityHandler();

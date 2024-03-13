@@ -100,7 +100,12 @@ export default function ChatsContainer({ title, isPrivate }) {
         </button>
       </div>
       <div className="flex flex-col divide-y-[1px]">
-        {newChatForm && <NewPublicChatForm setNewChatForm={setNewChatForm} />}
+        {newChatForm && (
+          <NewPublicChatForm
+            setNewChatForm={setNewChatForm}
+            setChats={setChats}
+          />
+        )}
         {chats.map((chat) => {
           return <ChatCard key={chat.id} chat={chat} />;
         })}
