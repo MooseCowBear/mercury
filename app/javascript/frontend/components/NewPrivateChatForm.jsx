@@ -1,31 +1,35 @@
 import React from "react";
 import SelectedPerson from "./SelectedPerson";
+import Plus from "../icons/Plus";
 
-export default function NewPrivateChatForm({ people, setSelectedPeople }) {
-  // needs a create button...
-  // create button creates the chat on the back end and also clears set people
-  // and sets user's room and disappears people side bar!
-
+export default function NewPrivateChatForm({
+  selectedPeople,
+  setSelectedPeople,
+}) {
   const submitHandler = () => {
     // send request to create new private chat/find if existing
     // and update curr user chat to it
   };
 
   return (
-    <div>
-      <div>
-        {people.length == 0 && <p>No one has been selected</p>}
-        {people.map((person) => {
+    <div className="grid grid-cols-[1fr,_auto] items-center gap-1 m-4">
+      <div className="border-[1px] rounded-full px-3 py-2">
+        {selectedPeople.length == 0 && (
+          <p className="text-xs text-neutral-400">No one has been selected</p>
+        )}
+        {selectedPeople.map((person) => {
           return (
             <SelectedPerson
               key={person.id}
-              person={person}
+              selectedPerson={person}
               setSelectedPeople={setSelectedPeople}
             />
           );
         })}
       </div>
-      <button onClick={submitHandler}>create</button>
+      <button className="bg-poppy-500 p-1 rounded-full" onClick={submitHandler}>
+        <Plus />
+      </button>
     </div>
   );
 }

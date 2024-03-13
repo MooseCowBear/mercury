@@ -1,61 +1,35 @@
-import React from "react";
-import { isUserActive } from "../helpers/users";
-import { makePostRequest } from "../helpers/apiRequest";
+import React, { useState } from "react";
+import { isUserActive } from "../utils/users";
 
-//OLD
+export default function PersonCard({ person, setSelectedPeople }) {
+  const [selected, setSelected] = useState(false);
 
-export default PersonCard = ({
-  person,
-  setCurrentRoom,
-  setError,
-  setViewPeople,
-}) => {
   const active = isUserActive(person.last_active);
 
-  const clickHandler = () => {
-    const url = "/api/v1/private_rooms/create";
-    const fetchBody = { user_id: person.id };
-    const method = "POST";
-
-    const setState = (data) => {
-      setCurrentRoom(data);
-      setError(null);
-      setViewPeople(false);
-    };
-
-    const errorSetter = (value) => {
-      console.log(error);
-      setError(value);
-    };
-
-    makePostRequest(url, fetchBody, method)
-      .then((data) => setState(data))
-      .catch((error) => errorSetter(error));
+  const toggleSelected = () => {
+    if (selected) {
+      setSelectedPeople((val) => {
+        return val.filter((elem) => elem !== person);
+      });
+    } else {
+      setSelectedPeople((val) => {
+        const data = [...val];
+        data.push(person);
+        return data;
+      });
+    }
+    setSelected((val) => val);
   };
 
   return (
-    <div className="flex items-center gap-2">
-      <div
-        className={`flex items-center justify-center p-4 rounded-full h-9 w-9 border-2 border-cyan-800 dark:bg-gray-800 dark:border-teal-600 ${
-          active
-            ? "bg-teal-800 text-gray-50 dark:bg-teal-600"
-            : "text-teal-800 dark:text-teal-600"
-        }`}
-      >
-        {person.username[0]}
-      </div>
-      <div>
-        <div className="flex items-center gap-1">
-          <h3 className="uppercase tracking-wider">{person.username}</h3>
-          {active && <span className="text-xs text-gray-500">active</span>}
-        </div>
-        <button
-          className="lowercase hover:text-teal-500 focus:text-teal-500 dark:hover:text-teal-300 dark:focus:text-teal-300"
-          onClick={clickHandler}
-        >
-          Send a message
-        </button>
-      </div>
-    </div>
+    <button
+      onClick={toggleSelected}
+      className={`w-full flex justify-between items-center py-2 px-4 ${
+        selected && "bg-neutral-100"
+      }`}
+    >
+      <h3>{person.username}</h3>
+      {active && <span className="text-xs text-gray-400">active</span>}
+    </button>
   );
-};
+}

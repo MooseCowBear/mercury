@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Searchbar from "../components/SearchBar";
 import { useVisibilityContext } from "../contexts/VisibilityContext";
-import PersonCard from "../components/PersonCard2";
+import PersonCard from "../components/PersonCard";
 import { getResource } from "../utils/apiRequest";
 import NewPrivateChatForm from "../components/NewPrivateChatForm";
 
