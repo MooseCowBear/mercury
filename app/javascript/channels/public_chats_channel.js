@@ -8,7 +8,7 @@ export const subscribeToPublicChatsChannel = (
     { channel: "PublicChatsChannel" },
     {
       received(data) {
-        setChats((chats) => updateChats(data, chats));
+        setChats((chats) => updateChats(JSON.parse(data), chats));
       },
     }
   );
