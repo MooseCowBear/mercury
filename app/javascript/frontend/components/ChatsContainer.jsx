@@ -85,7 +85,7 @@ export default function ChatsContainer({ title, isPrivate }) {
 
   return (
     <div className="py-4 min-h-0 min-w-0">
-      <div className="px-2 mb-1 flex justify-between items-center">
+      <div className="px-4 mb-1 flex justify-between items-center">
         <h3 className="text-xs uppercase text-neutral-500 leading-none">
           {title}
         </h3>

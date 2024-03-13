@@ -53,7 +53,7 @@ export default function ChatCard({ chat }) {
 
   return (
     <button
-      className={`w-full flex justify-between items-center py-2 px-3 ${
+      className={`w-full flex justify-between items-center py-2 px-4 ${
         currChatId == chat.id && "bg-neutral-100"
       }`}
       onClick={clickHandler}
@@ -72,7 +72,7 @@ export default function ChatCard({ chat }) {
         <p className="text-xs self-start">{time}</p>
         <div
           className={`flex items-center justify-center rounded-full size-6 text-white text-sm ${
-            (isPrivate && chat.notification_count > 0) && "bg-poppy-500"
+            isPrivate && chat.notification_count > 0 && "bg-poppy-500"
           }`}
         >
           {chat.notification_count}
