@@ -33,7 +33,7 @@ class Api::V1::PublicChatsController < ApplicationController
   private 
 
   def chat_params 
-    params.require(:chat).permit(:name, :is_private)
+    params.require(:public_chat).permit(:name, :is_private)
   end
 
   def set_chat
