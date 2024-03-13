@@ -5,6 +5,8 @@ const VisibilityContext = createContext(null);
 
 const MOBILE_LAYOUT_BREAKPOINT = 768;
 
+const desktop = () => window.innerWidth > MOBILE_LAYOUT_BREAKPOINT;
+
 export function useVisibilityContext() {
   const value = useContext(VisibilityContext);
   if (value === null) throw Error("Can't be used outside ContextProvider");
@@ -14,13 +16,13 @@ export function useVisibilityContext() {
 export function VisibilityProvider({ children }) {
   const [visibility, setVisibility] = useState({
     messages: true,
-    chats: window.innerWidth > MOBILE_LAYOUT_BREAKPOINT ? true : false,
+    chats: desktop(),
     people: false,
   });
 
   useWindowResize(MOBILE_LAYOUT_BREAKPOINT, setVisibility);
 
-  const smallScreenChatHandler = () => {
+  const mobileChatVisibilityHandler = () => {
     setVisibility((val) => {
       if (val.messages) {
         return { messages: false, chats: true, people: false };
@@ -30,7 +32,7 @@ export function VisibilityProvider({ children }) {
     });
   };
 
-  const chatClickhandler = () => {
+  const desktopChatVisibilityHandler = () => {
     setVisibility((val) => {
       const data = { ...val };
       data.chats = true;
@@ -39,11 +41,19 @@ export function VisibilityProvider({ children }) {
     });
   };
 
-  const smallScreenPeopleHandler = () => {
+  const chatVisibilityHandler = () => {
+    if (desktop()) {
+      desktopChatVisibilityHandler();
+    } else {
+      mobileChatVisibilityHandler();
+    }
+  };
+
+  const mobilePeopleVisibilityHandler = () => {
     setVisibility({ messages: false, chats: false, people: true });
   };
 
-  const peopleClickhandler = () => {
+  const desktopPeopleVisibilityHandler = () => {
     setVisibility((val) => {
       const data = { ...val };
       data.chats = false;
@@ -51,15 +61,21 @@ export function VisibilityProvider({ children }) {
       return data;
     });
   };
+
+  const peopleVisibilityHandler = () => {
+    if (desktop()) {
+      desktopPeopleVisibilityHandler();
+    } else {
+      mobilePeopleVisibilityHandler();
+    }
+  };
   return (
     <VisibilityContext.Provider
       value={{
         visibility,
         setVisibility,
-        smallScreenChatHandler,
-        smallScreenPeopleHandler,
-        chatClickhandler,
-        peopleClickhandler,
+        chatVisibilityHandler,
+        peopleVisibilityHandler,
       }}
     >
       {children}

@@ -13,12 +13,14 @@ import {
   unsubscribeToPublicChatsChannel,
 } from "../../channels/public_chats_channel";
 import NewPublicChatForm from "./NewPublicChatForm";
+import { useVisibilityContext } from "../contexts/VisibilityContext";
 
 export default function ChatsContainer({ title, isPrivate }) {
   const { userInfo } = useUserInfoContext();
   const { cable } = useActionCableContext();
-  const [chats, setChats] = useState([]);
+  const { peopleVisibilityHandler } = useVisibilityContext();
 
+  const [chats, setChats] = useState([]);
   const [newChatForm, setNewChatForm] = useState(false);
 
   const chatChannelRef = useRef(null);
@@ -75,7 +77,7 @@ export default function ChatsContainer({ title, isPrivate }) {
 
   const clickHandler = () => {
     if (isPrivate) {
-      // show people -- should move visibility to a context since this will need it
+      peopleVisibilityHandler();
     } else {
       setNewChatForm(true);
     }

@@ -11,43 +11,17 @@ visible, people and chats hidden.
  */
 
 export default function Menu() {
-  const {
-    smallScreenChatHandler,
-    smallScreenPeopleHandler,
-    chatClickhandler,
-    peopleClickhandler,
-  } = useVisibilityContext();
+  const { chatVisibilityHandler, peopleVisibilityHandler } =
+    useVisibilityContext();
 
   return (
     <div className="flex row-start-2 xs:row-start-1 xs:flex-col justify-between items-center bg-neutral-800 rounded-xl p-5 shadow">
       <FeatherIcon />
       <div className="flex xs:flex-col gap-3">
-        <button
-          aria-label="view chats"
-          onClick={chatClickhandler}
-          className="hidden md:block"
-        >
+        <button aria-label="view chats" onClick={chatVisibilityHandler}>
           <CommentIcon />
         </button>
-        <button
-          aria-label="go to chat"
-          onClick={smallScreenChatHandler}
-          className="block md:hidden"
-        >
-          <CommentIcon />
-        </button>
-        <button
-          aria-label="find people"
-          onClick={peopleClickhandler}
-          className="hidden md:block"
-        >
-          <PeopleIcon />
-        </button>
-        <button
-          aria-label="find people"
-          onClick={smallScreenPeopleHandler}
-          className="block md:hidden"
-        >
+        <button aria-label="find people" onClick={peopleVisibilityHandler}>
           <PeopleIcon />
         </button>
       </div>
