@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ChatMain from "../layout/ChatMain.jsx";
 import Menu from "../layout/Menu.jsx";
 import ChatSidebar from "../layout/ChatSidebar.jsx";
