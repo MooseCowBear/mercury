@@ -11,7 +11,8 @@ class Api::V1::PublicChatsController < ApplicationController
   def create
     chat = Chat.new(chat_params)
     if chat.save 
-      render json: chat
+      current_user.update(current_chat_id: chat.id) # put the user in the chat they created
+      render json: current_user, include: [:current_chat]
     else
       render json: { message: "Validations Failed", 
                     errors: chat.errors.full_messages }, 
