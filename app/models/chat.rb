@@ -31,7 +31,6 @@ class Chat < ApplicationRecord
     }
 
   before_validation :clean_name
-  after_create_commit :broadcast_public_chat, unless: :is_private? # will this stay or will it be after first message?
 
   def participant?(user)
     return true unless is_private
