@@ -18,7 +18,7 @@ class Api::V1::MessagesController < ApplicationController
 
     if message.save 
       Notifications::CreateService.call(message)
-      PrivateChat::BroadcastService.call(message)
+      Message::BroadcastService.call(message)
       render json: message.to_json(include: [:user])
     else
       render json: { message: "Validations Failed", 
