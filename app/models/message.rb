@@ -20,6 +20,10 @@ class Message < ApplicationRecord
     chat.active_users.outside_chat(chat)
   end
 
+  def is_private
+    chat.is_private
+  end
+
   private
 
   def broadcast_message
