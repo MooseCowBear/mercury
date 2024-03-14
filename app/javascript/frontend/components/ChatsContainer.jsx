@@ -25,8 +25,11 @@ export default function ChatsContainer({ title, isPrivate }) {
 
   const chatChannelRef = useRef(null);
 
+  /* this is for getting rooms when user has added a new room */
   useEffect(() => {
     const abortController = new AbortController();
+
+    console.log("fetching chats");
 
     const url = isPrivate
       ? "/api/v1/private_chats/index"
@@ -37,8 +40,10 @@ export default function ChatsContainer({ title, isPrivate }) {
     return () => {
       abortController.abort();
     };
-  }, []);
+  }, [userInfo]); // needed to re-fetch when new room is created
 
+  // TODO: need to order these!!
+  // really, should remove chat IF exists and then put the received (new or not) chat in FRONT
   const updateChats = (data, chats) => {
     const chatsCopy = [...chats];
     const index = chatsCopy.findIndex((elem) => elem.id === data.id);
@@ -50,6 +55,7 @@ export default function ChatsContainer({ title, isPrivate }) {
     return chatsCopy;
   };
 
+  /* this is for updating chats sidebar when user has not changed their chat */
   useEffect(() => {
     // need to subscribe to private chats channel
     if (userInfo && isPrivate) {
@@ -73,7 +79,7 @@ export default function ChatsContainer({ title, isPrivate }) {
       unsubscribeToPrivateChatsChannel(chatChannelRef, cable);
       unsubscribeToPublicChatsChannel(chatChannelRef, cable);
     };
-  }, [userInfo]); // does this need to depend on userinfo?
+  }, [userInfo]);
 
   const clickHandler = () => {
     if (isPrivate) {

@@ -1,11 +1,5 @@
-// helper functions for any display of private room(s)
+// helper functions for any display of private chats(s)
 import copyObjectArr from "./copy";
-
-export const getInterlocutor = (room, user) => {
-  // the name of the room will be: pc_username1_username2
-  const [_, one, two] = room.name.split("_");
-  return user.username == one ? two : one;
-};
 
 export const notificationCount = (room, notifications) => {
   if (room.is_private) {
@@ -20,4 +14,15 @@ export const notificationCount = (room, notifications) => {
 export const removeRoom = (rooms, parsedResponse) => {
   const newRooms = copyObjectArr(rooms);
   return newRooms.filter((elem) => elem.id !== parsedResponse.id);
+};
+
+// want:
+
+/* backend wants ids of chat participants, including the user who initiated the chat */
+export const selectedPeopleIds = (selectedPeople, userInfo) => {
+  const selectedPeopleIdArr = selectedPeople.map((person) => {
+    return { user_id: person.id };
+  });
+  selectedPeopleIdArr.push({ user_id: userInfo.id });
+  return selectedPeopleIdArr;
 };

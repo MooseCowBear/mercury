@@ -1,18 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import SelectedPerson from "./SelectedPerson";
 import SendCircle from "../icons/SendCircle";
+import { selectedPeopleIds } from "../utils/privateChats";
+import { useUserInfoContext } from "../contexts/UserInfoContext";
+import { useVisibilityContext } from "../contexts/VisibilityContext";
+import { postResource } from "../utils/apiRequest";
 
 export default function NewPrivateChatForm({
   selectedPeople,
   setSelectedPeople,
 }) {
+  const { userInfo, setUserInfo } = useUserInfoContext();
+  const { chatVisibilityHandler } = useVisibilityContext();
+  const [error, setError] = useState(null);
+
   const submitHandler = () => {
-    // send request to create new private chat/find if existing
-    // and update curr user chat to it
+    const ids = selectedPeopleIds(selectedPeople, userInfo);
+
+    // PROBLEM: want creator to see new chat BEFORE a message is sent
+    // need to lift state to do that. bc currently private chats are not available to PEOPLE SIDEBAR and so
+    // not available here!!
+    const dataHandler = (data) => {
+      if (data.hasOwnProperty("errors")) {
+        setError(data.errors.join(", "));
+      } else {
+        setSelectedPeople([]);
+        setUserInfo(data);
+        chatVisibilityHandler();
+      }
+    };
+
+    postResource(
+      "/api/v1/private_chats/create",
+      JSON.stringify({ chat_participants_attributes: ids }),
+      "POST",
+      dataHandler
+    );
   };
 
   return (
     <div className="grid grid-cols-[1fr,_auto] items-center gap-1 m-4">
+      {error && <span className="justify-self-center text-xs">{error}</span>}
       <div className="border-[1px] rounded-full px-3 py-3 flex justify-center items-center flex-wrap gap-1">
         {selectedPeople.length == 0 && (
           <p className="text-xs text-neutral-400">No one has been selected</p>
