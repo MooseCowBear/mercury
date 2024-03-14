@@ -34,9 +34,6 @@ export default function PeopleSidebar() {
     };
   }, []);
 
-  if (error) return <p>Something went wrong</p>;
-  if (loading) return <p>Loading...</p>;
-
   return (
     <div
       className={`${
@@ -60,6 +57,8 @@ export default function PeopleSidebar() {
             />
           );
         })}
+        {error && <p>Something went wrong</p>}
+        {loading && <p>Loading...</p>}
       </div>
     </div>
   );
