@@ -7,7 +7,7 @@ export default function SelectedPerson({ selectedPerson, setSelectedPeople }) {
   };
 
   return (
-    <div className="bg-neutral-800 text-white p-2 rounded-lg w-fit flex gap-1">
+    <div className="bg-neutral-800 text-white px-2 py-1 rounded-lg w-fit flex gap-1">
       {selectedPerson.username}
       <button className="" onClick={deselect}>
         <Close />
