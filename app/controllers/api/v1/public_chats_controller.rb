@@ -4,10 +4,12 @@ class Api::V1::PublicChatsController < ApplicationController
   before_action :confirm_ownership, only: [:update]
   
   def index
-    chats = Chat.public_chats.active.order(:created_at)
+    chats = Chat.public_chats.active.has_message.order(updated_at: :desc)
     render json: chats, methods: :last_message
   end
 
+  # should destroy inactive chats BEFORE trying to create a new one, so possibly free up name!!!
+  # after adding a buffer zone of read only chats
   def create
     chat = Chat.new(chat_params)
     if chat.save 
