@@ -7,19 +7,35 @@ import NewPrivateChatForm from "../components/NewPrivateChatForm";
 
 export default function PeopleSidebar() {
   const { visibility } = useVisibilityContext();
-  const visible = visibility.people;
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [people, setPeople] = useState([]);
   const [selectedPeople, setSelectedPeople] = useState([]);
+  const visible = visibility.people;
 
   useEffect(() => {
     const abortController = new AbortController();
 
-    getResource("/api/v1/users", abortController, setPeople);
+    const dataHandler = (data) => {
+      setPeople(data);
+      setError(null);
+      setLoading(false);
+    };
+
+    const errorHandler = (e) => {
+      setError(true);
+      setLoading(false);
+    };
+
+    getResource("/api/v1/users", abortController, dataHandler, errorHandler);
 
     return () => {
       abortController.abort();
     };
   }, []);
+
+  if (error) return <p>Something went wrong</p>;
+  if (loading) return <p>Loading...</p>;
 
   return (
     <div
@@ -30,7 +46,7 @@ export default function PeopleSidebar() {
       }`}
     >
       <Searchbar title="People" />
-      <div className="bg-white rounded-xl shadow divide-y-[1px]">
+      <div className="bg-white rounded-xl shadow divide-y-[1px] min-w-0">
         <NewPrivateChatForm
           selectedPeople={selectedPeople}
           setSelectedPeople={setSelectedPeople}
