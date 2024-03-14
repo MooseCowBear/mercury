@@ -2,9 +2,14 @@ import React from "react";
 import Searchbar from "../components/SearchBar";
 import ChatsContainer from "../components/ChatsContainer";
 import { useVisibilityContext } from "../contexts/VisibilityContext";
+import { usePrivateChatsContext } from "../contexts/PrivateChatsContext";
+import { usePublicChatsContext } from "../contexts/PublicChatsContext";
 
 export default function ChatSidebar() {
   const { visibility } = useVisibilityContext();
+  const { privateChats } = usePrivateChatsContext();
+  const { publicChats } = usePublicChatsContext();
+
   const visible = visibility.chats;
 
   return (
@@ -17,8 +22,8 @@ export default function ChatSidebar() {
     >
       <Searchbar title="Chat" />
       <div className="bg-white rounded-xl shadow divide-y-[1px]">
-        <ChatsContainer title="public" isPrivate={false} />
-        <ChatsContainer title="private" isPrivate={true} />
+        <ChatsContainer title="public" chats={publicChats} />
+        <ChatsContainer title="private" chats={privateChats} />
       </div>
     </div>
   );
