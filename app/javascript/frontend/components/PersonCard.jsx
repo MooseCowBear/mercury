@@ -3,13 +3,13 @@ import { isUserActive } from "../utils/users";
 
 export default function PersonCard({ person, setSelectedPeople }) {
   const [selected, setSelected] = useState(false);
-
   const active = isUserActive(person.last_active);
 
   const toggleSelected = () => {
     if (selected) {
       setSelectedPeople((val) => {
-        return val.filter((elem) => elem !== person);
+        const data = val.filter((elem) => elem !== person);
+        return data;
       });
     } else {
       setSelectedPeople((val) => {
@@ -18,7 +18,7 @@ export default function PersonCard({ person, setSelectedPeople }) {
         return data;
       });
     }
-    setSelected((val) => val);
+    setSelected((val) => !val);
   };
 
   return (
