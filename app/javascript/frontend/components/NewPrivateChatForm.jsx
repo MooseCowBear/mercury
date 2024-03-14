@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import SelectedPerson from "./SelectedPerson";
 import SendCircle from "../icons/SendCircle";
-import { selectedPeopleIds } from "../utils/privateChats";
+import { selectedPeopleIds } from "../utils/chats";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useVisibilityContext } from "../contexts/VisibilityContext";
 import { postResource } from "../utils/apiRequest";
+import { usePrivateChatsContext } from "../contexts/PrivateChatsContext";
+
+/* like for public chats, want a newly created private chat to appear for the creator
+even before the first message is sent. uses same operation. adds the new private
+chat to the top of the private chats list */
 
 export default function NewPrivateChatForm({
   selectedPeople,
@@ -12,20 +17,23 @@ export default function NewPrivateChatForm({
 }) {
   const { userInfo, setUserInfo } = useUserInfoContext();
   const { chatVisibilityHandler } = useVisibilityContext();
+  const { setPrivateChats } = usePrivateChatsContext();
+
   const [error, setError] = useState(null);
 
   const submitHandler = () => {
     const ids = selectedPeopleIds(selectedPeople, userInfo);
 
-    // PROBLEM: want creator to see new chat BEFORE a message is sent
-    // need to lift state to do that. bc currently private chats are not available to PEOPLE SIDEBAR and so
-    // not available here!!
     const dataHandler = (data) => {
       if (data.hasOwnProperty("errors")) {
         setError(data.errors.join(", "));
       } else {
         setSelectedPeople([]);
         setUserInfo(data);
+        setPrivateChats((chats) => {
+          const updatedChats = [data.current_chat].concat(chats);
+          return updatedChats;
+        });
         chatVisibilityHandler();
       }
     };

@@ -2,10 +2,18 @@ import React, { useState } from "react";
 import { postResource } from "../utils/apiRequest";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useVisibilityContext } from "../contexts/VisibilityContext";
+import { usePublicChatsContext } from "../contexts/PublicChatsContext";
 
-export default function NewPublicChatForm({ setNewChatForm, setChats }) {
+/* when a user creates a new public chat, it won't be broadcast until a message
+has been sent. but, want the creator to see the new chat (which they have been moved to).
+so we get the new chat information from the backend response and update the public 
+chats context */
+
+export default function NewPublicChatForm({ setNewChatForm }) {
   const { setUserInfo } = useUserInfoContext();
   const { chatVisibilityHandler } = useVisibilityContext();
+  const { setPublicChats } = usePublicChatsContext();
+
   const [input, setInput] = useState("");
   const [error, setError] = useState(null);
 
@@ -28,13 +36,10 @@ export default function NewPublicChatForm({ setNewChatForm, setChats }) {
       } else {
         setNewChatForm(false);
         setUserInfo(data);
-        setChats((chats) => {
-          // EXCEPT: Should insert at index 0! not push: CHECK THIS!!
+        setPublicChats((chats) => {
           const updatedChats = [data.current_chat].concat(chats);
           return updatedChats;
         });
-        // on desktop, won't do anything. on mobile will swap the chats for messages
-        // bc if you created a room, then you probably will want to send a message to it
         chatVisibilityHandler();
       }
     };
