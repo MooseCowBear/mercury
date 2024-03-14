@@ -14,6 +14,7 @@ class Chat < ApplicationRecord
   
   scope :public_chats, -> { where(is_private: false) }
   scope :active, -> { where("updated_at >= ?", 1.week.ago) } 
+  scope :has_message, -> { where(id: Message.select(:chat_id)) }
 
   scope :with_participants, 
     -> (user_ids) {
