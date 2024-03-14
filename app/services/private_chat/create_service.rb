@@ -16,17 +16,11 @@ class PrivateChat::CreateService < ApplicationService
 
   private
 
-  # NOT RIGHT. NEED TO FIND BY NAME where name is generated from user usernames
-  # alphabetical, joined by commas
-  # destroy service won't change
-
   def find_or_create
     user_ids = params.dig(:chat_participants_attributes).map { |key| key[:user_id] }
     name = User.where(id: user_ids).pluck(:username).sort.join(", ")
 
     return unless user_ids.include?(current_user.id)
-
-    # has to be find by name
 
     chat = Chat.find_by(name: name)
 
