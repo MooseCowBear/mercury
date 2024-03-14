@@ -1,15 +1,22 @@
 class Api::V1::PrivateChatsController < ApplicationController
-  #after_action -> { current_user.update_last_active if current_user }
+  after_action -> { current_user.update_last_active if current_user }
   before_action :set_chat, only: [:destroy]
   
-  def index
-    chats = current_user.chats # these are the chats had through chat participants
+  def index 
+    chats = current_user.chats.has_message.order(updated_at: :desc) # these are the chats had through chat participants
     render json: chats.to_json({user: current_user}) # with custom as_json, that includes notifications count
   end
 
   def create
-    chat = PrivateChatCreateService.call(private_chat_params, current_user)
-    render json: chat.to_json(include: [:user])
+    chat = PrivateChat::CreateService.call(private_chat_params, current_user)
+    if chat.save 
+      current_user.update(current_chat_id: chat.id) # put the user in the chat they created
+      render json: current_user, include: [:current_chat]
+    else
+      render json: { message: "Something went wrong", 
+                    errors: chat.errors.full_messages }, 
+                    status: :unprocessable_entity
+    end
   end
 
   def destroy
@@ -24,8 +31,7 @@ class Api::V1::PrivateChatsController < ApplicationController
     @chat = current_user.chats.find(params[:id])
   end
 
-  # check this
   def private_chat_params
-    params.require(:chat).permit(chat_participants_attributes: [:user_id]) # arr of users
+    params.require(:private_chat).permit(chat_participants_attributes: [:user_id])
   end
 end
