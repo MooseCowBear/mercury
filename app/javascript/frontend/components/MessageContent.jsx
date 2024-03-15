@@ -18,7 +18,7 @@ export default MessageContent = ({ message }) => {
             : "self-end rounded-br-xl bg-neutral-100"
         }`}
       >
-        {message.body && <span className="self-start">{message.body}</span>}
+        {message.body && <span className="text-left">{message.body}</span>}
         {message.image && (
           <img
             src={message.image}
