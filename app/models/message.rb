@@ -8,15 +8,13 @@ class Message < ApplicationRecord
   validate :has_content
 
   # the messages that someone would see in a private chat - if they had deleted the chat at some point
-  scope :visible_messages, 
+  scope :messages_after, 
     ->(datetime) { where("created_at > ?", datetime).order(created_at: :asc) }
+
+  delegate :is_private, to: :chat
 
   def notification_recipients
     chat.active_users.outside_chat(chat)
-  end
-
-  def is_private
-    chat.is_private
   end
 
   private

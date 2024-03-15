@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-#UPDATE THIS
 RSpec.describe Message, type: :model do
   it "is valid when it has a body, a chat, a user" do
     user = create(:user)
@@ -19,7 +18,7 @@ RSpec.describe Message, type: :model do
     expect(message).not_to be_valid
   end
 
-  describe ".visible_messages" do
+  describe ".messages_after" do
     before(:each) do
       @user = create(:user)
       @chat = create(:chat, :public)
@@ -28,11 +27,11 @@ RSpec.describe Message, type: :model do
     end
 
     it "includes messages that are newer than date" do
-      expect(Message.visible_messages(2.days.ago)).to include(@message1)
+      expect(Message.messages_after(2.days.ago)).to include(@message1)
     end
 
     it "excludes messages older than date" do
-      expect(Message.visible_messages(2.days.ago)).not_to include(@message2)
+      expect(Message.messages_after(2.days.ago)).not_to include(@message2)
     end
   end
 
@@ -48,6 +47,24 @@ RSpec.describe Message, type: :model do
       message = create(:message, chat: private_chat, user: @user1)
       allow(message).to receive_message_chain(:chat, :active_users, :outside_chat).and_return ([user2])
       expect(message.notification_recipients).to match_array([user2])
+    end
+  end
+
+  describe "#is_private" do
+    before(:each) do
+      user = create(:user)
+      private_chat = create(:chat, :private)
+      public_chat = create(:chat, :public)
+      @private_message = create(:message, chat: private_chat, user: user)
+      @public_message = create(:message, chat: public_chat, user: user)
+    end
+
+    it "returns true if chat message belongs to is private" do
+      expect(@private_message.is_private).to be true
+    end
+
+    it "returns false if chat message belongs to is not private" do
+      expect(@public_message.is_private).to be false
     end
   end
 end
