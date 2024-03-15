@@ -46,7 +46,7 @@ export default function PeopleSidebar() {
           selectedPeople={selectedPeople}
           setSelectedPeople={setSelectedPeople}
         />
-        <div className="overflow-y-auto min-h-0">
+        <div className="overflow-y-auto min-h-0 divide-y-[1px]">
           {people.map((person) => {
             return (
               <PersonCard
