@@ -20,7 +20,7 @@ export default function ChatsContainer({ title, chats }) {
   };
 
   return (
-    <div className="py-4 min-h-0 min-w-0">
+    <div className="py-4 min-w-0 min-h-0 grid grid-rows-[auto,_1fr]">
       <div className="px-4 mb-1 flex justify-between items-center">
         <h3 className="text-xs uppercase text-neutral-500 leading-none">
           {title}
@@ -35,7 +35,7 @@ export default function ChatsContainer({ title, chats }) {
           <Plus />
         </button>
       </div>
-      <div className="flex flex-col divide-y-[1px]">
+      <div className="flex flex-col divide-y-[1px] overflow-y-auto">
         {newChatForm && <NewPublicChatForm setNewChatForm={setNewChatForm} />}
         {chats.map((chat) => {
           return <ChatCard key={chat.id} chat={chat} />;

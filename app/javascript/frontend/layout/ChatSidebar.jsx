@@ -15,13 +15,11 @@ export default function ChatSidebar() {
   return (
     <div
       className={`${
-        visible
-          ? "grid grid-rows-[auto,_1fr] gap-2 overflow-y-auto min-w-fit"
-          : "hidden"
+        visible ? "grid grid-rows-[auto,_1fr] gap-2 min-w-fit" : "hidden"
       }`}
     >
       <Searchbar title="Chat" />
-      <div className="bg-white rounded-xl shadow divide-y-[1px]">
+      <div className="min-h-0 bg-white rounded-xl shadow divide-y-[1px] grid grid-rows-2">
         <ChatsContainer title="public" chats={publicChats} />
         <ChatsContainer title="private" chats={privateChats} />
       </div>
