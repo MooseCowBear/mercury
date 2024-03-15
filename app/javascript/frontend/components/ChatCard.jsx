@@ -7,14 +7,14 @@ import { usePrivateChatsContext } from "../contexts/PrivateChatsContext";
 
 export default function ChatCard({ chat }) {
   const { userInfo, setUserInfo } = useUserInfoContext();
-  const { privateChats, setPrivateChats} = usePrivateChatsContext();
+  const { privateChats, setPrivateChats } = usePrivateChatsContext();
   const currChatId = userInfo ? userInfo.current_chat_id : null;
 
   const isPrivate = chat.is_private;
 
   const privateTitle = (chat) => {
     /* takes chat's name, which is a string of usernames sorted alphabetically
-    andn joined with commas, and replaced curr user's name with 'me', 
+    and joined with commas, and replaced curr user's name with 'me', 
     re-sorts and re-joins */
     if (!userInfo) return;
     return chat.name
@@ -46,7 +46,7 @@ export default function ChatCard({ chat }) {
     const dataHandler = (data) => {
       setUserInfo(data);
       if (data.current_chat.is_private) {
-        clearNotifications(data.current_chat_id, privateChats, setPrivateChats);
+        setPrivateChats(clearNotifications(data.current_chat_id, privateChats));
       }
     };
     postResource(

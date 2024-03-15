@@ -19,13 +19,13 @@ export const selectedPeopleIds = (selectedPeople, userInfo) => {
 /* backend will delete notifications for a chat when a user enters it, but
 the frontend also needs to update. rather than rebroadcast the chat whenever a user 
 updates their current chat, we can just clear them on the frontend */
-export const clearNotifications = (chatId, chats, setChats) => {
+export const clearNotifications = (chatId, chats) => {
   const data = [...chats];
   const index = data.findIndex((elem) => elem.id === chatId);
   if (index > -1) {
     data[index].notification_count = 0;
   }
-  setChats(data);
+  return data;
 };
 
 // NOTE: if wanted to move the entered chat to the top of the list
