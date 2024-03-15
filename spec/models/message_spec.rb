@@ -36,15 +36,12 @@ RSpec.describe Message, type: :model do
   end
 
   describe "#notification_recipients" do
-    before(:each) do
-      @user1 = create(:user)
-    end
-
     it "returns users of chat not currently in chat" do
       private_chat = create(:chat, :private)
-      user2 = create(:user, email: "howard@fake.com", username: "howard")
-      user3 = create(:user, email: "betty@fake.com", username: "betty")
-      message = create(:message, chat: private_chat, user: @user1)
+      user1 = create(:user)
+      user2 = create(:user)
+      user3 = create(:user)
+      message = create(:message, chat: private_chat, user: user1)
       allow(message).to receive_message_chain(:chat, :active_users, :outside_chat).and_return ([user2])
       expect(message.notification_recipients).to match_array([user2])
     end

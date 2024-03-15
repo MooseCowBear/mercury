@@ -1,15 +1,15 @@
 FactoryBot.define do
   factory :chat do
-    { name: "chat default name" }
+    sequence(:name) { |n| "chat#{n}" }
 
     trait :public do
       is_private { false }
-      name {"public chat"}
+      sequence(:name) { |n| "public chat#{n}" }
     end
 
     trait :private do
       is_private { true }
-      name {"private test"}
+      sequence(:name) { |n| "private chat#{n}" }
     end
 
     trait :over_week_old do

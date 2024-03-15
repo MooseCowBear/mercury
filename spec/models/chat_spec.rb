@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Chat, type: :model do
   before(:each) do
-    @chat1 = create(:chat, :public)
+    @chat1 = create(:chat, :public, name: "public chat")
   end
 
   it "is valid with valid attributes" do
@@ -15,13 +15,13 @@ RSpec.describe Chat, type: :model do
   end
 
   it "has a unique name if public" do
-    chat2 = build(:chat, :public)
+    chat2 = build(:chat, :public, name: "public chat")
     expect(chat2).not_to be_valid
   end
 
   it "has a unique name if private" do
-    private_chat1 = create(:chat, :private)
-    private_chat2 = build(:chat, :private)
+    private_chat1 = create(:chat, :private, name: "private chat")
+    private_chat2 = build(:chat, :private, name: "private chat")
     expect(private_chat2).not_to be_valid
   end
 
@@ -77,12 +77,12 @@ RSpec.describe Chat, type: :model do
   describe ".with_participants" do
     it "returns chats with exactly participants provided and no more" do
       user1 = create(:user)
-      user2 = create(:user, username: "two", email: "two@test.com")
-      user3 = create(:user, username: "three", email: "three@test.com")
+      user2 = create(:user)
+      user3 = create(:user)
       chat_with_participants = create(:chat, :private)
       create(:chat_participant, user: user1, chat: chat_with_participants)
       create(:chat_participant, user: user2, chat: chat_with_participants)
-      chat_with_additional_participants = create(:chat, :private, name: "other private chat test")
+      chat_with_additional_participants = create(:chat, :private)
       create(:chat_participant, user: user1, chat: chat_with_additional_participants)
       create(:chat_participant, user: user2, chat: chat_with_additional_participants)
       create(:chat_participant, user: user3, chat: chat_with_additional_participants)
