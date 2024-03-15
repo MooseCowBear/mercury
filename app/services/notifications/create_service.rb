@@ -1,4 +1,9 @@
 class Notifications::CreateService < ApplicationService
+  # notifications should be created for all the chat participants not currently
+  # in the chat when a new message for the chat is created. 
+  # this service handles the creation. the broadcast of the notification count 
+  # (the frontend only cares about the count not the actual notifications)
+  # gets included in the message broadcast service
   def initialize(message)
     @message = message
   end
