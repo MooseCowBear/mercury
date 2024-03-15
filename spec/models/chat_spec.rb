@@ -9,19 +9,30 @@ RSpec.describe Chat, type: :model do
     expect(@chat1).to be_valid
   end
 
-  it "has a name if public" do
+  it "has a name" do
     chat2 = build(:chat, :public, name: "")
     expect(chat2).not_to be_valid
   end
 
-  it "public chat has a unigue name" do
+  it "has a unique name if public" do
     chat2 = build(:chat, :public)
     expect(chat2).not_to be_valid
+  end
+
+  it "has a unique name if private" do
+    private_chat1 = create(:chat, :private)
+    private_chat2 = build(:chat, :private)
+    expect(private_chat2).not_to be_valid
   end
 
   it "public chat has a name 45 characters or less" do
     chat2 = build(:chat, name: "a" * 46)
     expect(chat2).not_to be_valid
+  end
+
+  it "allows private chat to have name more than 45 characters" do
+    chat2 = build(:chat, :private, name: "a" * 46)
+    expect(chat2).to be_valid
   end
 
   it "strips white space from name" do 
@@ -34,14 +45,9 @@ RSpec.describe Chat, type: :model do
     expect(chat2.name).to eq("test")
   end
 
-  it "allows private chat to have no name" do
-    chat2 = build(:chat, :private)
-    expect(chat2).to be_valid
-  end
-
   describe ".public_chats" do
     before(:each) do
-      @chat2 = create(:chat, :private)
+      @chat2 = create(:chat, :private, name: "private chat test name")
     end
 
     it "includes public chats" do
@@ -76,7 +82,7 @@ RSpec.describe Chat, type: :model do
       chat_with_participants = create(:chat, :private)
       create(:chat_participant, user: user1, chat: chat_with_participants)
       create(:chat_participant, user: user2, chat: chat_with_participants)
-      chat_with_additional_participants = create(:chat, :private)
+      chat_with_additional_participants = create(:chat, :private, name: "other private chat test")
       create(:chat_participant, user: user1, chat: chat_with_additional_participants)
       create(:chat_participant, user: user2, chat: chat_with_additional_participants)
       create(:chat_participant, user: user3, chat: chat_with_additional_participants)
@@ -123,13 +129,36 @@ RSpec.describe Chat, type: :model do
   end
 
   describe "#last_message" do
+    before(:each) do
+      @user = create(:user)
+    end
+
     it "returns the last message by created at for chat" do
-      # TODO
+      message1 = create(:message, chat: @chat1, user: @user, body: "first message", created_at: 2.days.ago)
+      message2 = create(:message, chat: @chat1, user: @user, body: "second message")
+
+      expect(@chat1.last_message).to eq message2
+    end
+
+    it "returns nil if chat has no messages" do
+      expect(@chat1.last_message).to be nil
     end
   end
 
-  describe "#notifications_count" do
+  describe "#notification_count" do
+    before(:each) do
+      @user = create(:user, email: "one@test.com", username: "one")
+      user2 = create(:user, email: "two@test.com", username: "two")
+      @chat = create(:chat, :private, name: "private chat")
+      chat2 = create(:chat, :private, name: "other private chat")
+      message = create(:message, user: user2, chat: chat2) # not sure why it didn't like letting the factory create this
+      notification1 = create(:notification, user: @user, chat: @chat, message: message)
+      notification2 = create(:notification, user: user2, chat: @chat, message: message)
+      notification3 = create(:notification, user: @user, chat: chat2, message: message)
+    end
+
     it "returns number of notifications for chat and user" do
+      expect(@chat.notification_count(@user)).to eq 1
     end
   end
 end

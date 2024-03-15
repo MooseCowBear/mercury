@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :chat do
+    { name: "chat default name" }
 
     trait :public do
       is_private { false }
@@ -8,6 +9,7 @@ FactoryBot.define do
 
     trait :private do
       is_private { true }
+      name {"private test"}
     end
 
     trait :over_week_old do

@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :notification do
-    user 
-    chat
+    user { nil }
+    chat { nil }
+    message
   end
 end
