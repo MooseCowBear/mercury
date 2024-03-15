@@ -2,9 +2,12 @@ import React from "react";
 import { displayDateTime } from "../utils/datetime";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { postResource } from "../utils/apiRequest";
+import { clearNotifications } from "../utils/chats";
+import { usePrivateChatsContext } from "../contexts/PrivateChatsContext";
 
 export default function ChatCard({ chat }) {
   const { userInfo, setUserInfo } = useUserInfoContext();
+  const { privateChats, setPrivateChats} = usePrivateChatsContext();
   const currChatId = userInfo ? userInfo.current_chat_id : null;
 
   const isPrivate = chat.is_private;
@@ -42,6 +45,9 @@ export default function ChatCard({ chat }) {
   const clickHandler = () => {
     const dataHandler = (data) => {
       setUserInfo(data);
+      if (data.current_chat.is_private) {
+        clearNotifications(data.current_chat_id, privateChats, setPrivateChats);
+      }
     };
     postResource(
       "/api/v1/users/update",
