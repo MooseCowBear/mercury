@@ -1,4 +1,4 @@
-import { isUserActive } from "../helpers/users";
+import { isUserActive } from "../../frontend/utils/users";
 
 describe("isUserActive", () => {
   it("it returns true when user's last active datetime is is less than 10 minutes ago", () => {

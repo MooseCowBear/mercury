@@ -1,4 +1,4 @@
-import { displayDateTime } from "../helpers/datetime";
+import { displayDateTime } from "../../frontend/utils/datetime";
 
 describe("displayDateTime", () => {
   it("displays the date if not today", () => {
