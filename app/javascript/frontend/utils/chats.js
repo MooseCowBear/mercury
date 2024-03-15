@@ -28,5 +28,25 @@ export const clearNotifications = (chatId, chats) => {
   return data;
 };
 
-// NOTE: if wanted to move the entered chat to the top of the list
-// could just rebroadcast chat..
+/* shared by both the chat sidebar and by the main chat component */
+export const chatTitle = (chat, userInfo) => {
+  if (!userInfo) return;
+  return chat.is_private ? privateTitle(chat, userInfo) : chat.name;
+};
+
+/* helper, takes chat's name, which is a string of usernames sorted alphabetically
+and joined with commas, and replaced curr user's name with 'me', 
+re-sorts and re-joins */
+const privateTitle = (chat, userInfo) => {
+  return chat.name
+    .split(", ")
+    .map((elem) => {
+      if (elem === userInfo.username) {
+        return "me";
+      } else {
+        return elem;
+      }
+    })
+    .sort()
+    .join(", ");
+};
