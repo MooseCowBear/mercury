@@ -37,26 +37,26 @@ export default function PeopleSidebar() {
   return (
     <div
       className={`${
-        visible
-          ? "grid grid-rows-[auto,_1fr] gap-2 overflow-y-auto  min-w-fit"
-          : "hidden"
+        visible ? "grid grid-rows-[auto,_1fr] gap-2  min-w-fit" : "hidden"
       }`}
     >
       <Searchbar title="People" />
-      <div className="bg-white rounded-xl shadow divide-y-[1px] min-w-0">
+      <div className="bg-white rounded-xl shadow divide-y-[1px] min-w-0 grid grid-rows-[auto,_1fr] min-h-0">
         <NewPrivateChatForm
           selectedPeople={selectedPeople}
           setSelectedPeople={setSelectedPeople}
         />
-        {people.map((person) => {
-          return (
-            <PersonCard
-              key={person.id}
-              person={person}
-              setSelectedPeople={setSelectedPeople}
-            />
-          );
-        })}
+        <div className="overflow-y-auto min-h-0">
+          {people.map((person) => {
+            return (
+              <PersonCard
+                key={person.id}
+                person={person}
+                setSelectedPeople={setSelectedPeople}
+              />
+            );
+          })}
+        </div>
         {error && <p>Something went wrong</p>}
         {loading && <p>Loading...</p>}
       </div>
