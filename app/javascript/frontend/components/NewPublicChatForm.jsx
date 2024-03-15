@@ -56,6 +56,11 @@ export default function NewPublicChatForm({ setNewChatForm }) {
     setNewChatForm(false);
   };
 
+  const enterKeyHandler = (e) => {
+    if (e.keyCode !== 13) return;
+    submitHandler();
+  };
+
   return (
     <form
       onSubmit={submitHandler}
@@ -66,6 +71,7 @@ export default function NewPublicChatForm({ setNewChatForm }) {
         aria-label="new chat name"
         type="text"
         onChange={changeHandler}
+        onKeyDown={enterKeyHandler}
         className="w-full border rounded-full px-3 py-1 text-sm lowercase tracking-wider"
       />
       <div className="w-full flex justify-between">

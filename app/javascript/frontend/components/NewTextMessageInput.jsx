@@ -37,6 +37,11 @@ export default function NewTextMessageInput() {
     );
   };
 
+  const enterKeyHandler = (e) => {
+    if (e.keyCode !== 13) return;
+    submitMessage();
+  };
+
   // change to form + submit button
   return (
     <>
@@ -48,6 +53,7 @@ export default function NewTextMessageInput() {
           placeholder="what's on your mind..."
           value={input}
           onChange={changeHandler}
+          onKeyDown={enterKeyHandler}
         />
       </div>
       <SendMessageButton submitHandler={submitMessage} />
