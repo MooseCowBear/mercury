@@ -1,16 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  before(:each) do
-    @user1 = create(:user)
-  end
-
   it "is valid with valid attributes" do
-    expect(@user1).to be_valid
+    user = create(:user)
+    expect(user).to be_valid
   end
 
   it "has a unique username" do
-    user2 = build(:user, email: "larry@test.com")
+    user = create(:user, username: "larry")
+    user2 = build(:user, username: "larry", email: "larry@test.com")
     expect(user2).to_not be_valid
   end
 
@@ -36,7 +34,8 @@ RSpec.describe User, type: :model do
 
   describe ".other_users" do
     before(:each) do
-      @user2 = create(:user, email: "harry@test.com", username: "harry")
+      @user1 = create(:user)
+      @user2 = create(:user)
     end
 
     it "excludes user" do
@@ -51,10 +50,21 @@ RSpec.describe User, type: :model do
   describe ".outside_chat" do
     it "returns users not currently in chat" do
       chat = create(:chat, :public)
-      user_in_chat = create(:user, username: "test", email: "test@test.com", current_chat_id: chat.id)
+      user_outside_chat = create(:user)
+      user_in_chat = create(:user, current_chat_id: chat.id)
       outside_users = User.outside_chat(chat)
-      expect(outside_users.include?(@user1)).to be true
+      expect(outside_users.include?(user_outside_chat)).to be true
       expect(outside_users.include?(user_in_chat)).to be false
+    end
+  end
+
+  describe ".ordered_by_username" do
+    it "returns users in alphabetical order" do 
+      user = create(:user, username: "a")
+      user2 = create(:user, username: "b")
+      ordered = User.ordered_by_username
+      expect(ordered.first).to eq user
+      expect(ordered.last).to eq user2
     end
   end
 end

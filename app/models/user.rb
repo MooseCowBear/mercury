@@ -7,7 +7,7 @@ class User < ApplicationRecord
   has_many :messages, dependent: :nullify
   has_many :notifications, dependent: :destroy
   has_many :chat_participants, dependent: :destroy
-  has_many :chats, through: :chat_participants # group chats
+  has_many :chats, through: :chat_participants # private chats
 
   belongs_to :current_chat, 
     foreign_key: "current_chat_id", 
@@ -25,7 +25,7 @@ class User < ApplicationRecord
     ->(chat) { where.not(current_chat_id: chat).or(where(current_chat_id: nil)) }
 
   before_validation :clean_username
-  after_update :clear_user_notifications, if: :saved_change_to_current_chat_id?
+  after_update :clear_user_notifications, if: :saved_change_to_current_chat_id? # is this staying here?
 
   def update_last_active
     self.touch(:last_active)
