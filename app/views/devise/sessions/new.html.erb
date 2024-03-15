@@ -1,56 +1,56 @@
-<div class="flex flex-col gap-3">
-  <h2 class="text-2xl font-bold uppercase tracking-widest">Log in</h2>
+<div class="flex flex-col gap-3 w-[clamp(300px,_80vw,_800px)] justify-self-center">
+  <h2 class="text-2xl uppercase">Log in</h2>
 
   <%= form_for(
     resource, 
     as: resource_name, 
     url: session_path(resource_name), 
-    html: { class: "flex flex-col gap-3 p-5 bg-gray-50 rounded-md border-2 shadow-sm dark:bg-[#212C31] dark:border-gray-600" }) do |f| %>
+    html: { class: "flex flex-col gap-3 p-5 bg-white rounded-xl shadow py-16" }) do |f| %>
 
     <div class="field">
-      <%= f.label :email, class: "uppercase tracking-wider" %><br />
+      <%= f.label :email, class: "uppercase text-sm" %><br />
       <%= f.email_field :email, 
         autofocus: true, 
         autocomplete: "email", 
-        class: "px-3 py-1 rounded border border-gray-800 w-full dark:bg-[#263238] dark:border-gray-500" %>
+        class: "border py-1 px-5 rounded-full text-sm w-full" %>
     </div>
 
     <div class="field">
-      <%= f.label :password, class: "uppercase tracking-wider" %><br />
+      <%= f.label :password, class: "uppercase text-sm" %><br />
       <%= f.password_field :password, 
         autocomplete: "current-password", 
-        class: "px-3 py-1 rounded border border-gray-800 w-full dark:bg-[#263238] dark:border-gray-500" %>
+        class: "border py-1 px-5 rounded-full text-sm w-full" %>
     </div>
 
     <% if devise_mapping.rememberable? %>
       <div class="field flex items-center gap-2">
         <%= f.check_box :remember_me %>
-        <%= f.label :remember_me %>
+        <%= f.label :remember_me, class: "text-sm" %>
       </div>
     <% end %>
 
     <div class="actions">
       <%= f.submit "Log in", 
-        class: "cursor-pointer w-full rounded border-2 border-gray-800 bg-gray-800 text-gray-50 lowercase tracking-widest py-1 hover:bg-gray-50 hover:text-gray-800 dark:hover:bg-gray-50/80 dark:bg-[#263238] dark:border-gray-500" %>
+        class: "cursor-pointer border border-poppy-500 hover:bg-poppy-500 hover:text-white uppercase py-1 px-5 rounded-full text-sm w-full" %>
     </div>
   <% end %>
 
-  <div class="flex flex-col gap-3 px-5">
-    <h3 class="uppercase tracking-widest font-medium self-center">
+  <div class="flex flex-col gap-3 w-[200px] self-center">
+    <h3 class="uppercase self-center">
       Demo Accounts
     </h3>
     <%= button_to "Sign in as Alice", 
       demo_sessions_path, 
       params: { email: "alice@fake.com" }, 
       method: :post, 
-      class: "cursor-pointer w-full rounded border-2 border-gray-800 bg-gray-800 text-gray-50 lowercase tracking-widest py-1 hover:bg-gray-50 hover:text-gray-800 dark:hover:bg-gray-50/80 dark:bg-[#263238] dark:border-gray-500" %>
+      class: "cursor-pointer border border-neutral-800 hover:bg-neutral-800 hover:text-white uppercase py-1 px-5 rounded-full text-sm w-full" %>
     <%= button_to "Sign in as Bob", 
       demo_sessions_path, params: { email: "bob@fake.com" }, 
       method: :post, 
-      class: "cursor-pointer w-full rounded border-2 border-gray-800 bg-gray-800 text-gray-50 lowercase tracking-widest py-1 hover:bg-gray-50 hover:text-gray-800 dark:hover:bg-gray-50/80 dark:bg-[#263238] dark:border-gray-500" %>
+      class: "cursor-pointer border border-neutral-800 hover:bg-neutral-800 hover:text-white uppercase py-1 px-5 rounded-full text-sm w-full" %>
   </div>
 
-  <div class="self-center text-center">
+  <div class="self-end text-center">
     <%= render "devise/shared/links" %>
   </div>
 </div>
