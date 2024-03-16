@@ -1,14 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function Searchbar({ title }) {
+export default function Searchbar({ title, onChangeHandler = null }) {
+  const [input, setInput] = useState("");
+
+  // right now: only people passing onChangeHander
+  const changeHandler = (e) => {
+    setInput(e.target.value);
+    if (onChangeHandler) {
+      onChangeHandler(e.target.value);
+    }
+  };
+
   return (
     <div className="flex flex-wrap gap-2 items-center justify-between bg-white p-5 rounded-xl shadow">
       <h2 className="uppercase text-sm tracking-wider">{title}</h2>
-      <div className="flex flex-nowrap gap-2">
+      <div className="grow flex flex-nowrap gap-2">
         <input
           type="text"
+          value={input}
+          onChange={changeHandler}
           placeholder="Search"
-          className="min-w-none border rounded-full px-3 py-1 text-sm lowercase tracking-wider"
+          className="grow min-w-none border rounded-full px-3 py-1 text-sm lowercase tracking-wider"
         />
         <button
           aria-label="search chats"

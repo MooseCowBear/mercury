@@ -7,10 +7,13 @@ import NewPrivateChatForm from "../components/NewPrivateChatForm";
 
 export default function PeopleSidebar() {
   const { visibility } = useVisibilityContext();
+
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [people, setPeople] = useState([]);
   const [selectedPeople, setSelectedPeople] = useState([]);
+  const [filterPeopleBy, setFilterPeopleBy] = useState(""); // use this to filter people
+
   const visible = visibility.people;
 
   useEffect(() => {
@@ -34,20 +37,24 @@ export default function PeopleSidebar() {
     };
   }, []);
 
+  const filteredPeople = people.filter((elem) =>
+    elem.username.startsWith(filterPeopleBy)
+  );
+
   return (
     <div
       className={`${
         visible ? "grid grid-rows-[auto,_1fr] gap-2  min-w-fit" : "hidden"
       }`}
     >
-      <Searchbar title="People" />
+      <Searchbar title="People" onChangeHandler={setFilterPeopleBy} />
       <div className="bg-white rounded-xl shadow divide-y-[1px] min-w-0 grid grid-rows-[auto,_1fr] min-h-0">
         <NewPrivateChatForm
           selectedPeople={selectedPeople}
           setSelectedPeople={setSelectedPeople}
         />
         <div className="overflow-y-auto min-h-0 divide-y-[1px]">
-          {people.map((person) => {
+          {filteredPeople.map((person) => {
             return (
               <PersonCard
                 key={person.id}
@@ -63,5 +70,3 @@ export default function PeopleSidebar() {
     </div>
   );
 }
-
-// search bar input size -- how is is currently being determined?
