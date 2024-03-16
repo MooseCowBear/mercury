@@ -2,6 +2,7 @@ import {
   updateChats,
   selectedPeopleIds,
   clearNotifications,
+  chatTitle,
 } from "../../frontend/utils/chats";
 
 describe("updateChats", () => {
@@ -56,5 +57,25 @@ describe("clearNotifications", () => {
     expect(res.length).toEqual(2);
     expect(res.some((elem) => elem.id === 1 && elem.notification_count === 0));
     expect(res.some((elem) => elem.id === 2 && elem.notification_count === 2));
+  });
+});
+
+describe("chatTitle", () => {
+  it("returns name if chat is public", () => {
+    const testUser = { username: "test" };
+    const testChat = { name: "chat name" };
+    expect(chatTitle(testChat, testUser)).toEqual("chat name");
+  });
+
+  it("returns private chat name with user's username replaced with 'me'", () => {
+    const testUser = { username: "test user" };
+    const testChat = { name: "ally, frank, test user", is_private: true };
+    expect(chatTitle(testChat, testUser)).toEqual("ally, frank, me");
+  });
+
+  it("re-alphabetizes private chat name", () => {
+    const testUser = { username: "test user" };
+    const testChat = { name: "ally, sophie, test user", is_private: true };
+    expect(chatTitle(testChat, testUser)).toEqual("ally, me, sophie");
   });
 });
