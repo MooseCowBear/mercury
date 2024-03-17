@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Users", type: :request do
+RSpec.describe "Api::V1::Users", type: :request do
   before(:each) do
     @user = create(:user)
     sign_in @user
@@ -29,7 +29,7 @@ RSpec.describe "Users", type: :request do
     end
   end
 
-  describe "PATCH /api/v1/user/:id" do
+  describe "PATCH /api/v1/users/:id" do
     it "updates current user's current chat and returns user with chat" do
       chat = create(:chat)
 
