@@ -45,7 +45,7 @@ export default function NewPublicChatForm({ setNewChatForm }) {
     };
 
     postResource(
-      "/api/v1/public_chats/create",
+      "/api/v1/public_chats",
       JSON.stringify({ name: input }),
       "POST",
       dataHandler

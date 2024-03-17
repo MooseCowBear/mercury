@@ -4,15 +4,12 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       post 'image_messages/create'
-      get 'notifications/index'
-      get 'public_chats/index'
-      post 'public_chats/create'
-      post 'public_chats/update/:id', to: "public_chats#update"
 
       get "users/show", to: "users#show" # need a way to get current user id from the front end
       resources :users, only: [:index, :update]
       resources :messages, only: [:index, :update, :create, :destroy]
       resources :private_chats, only: [:index, :create, :destroy]
+      resources :public_chats, only: [:index, :create]
     end
   end
   

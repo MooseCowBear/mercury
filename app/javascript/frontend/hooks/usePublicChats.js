@@ -13,7 +13,7 @@ export const usePublicChats = () => {
       setPublicChats(data);
     };
 
-    getResource("/api/v1/public_chats/index", abortController, dataHandler);
+    getResource("/api/v1/public_chats", abortController, dataHandler);
 
     return () => {
       abortController.abort(); // cancel request if unmount
