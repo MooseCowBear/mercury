@@ -11,7 +11,7 @@ Rails.application.routes.draw do
       get 'private_chats/index'
       post 'private_chats/create'
       delete 'private_chats/destroy/:id', to: "private_chats#destroy"
-      get "users/show", to: "users#show"
+      get "users/show", to: "users#show" # need a way to get current user id from the front end
       resources :users, only: [:index, :update]
       resources :messages, only: [:index, :update, :create, :destroy]
     end
