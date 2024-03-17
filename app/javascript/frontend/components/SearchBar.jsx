@@ -3,7 +3,6 @@ import React, { useState } from "react";
 export default function Searchbar({ title, onChangeHandler = null }) {
   const [input, setInput] = useState("");
 
-  // right now: only people passing onChangeHander
   const changeHandler = (e) => {
     setInput(e.target.value);
     if (onChangeHandler) {

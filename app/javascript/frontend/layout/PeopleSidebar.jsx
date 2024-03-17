@@ -38,7 +38,7 @@ export default function PeopleSidebar() {
   }, []);
 
   const filteredPeople = people.filter((elem) =>
-    elem.username.startsWith(filterPeopleBy)
+    elem.username.includes(filterPeopleBy)
   );
 
   return (
