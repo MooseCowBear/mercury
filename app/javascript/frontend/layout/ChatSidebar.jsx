@@ -9,6 +9,7 @@ import { chatTitle } from "../utils/chats";
 
 export default function ChatSidebar() {
   const { userInfo } = useUserInfoContext();
+  //console.log("user info in sidebat", userInfo);
   const { visibility } = useVisibilityContext();
   const { privateChats } = usePrivateChatsContext();
   const { publicChats } = usePublicChatsContext();
@@ -22,6 +23,8 @@ export default function ChatSidebar() {
       chatTitle(elem, userInfo).includes(filterChatsBy)
     );
   };
+
+  if (!userInfo) return <p>loading...</p>;
 
   return (
     <div

@@ -30,9 +30,9 @@ export default function ChatCard({ chat }) {
       }
     };
     postResource(
-      "/api/v1/users/update",
+      `/api/v1/users/${userInfo.id}`,
       JSON.stringify({ user: { current_chat_id: chat.id } }),
-      "post",
+      "PATCH",
       dataHandler
     );
   };
