@@ -69,20 +69,3 @@ export default function Dashboard() {
   );
 }
 
-// TODO: want to add PRIVATE AND PUBLIC CHATS subscriptions here, which means moving action cable provider
-// /* this is for getting rooms when user has added a new room -- DONT THINK I NEED */
-// useEffect(() => {
-//   const abortController = new AbortController();
-
-//   console.log("fetching chats");
-
-//   const url = isPrivate
-//     ? "/api/v1/private_chats/index"
-//     : "/api/v1/public_chats/index";
-
-//   getResource(url, abortController, setChats);
-
-//   return () => {
-//     abortController.abort();
-//   };
-// }, [userInfo]); // needed to re-fetch when new room is created?

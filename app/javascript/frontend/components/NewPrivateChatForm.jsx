@@ -39,7 +39,7 @@ export default function NewPrivateChatForm({
     };
 
     postResource(
-      "/api/v1/private_chats/create",
+      "/api/v1/private_chats",
       JSON.stringify({ chat_participants_attributes: ids }),
       "POST",
       dataHandler
