@@ -9,7 +9,7 @@ class Api::V1::PrivateChatsController < ApplicationController
 
   def create
     chat = PrivateChat::CreateService.call(private_chat_params, current_user)
-    if chat.save 
+    if chat.valid?
       current_user.update(current_chat_id: chat.id) # put the user in the chat they created
       render json: current_user, include: [:current_chat]
     else
@@ -19,7 +19,7 @@ class Api::V1::PrivateChatsController < ApplicationController
     end
   end
 
-  def destroy
+  def destroy # TODO: update this...
     @chat.private_chat_destroy(current_user)
     
     render json: @chat

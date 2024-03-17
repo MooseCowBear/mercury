@@ -18,7 +18,7 @@ class PrivateChat::CreateService < ApplicationService
   private
 
   def find_or_create
-    user_ids = params.dig(:chat_participants_attributes).map { |key| key[:user_id] }
+    user_ids = params.dig(:chat_participants_attributes).map { |key| key[:user_id].to_i }
     name = User.where(id: user_ids).pluck(:username).sort.join(", ")
 
     return unless user_ids.include?(current_user.id)
