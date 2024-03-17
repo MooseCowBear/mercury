@@ -10,7 +10,9 @@ RSpec.describe "Api::V1::Users", type: :request do
     it "returns a list of all users except signed in user" do
       other_user = create(:user)
       get api_v1_users_path
+
       expect(response).to have_http_status(200)
+      expect(response.content_type).to eq("application/json; charset=utf-8")
       expect(response.body).to include(other_user.username)
       expect(response.body).not_to include(@user.username)
     end
@@ -24,6 +26,7 @@ RSpec.describe "Api::V1::Users", type: :request do
       get api_v1_users_show_path
 
       expect(response).to have_http_status(200)
+      expect(response.content_type).to eq("application/json; charset=utf-8")
       expect(response.body).to include(@user.username)
       expect(response.body).to include(chat.name)
     end
@@ -36,6 +39,7 @@ RSpec.describe "Api::V1::Users", type: :request do
       patch api_v1_user_path(@user), params: { user: { current_chat_id: chat.id } }
 
       expect(response).to have_http_status(200)
+      expect(response.content_type).to eq("application/json; charset=utf-8")
       expect(response.body).to include(chat.name)
     end
   end
