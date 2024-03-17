@@ -24,7 +24,7 @@ class Api::V1::UsersController < ApplicationController
   private 
 
   def user_params
-    params.require(:user).permit(:current_chat_id)
+    params.require(:user).permit(:id, :current_chat_id)
   end
 
   def set_chat
