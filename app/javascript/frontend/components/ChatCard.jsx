@@ -16,11 +16,8 @@ export default function ChatCard({ chat }) {
     ? displayDateTime(chat.last_message.created_at)
     : "";
 
-  const preview = chat.last_message
-    ? chat.last_message.body
-      ? chat.last_message.body
-      : ""
-    : "";
+  const preview =
+    chat.last_message && chat.last_message.body ? chat.last_message.body : "";
 
   const clickHandler = () => {
     const dataHandler = (data) => {
