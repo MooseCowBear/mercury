@@ -3,6 +3,8 @@ import {
   selectedPeopleIds,
   clearNotifications,
   chatTitle,
+  chatInitial,
+  chatMembers,
 } from "../../frontend/utils/chats";
 
 describe("updateChats", () => {
@@ -77,5 +79,26 @@ describe("chatTitle", () => {
     const testUser = { username: "test user" };
     const testChat = { name: "ally, sophie, test user", is_private: true };
     expect(chatTitle(testChat, testUser)).toEqual("ally, me, sophie");
+  });
+});
+
+describe("chatInitial", () => {
+  it("returns the first initial of chat name if current user information", () => {
+    const testUser = { username: "fred" };
+    const testChat = { name: "test" };
+    expect(chatInitial(testChat, testUser)).toEqual("t");
+  });
+
+  it("returns empty string if no current user information", () => {
+    const testUser = null;
+    const testChat = { name: "test" };
+    expect(chatInitial(testChat, testUser)).toEqual("");
+  });
+});
+
+describe("chatMembers", () => {
+  it("returns number of members in a private chat", () => {
+    const testChat = { name: "frank, sally, zoey" };
+    expect(chatMembers(testChat)).toEqual(3);
   });
 });
