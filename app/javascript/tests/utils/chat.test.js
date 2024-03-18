@@ -5,6 +5,8 @@ import {
   chatTitle,
   chatInitial,
   chatMembers,
+  filterChats,
+  filterPeople,
 } from "../../frontend/utils/chats";
 
 describe("updateChats", () => {
@@ -100,5 +102,51 @@ describe("chatMembers", () => {
   it("returns number of members in a private chat", () => {
     const testChat = { name: "frank, sally, zoey" };
     expect(chatMembers(testChat)).toEqual(3);
+  });
+});
+
+describe("filterChats", () => {
+  it("returns all chats if filterChatsBy is empty string", () => {
+    const testChats = [{ name: "one" }, { name: "two" }, { name: "three" }];
+    const testUser = { username: "test" };
+    expect(filterChats(testChats, "", testUser)).toEqual(testChats);
+  });
+
+  it("accepts userInfo of null", () => {
+    const testChats = [{ name: "one" }, { name: "two" }, { name: "three" }];
+    const testUser = null;
+    expect(filterChats(testChats, "", testUser)).toEqual(testChats);
+  });
+
+  it("returns subset of chats containing filterChatsBy as substring", () => {
+    const testChats = [{ name: "one" }, { name: "two" }, { name: "three" }];
+    const testUser = { username: "test" };
+    expect(filterChats(testChats, "o", testUser)).toEqual([
+      { name: "one" },
+      { name: "two" },
+    ]);
+  });
+});
+
+describe("filterPeople", () => {
+  it("returns all people if filterPeopleBy is empty string", () => {
+    const testPeople = [
+      { username: "one" },
+      { username: "two" },
+      { username: "three" },
+    ];
+    expect(filterPeople(testPeople, "")).toEqual(testPeople);
+  });
+
+  it("returns subset of people containing filterPeopleBy as substring", () => {
+    const testPeople = [
+      { username: "one" },
+      { username: "two" },
+      { username: "three" },
+    ];
+    expect(filterPeople(testPeople, "t")).toEqual([
+      { username: "two" },
+      { username: "three" },
+    ]);
   });
 });

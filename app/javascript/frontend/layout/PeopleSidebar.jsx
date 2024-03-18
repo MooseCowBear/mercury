@@ -4,6 +4,7 @@ import { useVisibilityContext } from "../contexts/VisibilityContext";
 import PersonCard from "../components/PersonCard";
 import { getResource } from "../utils/apiRequest";
 import NewPrivateChatForm from "../components/NewPrivateChatForm";
+import { filterPeople } from "../utils/chats";
 
 export default function PeopleSidebar() {
   const { visibility } = useVisibilityContext();
@@ -37,9 +38,7 @@ export default function PeopleSidebar() {
     };
   }, []);
 
-  const filteredPeople = people.filter((elem) =>
-    elem.username.includes(filterPeopleBy)
-  );
+  const filteredPeople = filterPeople(people, filterPeopleBy);
 
   return (
     <div

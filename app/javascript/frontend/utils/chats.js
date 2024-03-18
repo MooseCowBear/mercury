@@ -28,12 +28,13 @@ export const clearNotifications = (chatId, chats) => {
   return data;
 };
 
-/* shared by both the chat sidebar and by the main chat component */
+// shared by both the chat sidebar and by the main chat component
 export const chatTitle = (chat, userInfo) => {
-  if (!userInfo) return;
+  if (!userInfo) return "";
   return chat.is_private ? privateTitle(chat, userInfo) : chat.name;
 };
 
+// for chat sidebar
 export const chatInitial = (chat, userInfo) => {
   if (!userInfo) return "";
   return chatTitle(chat, userInfo)[0];
@@ -58,4 +59,15 @@ const privateTitle = (chat, userInfo) => {
     })
     .sort()
     .join(", ");
+};
+
+// functions for the chat and people search bars
+export const filterChats = (chats, filterChatsBy, userInfo) => {
+  return chats.filter((elem) =>
+    chatTitle(elem, userInfo).includes(filterChatsBy)
+  );
+};
+
+export const filterPeople = (people, filterPeopleBy) => {
+  return people.filter((elem) => elem.username.includes(filterPeopleBy));
 };

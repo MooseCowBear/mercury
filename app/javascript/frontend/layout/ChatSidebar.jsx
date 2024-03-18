@@ -5,11 +5,10 @@ import { useVisibilityContext } from "../contexts/VisibilityContext";
 import { usePrivateChatsContext } from "../contexts/PrivateChatsContext";
 import { usePublicChatsContext } from "../contexts/PublicChatsContext";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
-import { chatTitle } from "../utils/chats";
+import { filterChats } from "../utils/chats";
 
 export default function ChatSidebar() {
   const { userInfo } = useUserInfoContext();
-  //console.log("user info in sidebat", userInfo);
   const { visibility } = useVisibilityContext();
   const { privateChats } = usePrivateChatsContext();
   const { publicChats } = usePublicChatsContext();
@@ -17,12 +16,6 @@ export default function ChatSidebar() {
   const [filterChatsBy, setFilterChatsBy] = useState("");
 
   const visible = visibility.chats;
-
-  const filteredChats = (chats) => {
-    return chats.filter((elem) =>
-      chatTitle(elem, userInfo).includes(filterChatsBy)
-    );
-  };
 
   if (!userInfo) return <p>loading...</p>;
 
@@ -34,8 +27,14 @@ export default function ChatSidebar() {
     >
       <Searchbar title="Chat" onChangeHandler={setFilterChatsBy} />
       <div className="min-h-0 bg-white rounded-xl shadow divide-y-[1px] grid grid-rows-2">
-        <ChatsContainer title="public" chats={filteredChats(publicChats)} />
-        <ChatsContainer title="private" chats={filteredChats(privateChats)} />
+        <ChatsContainer
+          title="public"
+          chats={filterChats(publicChats, filterChatsBy, userInfo)}
+        />
+        <ChatsContainer
+          title="private"
+          chats={filterChats(privateChats, filterChatsBy, userInfo)}
+        />
       </div>
     </div>
   );
