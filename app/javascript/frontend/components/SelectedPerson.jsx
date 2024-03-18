@@ -1,5 +1,5 @@
 import React from "react";
-import Close from "../icons/Close";
+import CloseBox from "../icons/CloseBox";
 
 export default function SelectedPerson({ selectedPerson, setSelectedPeople }) {
   const deselect = () => {
@@ -10,7 +10,7 @@ export default function SelectedPerson({ selectedPerson, setSelectedPeople }) {
     <div className="bg-neutral-800 text-white px-2 py-1 rounded-lg w-fit flex gap-1">
       {selectedPerson.username}
       <button className="" onClick={deselect}>
-        <Close />
+        <CloseBox />
       </button>
     </div>
   );
