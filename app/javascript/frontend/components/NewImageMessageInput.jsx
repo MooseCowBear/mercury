@@ -57,7 +57,7 @@ export default function NewImageMessageInput() {
     }
   };
 
-  const submitMessage = () => {
+  const submitMessage = (e) => {
     e.preventDefault();
 
     if (!selectedFile) {

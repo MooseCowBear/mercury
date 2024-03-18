@@ -8,14 +8,22 @@ export default function MessageFormContainer() {
   const [text, setText] = useState(true);
 
   return (
-    <div className="grid grid-cols-[auto,_1fr,_auto] gap-2 items-center">
+    <div className="grid grid-cols-[auto,_1fr,_auto] items-end gap-2">
       {text && (
-        <button aria-label="add image" onClick={() => setText(false)}>
+        <button
+          aria-label="add image"
+          onClick={() => setText(false)}
+          className="translate-y-[-1px]"
+        >
           <Camera />
         </button>
       )}
       {!text && (
-        <button onClick={() => setText(true)} aria-label="cancel">
+        <button
+          onClick={() => setText(true)}
+          aria-label="cancel"
+          className="translate-y-[-1px]"
+        >
           <Close />
         </button>
       )}
@@ -26,4 +34,3 @@ export default function MessageFormContainer() {
 }
 
 // also, want to disable the submission UNLESS there is a current user/chat?
-
