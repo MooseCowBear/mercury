@@ -2,8 +2,14 @@ import React from "react";
 import { displayDateTime } from "../utils/datetime";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { postResource } from "../utils/apiRequest";
-import { chatTitle, clearNotifications } from "../utils/chats";
+import {
+  chatInitial,
+  chatMembers,
+  chatTitle,
+  clearNotifications,
+} from "../utils/chats";
 import { usePrivateChatsContext } from "../contexts/PrivateChatsContext";
+import Group from "../icons/Group";
 
 export default function ChatCard({ chat }) {
   const { userInfo, setUserInfo } = useUserInfoContext();
@@ -36,13 +42,18 @@ export default function ChatCard({ chat }) {
 
   return (
     <button
-      className={`w-full grid grid-cols-[1fr,_auto] py-2 px-4 ${
+      className={`w-full grid grid-cols-[1fr,_auto] py-2 px-4 items-center ${
         currChatId == chat.id && "bg-neutral-100"
       }`}
       onClick={clickHandler}
     >
       <div className="grid grid-col-[auto,_1fr] grid-rows-2 gap-x-2 text-nowrap justify-start">
-        <div className="size-10 rounded-full row-span-2 bg-neutral-800"></div>
+        {!isPrivate && (
+          <div className="size-10 rounded-full row-span-2 flex items-center justify-center bg-neutral-800 text-white uppercase">
+            {chatInitial(chat, userInfo)}
+          </div>
+        )}
+        {isPrivate && <Group members={chatMembers(chat)} />}
         <h4 className="text-sm font-medium col-start-2 text-left text-ellipsis overflow-hidden">
           {chatTitle(chat, userInfo)}
         </h4>
@@ -50,7 +61,6 @@ export default function ChatCard({ chat }) {
           {preview}
         </p>
       </div>
-
       <div className="flex flex-col gap-2 items-end justify-between">
         <p className="text-xs self-start text-nowrap">{time}</p>
         <div

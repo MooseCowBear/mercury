@@ -34,6 +34,15 @@ export const chatTitle = (chat, userInfo) => {
   return chat.is_private ? privateTitle(chat, userInfo) : chat.name;
 };
 
+export const chatInitial = (chat, userInfo) => {
+  if (!userInfo) return "";
+  return chatTitle(chat, userInfo)[0];
+};
+
+export const chatMembers = (chat) => {
+  return chat.name.split(", ").length;
+};
+
 /* helper, takes chat's name, which is a string of usernames sorted alphabetically
 and joined with commas, and replaced curr user's name with 'me', 
 re-sorts and re-joins */
