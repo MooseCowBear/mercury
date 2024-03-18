@@ -25,7 +25,7 @@ export default function PersonCard({ person, setSelectedPeople }) {
     <button
       onClick={toggleSelected}
       className={`w-full flex justify-between items-center py-2 px-4 ${
-        selected && "bg-neutral-100"
+        selected && "bg-neutral-100 dark:bg-neutral-500/80"
       }`}
     >
       <h3>{person.username}</h3>

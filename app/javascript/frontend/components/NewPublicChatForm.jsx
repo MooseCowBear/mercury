@@ -72,7 +72,7 @@ export default function NewPublicChatForm({ setNewChatForm }) {
         type="text"
         onChange={changeHandler}
         onKeyDown={enterKeyHandler}
-        className="w-full border rounded-full px-3 py-1 text-sm lowercase tracking-wider"
+        className="w-full border rounded-full px-3 py-1 text-sm lowercase tracking-wider dark:bg-neutral-700/90"
       />
       <div className="w-full flex justify-between">
         <button

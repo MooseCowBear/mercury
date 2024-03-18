@@ -14,7 +14,7 @@ export default function ChatMain() {
     <div
       className={`${
         visible
-          ? "bg-white p-5 rounded-xl shadow grid grid-cols-1 grid-rows-[auto,_1fr,_auto]"
+          ? "bg-white p-5 rounded-xl shadow grid grid-cols-1 grid-rows-[auto,_1fr,_auto] dark:bg-neutral-700/90"
           : "hidden"
       }`}
     >

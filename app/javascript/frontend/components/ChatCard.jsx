@@ -43,7 +43,7 @@ export default function ChatCard({ chat }) {
   return (
     <button
       className={`w-full grid grid-cols-[1fr,_auto] py-2 px-4 items-center ${
-        currChatId == chat.id && "bg-neutral-100"
+        currChatId == chat.id && "bg-neutral-100 dark:bg-neutral-500/80"
       }`}
       onClick={clickHandler}
     >
@@ -57,15 +57,17 @@ export default function ChatCard({ chat }) {
         <h4 className="text-sm font-medium col-start-2 text-left text-ellipsis overflow-hidden">
           {chatTitle(chat, userInfo)}
         </h4>
-        <p className="text-xs text-neutral-500 col-start-2 text-left truncate overflow-hidden">
+        <p className="text-xs text-neutral-500 col-start-2 text-left truncate overflow-hidden dark:text-neutral-300">
           {preview}
         </p>
       </div>
       <div className="flex flex-col gap-2 items-end justify-between">
         <p className="text-xs self-start text-nowrap">{time}</p>
         <div
-          className={`flex items-center justify-center rounded-full size-6 text-white text-sm ${
-            isPrivate && chat.notification_count > 0 && "bg-poppy-500"
+          className={`flex items-center justify-center rounded-full size-6 text-transparent text-sm ${
+            isPrivate &&
+            chat.notification_count > 0 &&
+            "bg-poppy-500 text-white"
           }`}
         >
           {chat.notification_count}
