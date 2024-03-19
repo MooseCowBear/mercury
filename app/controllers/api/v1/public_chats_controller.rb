@@ -4,7 +4,7 @@ class Api::V1::PublicChatsController < ApplicationController
   before_action :confirm_ownership, only: [:update]
   
   def index
-    chats = Chat.public_chats.active.has_message.order(updated_at: :desc)
+    chats = Chat.public_chats.visible.order(updated_at: :desc)
     render json: chats, methods: :last_message
   end
 
