@@ -8,7 +8,7 @@ module ConfirmParticipantConcern
       chat_id = params[:chat_id] || params[:message][:chat_id]
       @chat = Chat.find(chat_id)
       unless @chat.participant?(current_user)
-        raise ActiveRecord::RecordNotFound # need to update to redirect all errors to 404 page 
+        raise ActiveRecord::RecordNotFound
       end
     end
   end
