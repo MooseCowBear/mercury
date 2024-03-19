@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'chat_participants/update'
   resources :demo_sessions, only: [:create]
 
   namespace :api do
@@ -8,7 +9,11 @@ Rails.application.routes.draw do
       get "users/show", to: "users#show" # need a way to get current user id from the front end
       resources :users, only: [:index, :update]
       resources :messages, only: [:index, :update, :create, :destroy]
-      resources :private_chats, only: [:index, :create, :destroy]
+      resources :private_chats, only: [:index, :create, :destroy] do
+        member do
+          post "/silence", to: "chat_participants#update" # silence_api_v1_private_chat POST /api/v1/private_chats/:id/silence
+        end
+      end
       resources :public_chats, only: [:index, :create]
     end
   end
