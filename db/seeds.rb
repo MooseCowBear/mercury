@@ -7,7 +7,7 @@ chats = [
         ]
 
 chats.each do |chat|
-  Chat.create(chat)
+  Chat.create(chat.merge(always_visible: true))
 end
 
 users = ["alice", "bob", "charlie", "darrell", "evie", "fred"]
