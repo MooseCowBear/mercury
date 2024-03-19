@@ -67,4 +67,16 @@ RSpec.describe User, type: :model do
       expect(ordered.last).to eq user2
     end
   end
+
+  describe "#private_chat_messages" do
+    it "returns the messages for user had through private_message_recipient records" do
+      user = create(:user)
+      included_message = create(:message)
+      create(:private_message_recipient, user: user, message: included_message)
+      excluded_message = create(:message)
+      res = user.private_chat_messages(included_message.chat)
+      expect(res.length).to eq 1
+      expect(res.include?(included_message)).to be true
+    end
+  end
 end

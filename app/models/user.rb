@@ -8,6 +8,8 @@ class User < ApplicationRecord
   has_many :notifications, dependent: :destroy
   has_many :chat_participants, dependent: :destroy
   has_many :chats, through: :chat_participants # private chats
+  has_many :private_message_recipients, dependent: :destroy
+  has_many :received_messages, through: :private_message_recipients, source: :message
 
   belongs_to :current_chat, 
     foreign_key: "current_chat_id", 
@@ -29,6 +31,10 @@ class User < ApplicationRecord
 
   def update_last_active
     self.touch(:last_active)
+  end
+
+  def private_chat_messages(chat)
+    received_messages.where(chat_id: chat.id)
   end
 
   protected
