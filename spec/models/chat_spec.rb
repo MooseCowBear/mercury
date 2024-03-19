@@ -214,5 +214,10 @@ RSpec.describe Chat, type: :model do
       private_chat = create(:chat, :private)
       expect(private_chat.as_json({ user: @user })).to have_key(:notification_count)
     end
+
+    it "includes silenced field if chat is private" do
+      private_chat = create(:chat, :private)
+      expect(private_chat.as_json({ user: @user })).to have_key(:silenced)
+    end
   end
 end

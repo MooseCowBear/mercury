@@ -64,6 +64,7 @@ class Chat < ApplicationRecord
       if is_private
         json[:notification_count] = notification_count(options[:user])
         json[:last_message] = last_private_message(options[:user])
+        json[:silenced] = !participant?(options[:user])
       else
         json[:last_message] = last_message
       end
