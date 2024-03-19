@@ -15,11 +15,17 @@ FactoryBot.define do
     trait :over_week_old do
       name { "old chat" }
       updated_at { 10.days.ago }
+      is_private { false }
     end
 
     trait :within_week_old do
       name { "newish chat" }
       updated_at { 1.day.ago }
+      is_private { true }
+    end
+
+    trait :visible do
+      always_visible { true }
     end
 
     factory :old_chat, traits: [:over_week_old]
