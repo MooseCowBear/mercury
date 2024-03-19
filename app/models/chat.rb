@@ -15,6 +15,7 @@ class Chat < ApplicationRecord
   scope :public_chats, -> { where(is_private: false) }
   scope :active, -> { where("updated_at >= ?", 1.week.ago) } 
   scope :has_message, -> { where(id: Message.select(:chat_id)) }
+  scope :visible, -> { where(always_visible: true).or(active.has_message) }
 
   scope :with_participants, 
     -> (user_ids) {
@@ -61,11 +62,11 @@ class Chat < ApplicationRecord
 
   def as_json(options = {})
     super(options).tap do |json|
-      if is_private
+      if is_private && options[:user]
         json[:notification_count] = notification_count(options[:user])
         json[:last_message] = last_private_message(options[:user])
         json[:silenced] = !participant?(options[:user])
-      else
+      elsif !is_private
         json[:last_message] = last_message
       end
     end
