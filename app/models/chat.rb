@@ -33,18 +33,26 @@ class Chat < ApplicationRecord
 
   before_validation :clean_name
 
+  # for preventing a user with chat blocked, or non-chat member from sending messages to chat
   def participant?(user)
     return true unless is_private
-    users.exists?(user.id)
+    active_users.exists?(user.id)
   end
 
-  # if want to allow "deleting" a private chat, this will change
   def chat_messages(user)
-    messages 
+    if is_private
+      user.private_chat_messages(self)
+    else
+      messages 
+    end
   end
 
   def last_message
     messages.order(created_at: :desc).first
+  end
+
+  def last_private_message(user)
+    chat_messages(user).order(created_at: :desc).first
   end
 
   def notification_count(user)
@@ -55,8 +63,10 @@ class Chat < ApplicationRecord
     super(options).tap do |json|
       if is_private
         json[:notification_count] = notification_count(options[:user])
+        json[:last_message] = last_private_message(options[:user])
+      else
+        json[:last_message] = last_message
       end
-      json[:last_message] = last_message
     end
   end
 

@@ -102,15 +102,15 @@ RSpec.describe Chat, type: :model do
       expect(@chat1.participant?(@user1)).to be true
     end
 
-    it "returns true if user is in chat users" do
+    it "returns true if user is in active chat users" do
       private_chat = create(:chat, :private)
-      allow(private_chat).to receive_message_chain(:users, :exists?).and_return(true)
+      allow(private_chat).to receive_message_chain(:active_users, :exists?).and_return(true)
       expect(private_chat.participant?(@user1)).to be true
     end
 
-    it "returns false if user not in chat users" do
+    it "returns false if user not in active chat users" do
       private_chat = create(:chat, :private)
-      allow(private_chat).to receive_message_chain(:users, :exists?).and_return(false)
+      allow(private_chat).to receive_message_chain(:active_users, :exists?).and_return(false)
       expect(private_chat.participant?(@user1)).to be false
     end
   end
@@ -125,7 +125,12 @@ RSpec.describe Chat, type: :model do
       expect(@chat1.chat_messages(@user1)).to include(message)
     end
 
-    # TODO: after figure out what the behavior of private chat rooms is finish this
+    it "returns user's messages for which there is a private message recipient record" do
+      private_chat = create(:chat, :private)
+      mocked_result = [double()]
+      allow(@user1).to receive(:private_chat_messages).with(private_chat).and_return(mocked_result)
+      expect(private_chat.chat_messages(@user1)).to eq mocked_result
+    end
   end
 
   describe "#last_message" do
@@ -145,6 +150,34 @@ RSpec.describe Chat, type: :model do
     end
   end
 
+  describe "#last_private_message" do
+    before(:each) do
+      @user = create(:user)
+    end
+
+    it "returns the most recently sent message for chat and for which user has a private message recipient record" do
+      private_chat = create(:chat, :private)
+      first_message = create(:message, chat: private_chat, created_at: 5.days.ago)
+      create(:private_message_recipient, message: first_message, user: @user)
+      second_message = create(:message, chat: private_chat, created_at: 1.day.ago)
+      create(:private_message_recipient, message: second_message, user: @user)
+      expect(private_chat.last_private_message(@user)).to eq second_message
+    end
+
+    it "returns nil if chat has no message for user with private message recipient record" do
+      private_chat = create(:chat, :private)
+      expect(private_chat.last_private_message(@user)).to eq nil
+    end
+
+    it "does not include messages for which there is no private message recipient record" do
+      other_user = create(:user)
+      private_chat = create(:chat, :private)
+      first_message = create(:message, chat: private_chat, created_at: 5.days.ago)
+      create(:private_message_recipient, message: first_message, user: other_user)
+      expect(private_chat.last_private_message(@user)).to eq nil
+    end
+  end
+
   describe "#notification_count" do
     before(:each) do
       @user = create(:user, email: "one@test.com", username: "one")
@@ -159,6 +192,27 @@ RSpec.describe Chat, type: :model do
 
     it "returns number of notifications for chat and user" do
       expect(@chat.notification_count(@user)).to eq 1
+    end
+  end
+
+  describe "#as_json" do
+    before(:each) do
+      @user = create(:user)
+    end
+
+    it "includes last message field for public chat" do
+      public_chat = create(:chat, :public)
+      expect(public_chat.as_json).to have_key(:last_message)
+    end
+
+    it "includes last message field for private chat" do
+      private_chat = create(:chat, :private)
+      expect(private_chat.as_json({ user: @user })).to have_key(:last_message)
+    end
+
+    it "includes notification count field if chat is private" do
+      private_chat = create(:chat, :private)
+      expect(private_chat.as_json({ user: @user })).to have_key(:notification_count)
     end
   end
 end
