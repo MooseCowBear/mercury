@@ -47,6 +47,18 @@ RSpec.describe Message, type: :model do
     end
   end
 
+  describe "#message_recipients" do
+    it "returns active users in chat" do
+      private_chat = create(:chat, :private)
+      user1 = create(:user)
+      user2 = create(:user)
+      user3 = create(:user)
+      message = create(:message, chat: private_chat, user: user1)
+      allow(message).to receive_message_chain(:chat, :active_users).and_return ([user2])
+      expect(message.message_recipients).to match_array([user2])
+    end
+  end
+
   describe "#is_private" do
     before(:each) do
       user = create(:user)

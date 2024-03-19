@@ -13,8 +13,13 @@ class Message < ApplicationRecord
 
   delegate :is_private, to: :chat
 
-  def notification_recipients
+  def notification_recipients 
     chat.active_users.outside_chat(chat)
+  end
+
+  # Who gets a private message recipient record? chat.active_users (including those inside the chat!)
+  def message_recipients
+    chat.active_users
   end
 
   private
