@@ -3,6 +3,7 @@ class Message < ApplicationRecord
   belongs_to :chat, touch: true
 
   has_one :notification, dependent: :destroy
+  has_many :private_message_recipients, dependent: :destroy
 
   validates :body, length: { maximum: 1000 }
   validate :has_content
