@@ -37,6 +37,13 @@ class User < ApplicationRecord
     received_messages.where(chat_id: chat.id)
   end
 
+  def as_json(options = {})
+    super(options).tap do |json|
+      json[:current_chat_silenced] = !current_chat.participant?(self) if current_chat
+      json[:current_chat] = current_chat
+    end
+  end
+
   protected
 
   def clean_username

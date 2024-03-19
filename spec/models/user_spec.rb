@@ -79,4 +79,22 @@ RSpec.describe User, type: :model do
       expect(res.include?(included_message)).to be true
     end
   end
+
+  describe "#as_json" do
+    before(:each) do
+      @user = create(:user)
+    end
+
+    it "includes field for current chat silenced if current chat" do
+      chat = create(:chat, :public)
+      pp chat
+      @user.update(current_chat_id: chat.id)
+      @user.reload
+      expect(@user.as_json).to have_key(:current_chat_silenced)
+    end
+
+    it "includes current chat field" do
+      expect(@user.as_json).to have_key(:current_chat)
+    end
+  end
 end
