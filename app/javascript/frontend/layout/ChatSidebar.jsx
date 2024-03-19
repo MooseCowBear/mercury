@@ -26,7 +26,7 @@ export default function ChatSidebar() {
       }`}
     >
       <Searchbar title="Chat" onChangeHandler={setFilterChatsBy} />
-      <div className="min-h-0 bg-white rounded-xl shadow divide-y-[1px] dark:divide-neutral-500 grid grid-rows-2 dark:bg-neutral-700/90">
+      <div className="min-h-0 bg-white rounded-xl shadow divide-y-[1px] dark:divide-neutral-500 grid grid-rows-2 dark:bg-neutral-800/90">
         <ChatsContainer
           title="public"
           chats={filterChats(publicChats, filterChatsBy, userInfo)}

@@ -49,7 +49,7 @@ export default function NewTextMessageInput() {
         {error && <span className="text-xs">{error}</span>}
         <input
           id="input"
-          className="border py-1 px-5 rounded-full text-sm w-full dark:bg-neutral-700/90"
+          className="border py-1 px-5 rounded-full text-sm w-full dark:bg-neutral-800/90"
           placeholder="what's on your mind..."
           value={input}
           onChange={changeHandler}

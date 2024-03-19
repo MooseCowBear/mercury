@@ -43,13 +43,13 @@ export default function ChatCard({ chat }) {
   return (
     <button
       className={`w-full grid grid-cols-[1fr,_auto] py-2 px-4 items-center ${
-        currChatId == chat.id && "bg-neutral-100 dark:bg-neutral-500/80"
+        currChatId == chat.id && "bg-neutral-100 dark:bg-neutral-700/90"
       }`}
       onClick={clickHandler}
     >
       <div className="grid grid-col-[auto,_1fr] grid-rows-2 gap-x-2 text-nowrap justify-start">
         {!isPrivate && (
-          <div className="size-10 rounded-full row-span-2 flex items-center justify-center bg-neutral-800 text-white uppercase">
+          <div className="size-10 rounded-full row-span-2 flex items-center justify-center bg-neutral-800 text-white uppercase dark:bg-neutral-100 dark:text-neutral-800">
             {chatInitial(chat, userInfo)}
           </div>
         )}

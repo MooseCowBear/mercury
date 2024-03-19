@@ -35,7 +35,7 @@ export default function ChatsContainer({ title, chats }) {
           <Plus />
         </button>
       </div>
-      <div className="flex flex-col divide-y-[1px] dark:divide-neutral-500 overflow-y-auto">
+      <div className="flex flex-col divide-y-[1px] dark:divide-neutral-600 overflow-y-auto">
         {newChatForm && <NewPublicChatForm setNewChatForm={setNewChatForm} />}
         {chats.map((chat) => {
           return <ChatCard key={chat.id} chat={chat} />;

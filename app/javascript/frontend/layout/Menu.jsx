@@ -15,7 +15,7 @@ export default function Menu() {
     useVisibilityContext();
 
   return (
-    <div className="flex row-start-2 xs:row-start-1 xs:flex-col justify-between items-center bg-neutral-800 rounded-xl p-5 shadow dark:bg-neutral-500/90">
+    <div className="flex row-start-2 xs:row-start-1 xs:flex-col justify-between items-center bg-neutral-800 rounded-xl p-5 shadow dark:bg-neutral-700/90">
       <FeatherIcon />
       <div className="flex xs:flex-col gap-3">
         <button aria-label="view chats" onClick={chatVisibilityHandler}>

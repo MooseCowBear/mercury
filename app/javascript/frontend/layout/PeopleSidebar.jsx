@@ -47,12 +47,12 @@ export default function PeopleSidebar() {
       }`}
     >
       <Searchbar title="People" onChangeHandler={setFilterPeopleBy} />
-      <div className="bg-white rounded-xl shadow divide-y-[1px] dark:divide-neutral-500 min-w-0 grid grid-rows-[auto,_1fr] min-h-0 dark:bg-neutral-700/90">
+      <div className="bg-white rounded-xl shadow divide-y-[1px] dark:divide-neutral-600 min-w-0 grid grid-rows-[auto,_1fr] min-h-0 dark:bg-neutral-800/90">
         <NewPrivateChatForm
           selectedPeople={selectedPeople}
           setSelectedPeople={setSelectedPeople}
         />
-        <div className="overflow-y-auto min-h-0 divide-y-[1px] dark:divide-neutral-500">
+        <div className="overflow-y-auto min-h-0 divide-y-[1px] dark:divide-neutral-600">
           {filteredPeople.map((person) => {
             return (
               <PersonCard
