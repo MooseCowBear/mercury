@@ -1,4 +1,4 @@
-rooms = [
+chats = [
           {name: "welcome"}, 
           {name: "music"}, 
           {name: "sports"}, 
@@ -6,8 +6,8 @@ rooms = [
           {name: "pets"}
         ]
 
-rooms.each do |room|
-  Room.create(room)
+chats.each do |chat|
+  Chat.create(chat)
 end
 
 users = ["alice", "bob", "charlie", "darrell", "evie", "fred"]
