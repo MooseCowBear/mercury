@@ -93,6 +93,22 @@ RSpec.describe Chat, type: :model do
     end
   end
 
+  describe ".visible" do
+    it "returns chats that have always visible true or are active with at least one message" do
+      visible_chat = create(:chat, :public, :visible)
+      active_chat = create(:new_chat)
+      active_with_message = create(:new_chat, name: "with message")
+      create(:message, chat: active_with_message)
+      inactive_chat = create(:old_chat)
+
+      res = Chat.visible
+      expect(res.include?(visible_chat)).to be true
+      expect(res.include?(active_with_message)).to be true
+      expect(res.include?(active_chat)).to be false
+      expect(res.include?(inactive_chat)).to be false
+    end 
+  end
+
   describe "#participant?" do
     before(:each) do
       @user1 = create(:user)
