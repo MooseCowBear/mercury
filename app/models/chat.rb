@@ -8,7 +8,8 @@ class Chat < ApplicationRecord
   has_many :active_users, -> { where(chat_participants: { silence: false }) }, through: :chat_participants, source: :user
 
   validates :name, length: { within: 1..45 }, if: -> {!is_private}
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true
+  validates :name, uniqueness: { scope: :is_private, message: "A chat with this name already exists." }
 
   accepts_nested_attributes_for :chat_participants
   
