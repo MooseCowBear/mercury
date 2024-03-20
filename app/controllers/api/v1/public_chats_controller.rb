@@ -14,7 +14,7 @@ class Api::V1::PublicChatsController < ApplicationController
     chat = Chat.new(chat_params)
     if chat.save 
       current_user.update(current_chat_id: chat.id) # put the user in the chat they created
-      render json: current_user, include: [:current_chat]
+      render json: current_user.to_json
     else
       render json: { message: "Validations Failed", 
                     errors: chat.errors.full_messages }, 
@@ -22,7 +22,8 @@ class Api::V1::PublicChatsController < ApplicationController
     end
   end
 
-  def update # do i want to allow updating a public chat?
+  # MARK: this is currently not in use. need to decide if want this
+  def update
     if @chat.update(chat_params)
       render json: @chat
     else

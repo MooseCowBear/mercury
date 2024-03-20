@@ -11,7 +11,7 @@ class Api::V1::PrivateChatsController < ApplicationController
     chat = PrivateChat::CreateService.call(private_chat_params, current_user)
     if chat.valid?
       current_user.update(current_chat_id: chat.id) # put the user in the chat they created
-      render json: current_user, include: [:current_chat]
+      render json: current_user.to_json
     else
       render json: { message: "Something went wrong", 
                     errors: chat.errors.full_messages }, 
@@ -19,7 +19,8 @@ class Api::V1::PrivateChatsController < ApplicationController
     end
   end
 
-  def destroy # TODO: update this...
+  # MARK: currently not in use. Need to decide what the behavior of this will be
+  def destroy
     @chat.private_chat_destroy(current_user)
     
     render json: @chat
