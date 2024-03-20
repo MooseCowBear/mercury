@@ -4,6 +4,9 @@ class Message::BroadcastService < ApplicationService
   # the notifications count.
   # broadcasting to particular chat channel happens when a new message has been 
   # created or when a message has been updated
+  # users that have blocked/silenced a private chat won't receive the message 
+  # bc they will not be subscribed to the chat channel the message is being broadcast to
+  
   def initialize(message)
     @message = message
   end
