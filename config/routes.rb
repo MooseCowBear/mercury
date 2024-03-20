@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'chat_participants/update'
   resources :demo_sessions, only: [:create]
 
   namespace :api do
