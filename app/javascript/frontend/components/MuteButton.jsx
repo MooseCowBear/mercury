@@ -32,7 +32,10 @@ export default function MuteButton({ currentlyMuted }) {
   };
 
   return (
-    <button onClick={clickHandler}>
+    <button
+      onClick={clickHandler}
+      aria-label={currentlyMuted ? "unmute" : "mute"}
+    >
       {currentlyMuted ? <Muted /> : <Unmuted />}
     </button>
   );
