@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import SendMessageButton from "./SendMessageButton";
 import { postResource } from "../utils/apiRequest";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
-
-// IF not current room, then disable ?
+import { disabled } from "../utils/chats";
 
 export default function NewTextMessageInput() {
   const { userInfo } = useUserInfoContext();
   const [input, setInput] = useState("");
   const [error, setError] = useState(null);
+
+  const disable = disabled(userInfo);
 
   const changeHandler = (e) => {
     setInput(e.target.value);
@@ -54,9 +55,10 @@ export default function NewTextMessageInput() {
           value={input}
           onChange={changeHandler}
           onKeyDown={enterKeyHandler}
+          disabled={disable}
         />
       </div>
-      <SendMessageButton submitHandler={submitMessage} />
+      <SendMessageButton submitHandler={submitMessage} disable={disable}/>
     </>
   );
 }

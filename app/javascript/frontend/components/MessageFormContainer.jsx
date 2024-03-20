@@ -3,15 +3,25 @@ import NewTextMessageInput from "./NewTextMessageInput";
 import NewImageMessageInput from "./NewImageMessageInput";
 import Camera from "../icons/Camera";
 import Close from "../icons/Close";
+import { useUserInfoContext } from "../contexts/UserInfoContext";
+import { disabled } from "../utils/chats";
 
 export default function MessageFormContainer() {
+  const { userInfo } = useUserInfoContext();
   const [text, setText] = useState(true);
 
+  const disable = disabled(userInfo);
+
   return (
-    <div className="grid grid-cols-[auto,_1fr,_auto] items-end gap-2">
+    <div
+      className={`grid grid-cols-[auto,_1fr,_auto] items-end gap-2 ${
+        disable && "opacity-50"
+      }`}
+    >
       {text && (
         <button
           aria-label="add image"
+          disabled={disable}
           onClick={() => setText(false)}
           className="translate-y-[-1px]"
         >
@@ -20,8 +30,8 @@ export default function MessageFormContainer() {
       )}
       {!text && (
         <button
-          onClick={() => setText(true)}
           aria-label="cancel"
+          onClick={() => setText(true)}
           className="translate-y-[-1px]"
         >
           <Close />
@@ -32,5 +42,3 @@ export default function MessageFormContainer() {
     </div>
   );
 }
-
-// also, want to disable the submission UNLESS there is a current user/chat?

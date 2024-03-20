@@ -71,3 +71,10 @@ export const filterChats = (chats, filterChatsBy, userInfo) => {
 export const filterPeople = (people, filterPeopleBy) => {
   return people.filter((elem) => elem.username.includes(filterPeopleBy));
 };
+
+// helper for should the new message form be disabled
+export const disabled = (userInfo) => {
+  return (
+    !userInfo || !userInfo.current_chat_id || userInfo.current_chat_silenced
+  );
+}

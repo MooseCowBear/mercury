@@ -1,8 +1,8 @@
 import React from "react";
 
-export default function SendMessageButton({ submitHandler }) {
+export default function SendMessageButton({ submitHandler, disable = false }) {
   return (
-    <button aria-label="send" onClick={submitHandler}>
+    <button aria-label="send" onClick={submitHandler} disabled={disable}>
       <svg
         className="size-6 fill-poppy-500 translate-y-[-1px]"
         xmlns="http://www.w3.org/2000/svg"

@@ -7,6 +7,7 @@ import {
   chatMembers,
   filterChats,
   filterPeople,
+  disabled,
 } from "../../frontend/utils/chats";
 
 describe("updateChats", () => {
@@ -148,5 +149,31 @@ describe("filterPeople", () => {
       { username: "two" },
       { username: "three" },
     ]);
+  });
+});
+
+describe("disabled", () => {
+  it("returns true if no user info", () => {
+    const testUser = null;
+    expect(disabled(testUser)).toBeTruthy();
+  });
+
+  it("returns true if no current chat", () => {
+    const testUser = { id: 1, current_chat_id: null };
+    expect(disabled(testUser)).toBeTruthy();
+  });
+
+  it("returns true if current chat is silenced", () => {
+    const testUser = { id: 1, current_chat_silenced: true };
+    expect(disabled(testUser)).toBeTruthy();
+  });
+
+  it("returns false otherwise", () => {
+    const testUser = {
+      id: 1,
+      current_chat_id: 2,
+      current_chat_silenced: false,
+    };
+    expect(disabled(testUser)).toBeFalsy();
   });
 });
