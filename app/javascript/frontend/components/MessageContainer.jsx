@@ -8,6 +8,15 @@ import {
 import { getResource } from "../utils/apiRequest";
 import Message from "./Message";
 
+/* when user enters a chat, need to get the messages for that chat from the backend. 
+want the most recent message to be visible, so scroll to the bottom of the chat's 
+container on initial fetch and whenever a new message is added to the chat via broadcast.
+Using a boolean that is toggled whenever a scroll needs to happen to trigger the 
+scroll action. 
+Want to subscribe to get new messages only when 1. there is user information, 2. 
+the user has a current chat, and 3. the current chat has not be blocked. 
+*/
+
 export default function MessageContainer() {
   const { userInfo } = useUserInfoContext();
   const { cable } = useActionCableContext();
@@ -49,7 +58,11 @@ export default function MessageContainer() {
   }, [scroll]);
 
   useEffect(() => {
-    if (userInfo && userInfo.current_chat_id) {
+    if (
+      userInfo &&
+      userInfo.current_chat_id &&
+      !userInfo.current_chat_silenced
+    ) {
       subscribeToChatChannel(
         chatChannelRef,
         cable,
@@ -74,7 +87,8 @@ export default function MessageContainer() {
     }
   }, [userInfo]);
 
-  if (error || messages === null) return <p>Something went wrong.</p>;
+  if (error) return <p>Something went wrong.</p>;
+  if (userInfo === null) return <p>Loading...</p>;
 
   return (
     <div
