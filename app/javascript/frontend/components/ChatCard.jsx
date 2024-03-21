@@ -10,6 +10,7 @@ import {
 } from "../utils/chats";
 import { usePrivateChatsContext } from "../contexts/PrivateChatsContext";
 import Group from "../icons/Group";
+import { disabled } from "../utils/chats";
 
 export default function ChatCard({ chat }) {
   const { userInfo, setUserInfo } = useUserInfoContext();
@@ -17,6 +18,7 @@ export default function ChatCard({ chat }) {
   const currChatId = userInfo ? userInfo.current_chat_id : null;
 
   const isPrivate = chat.is_private;
+  const blocked = disabled(userInfo);
 
   const time = chat.last_message
     ? displayDateTime(chat.last_message.created_at)
@@ -53,7 +55,7 @@ export default function ChatCard({ chat }) {
             {chatInitial(chat, userInfo)}
           </div>
         )}
-        {isPrivate && <Group members={chatMembers(chat)} />}
+        {isPrivate && <Group members={chatMembers(chat)} blocked={blocked} />}
         <h4 className="text-sm font-medium col-start-2 text-left text-ellipsis overflow-hidden">
           {chatTitle(chat, userInfo)}
         </h4>
@@ -76,3 +78,5 @@ export default function ChatCard({ chat }) {
     </button>
   );
 }
+
+// TODO: visual indication that chat is silenced so can tell even if not in chat
