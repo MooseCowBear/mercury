@@ -4,13 +4,13 @@ import NewImageMessageInput from "./NewImageMessageInput";
 import Camera from "../icons/Camera";
 import Close from "../icons/Close";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
-import { disabled } from "../utils/chats";
+import { blocked } from "../utils/chats";
 
 export default function MessageFormContainer() {
   const { userInfo } = useUserInfoContext();
   const [text, setText] = useState(true);
 
-  const disable = disabled(userInfo);
+  const disable = blocked(userInfo);
 
   return (
     <div

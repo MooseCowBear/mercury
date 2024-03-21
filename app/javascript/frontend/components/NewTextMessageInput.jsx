@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import SendMessageButton from "./SendMessageButton";
 import { postResource } from "../utils/apiRequest";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
-import { disabled } from "../utils/chats";
+import { blocked } from "../utils/chats";
 
 export default function NewTextMessageInput() {
   const { userInfo } = useUserInfoContext();
   const [input, setInput] = useState("");
   const [error, setError] = useState(null);
 
-  const disable = disabled(userInfo);
+  const disable = blocked(userInfo);
   const placeholder = disable
     ? !userInfo || !userInfo.current_chat_id
       ? "Join a chat to message"
