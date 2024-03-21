@@ -10,6 +10,11 @@ export default function NewTextMessageInput() {
   const [error, setError] = useState(null);
 
   const disable = disabled(userInfo);
+  const placeholder = disable
+    ? !userInfo || !userInfo.current_chat_id
+      ? "Join a chat to message"
+      : "Unblock to send a message"
+    : "What's on your mind...";
 
   const changeHandler = (e) => {
     setInput(e.target.value);
@@ -51,14 +56,14 @@ export default function NewTextMessageInput() {
         <input
           id="input"
           className="border py-1 px-5 rounded-full text-sm w-full dark:bg-neutral-800/90"
-          placeholder="what's on your mind..."
+          placeholder={placeholder}
           value={input}
           onChange={changeHandler}
           onKeyDown={enterKeyHandler}
           disabled={disable}
         />
       </div>
-      <SendMessageButton submitHandler={submitMessage} disable={disable}/>
+      <SendMessageButton submitHandler={submitMessage} disable={disable} />
     </>
   );
 }
