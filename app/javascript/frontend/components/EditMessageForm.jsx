@@ -20,10 +20,6 @@ export default function EditMessageForm({ message, setEditing }) {
   };
 
   const updateHandler = (e) => {
-    // if they clicked cancel button do nothing
-    if (e.target.dataset.action === "cancel") {
-      return;
-    }
     const input = document.getElementById("body").value.trim();
     if (input === "") {
       setError("Message must have content.");
@@ -39,7 +35,7 @@ export default function EditMessageForm({ message, setEditing }) {
       "PATCH",
       dataHandler,
       setError
-    ); // DO I WANT TO SET ERROR HERE? -- check this
+    );
   };
 
   return (
@@ -52,7 +48,7 @@ export default function EditMessageForm({ message, setEditing }) {
         value={body}
         onChange={changeHandler}
         onBlur={updateHandler}
-        className="w-full px-5 py-2 rounded-tr-xl rounded-tl-xl self-start rounded-bl-xl border border-poppy-500 dark:bg-neutral-800/90"
+        className="focus:outline-none w-full px-5 py-2 rounded-tr-xl rounded-tl-xl self-start rounded-bl-xl border border-poppy-500 dark:bg-neutral-800/90"
       />
     </div>
   );
