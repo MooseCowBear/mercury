@@ -3,7 +3,7 @@ import React from "react";
 export default function Unmuted() {
   return (
     <svg
-      className="size-5 fill-neutral-800"
+      className="size-5 fill-neutral-800 dark:fill-white"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 384 512"
     >
