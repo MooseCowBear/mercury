@@ -58,18 +58,16 @@ export default function MessageContainer() {
   }, [scroll]);
 
   useEffect(() => {
-    if (
-      userInfo &&
-      userInfo.current_chat_id &&
-      !userInfo.current_chat_silenced
-    ) {
-      subscribeToChatChannel(
-        chatChannelRef,
-        cable,
-        userInfo.current_chat_id,
-        setMessages,
-        updateMessages
-      );
+    if (userInfo && userInfo.current_chat_id) {
+      if (!userInfo.current_chat_silenced) {
+        subscribeToChatChannel(
+          chatChannelRef,
+          cable,
+          userInfo.current_chat_id,
+          setMessages,
+          updateMessages
+        );
+      }
 
       const abortController = new AbortController();
 
