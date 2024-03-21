@@ -79,4 +79,3 @@ export default function ChatCard({ chat }) {
   );
 }
 
-// TODO: visual indication that chat is silenced so can tell even if not in chat

@@ -53,6 +53,7 @@ export default function MessageContainer() {
     return messagesCopy;
   };
 
+  /* scroll happens after a re-render */
   useEffect(() => {
     scrollMessages();
   }, [scroll]);

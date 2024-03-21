@@ -18,5 +18,3 @@ export default App = () => {
     </ActionCableProvider>
   );
 };
-
-// TRY: moving action cable provider here so dashboard has access
