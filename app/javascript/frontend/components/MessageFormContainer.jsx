@@ -15,7 +15,7 @@ export default function MessageFormContainer() {
   return (
     <div
       className={`grid grid-cols-[auto,_1fr,_auto] items-end gap-2 ${
-        disable && "opacity-50"
+        disable && "opacity-75"
       }`}
     >
       {text && (
