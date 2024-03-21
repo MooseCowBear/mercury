@@ -21,11 +21,13 @@ describe("Searchbar", () => {
   });
 
   it("calls its changehandler in response to user input", async () => {
+    const user = userEvent.setup();
+
     const mockHandler = jest.fn();
     render(<Searchbar title={"test title"} onChangeHandler={mockHandler} />);
     const input = screen.getByLabelText("search");
 
-    await userEvent.type(input, "23");
+    await user.type(input, "23");
     expect(mockHandler.mock.calls.length).toBe(2);
   });
 });
