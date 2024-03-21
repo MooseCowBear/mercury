@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import Search from "../icons/Search";
 
-export default function Searchbar({ title, onChangeHandler = null }) {
+export default function Searchbar({ title, onChangeHandler}) {
   const [input, setInput] = useState("");
 
   const changeHandler = (e) => {
     setInput(e.target.value);
-    if (onChangeHandler) {
-      onChangeHandler(e.target.value);
-    }
+    onChangeHandler(e.target.value);
   };
 
   return (
