@@ -17,7 +17,6 @@ export const subscribeToPrivateChatsChannel = (
 
 export const unsubscribeToPrivateChatsChannel = (privateChatsChannelRef, cable) => {
   if (privateChatsChannelRef.current) {
-    console.log("removing");
     cable.subscriptions.remove(privateChatsChannelRef.current);
     privateChatsChannelRef.current = null;
   }

@@ -1,5 +1,3 @@
-// might want to make error handler optional
-
 export const getResource = async (
   url,
   abortController,
