@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import Searchbar from "../components/SearchBar";
 import { useVisibilityContext } from "../contexts/VisibilityContext";
 import PersonCard from "../components/PersonCard";
-import { getResource } from "../utils/apiRequest";
+import { getResource, getResource2 } from "../utils/apiRequest";
+
 import NewPrivateChatForm from "../components/NewPrivateChatForm";
 import { filterPeople } from "../utils/chats";
 
@@ -13,7 +14,7 @@ export default function PeopleSidebar() {
   const [loading, setLoading] = useState(true);
   const [people, setPeople] = useState([]);
   const [selectedPeople, setSelectedPeople] = useState([]);
-  const [filterPeopleBy, setFilterPeopleBy] = useState(""); // use this to filter people
+  const [filterPeopleBy, setFilterPeopleBy] = useState(""); 
 
   const visible = visibility.people;
 
@@ -31,7 +32,11 @@ export default function PeopleSidebar() {
       setLoading(false);
     };
 
-    getResource("/api/v1/users", abortController, dataHandler, errorHandler);
+    //getResource("/api/v1/users", abortController, dataHandler, errorHandler);
+
+    getResource2("/api/v1/users", abortController)
+      .then((data) => dataHandler(data))
+      .catch((e) => errorHandler(e));
 
     return () => {
       abortController.abort();
