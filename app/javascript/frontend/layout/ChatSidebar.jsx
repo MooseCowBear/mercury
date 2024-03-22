@@ -17,7 +17,7 @@ export default function ChatSidebar() {
 
   const visible = visibility.chats;
 
-  if (!userInfo) return <p>loading...</p>;
+  if (!userInfo) return <p>Loading...</p>;
 
   return (
     <div
