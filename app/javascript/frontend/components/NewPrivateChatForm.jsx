@@ -4,7 +4,7 @@ import SendCircle from "../icons/SendCircle";
 import { selectedPeopleIds } from "../utils/chats";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useVisibilityContext } from "../contexts/VisibilityContext";
-import { postResource } from "../utils/apiRequest";
+import { postResource, postResource2 } from "../utils/apiRequest";
 import { usePrivateChatsContext } from "../contexts/PrivateChatsContext";
 
 /* like for public chats, want a newly created private chat to appear for the creator
@@ -22,6 +22,7 @@ export default function NewPrivateChatForm({
   const [error, setError] = useState(null);
 
   const submitHandler = () => {
+    if (selectedPeople.length === 0) return;
     const ids = selectedPeopleIds(selectedPeople, userInfo);
 
     const dataHandler = (data) => {
@@ -38,12 +39,20 @@ export default function NewPrivateChatForm({
       }
     };
 
-    postResource(
+    // postResource(
+    //   "/api/v1/private_chats",
+    //   JSON.stringify({ chat_participants_attributes: ids }),
+    //   "POST",
+    //   dataHandler
+    // );
+
+    postResource2(
       "/api/v1/private_chats",
       JSON.stringify({ chat_participants_attributes: ids }),
-      "POST",
-      dataHandler
-    );
+      "POST"
+    )
+      .then((data) => dataHandler(data))
+      .catch((e) => console.log(error));
   };
 
   return (
@@ -63,7 +72,7 @@ export default function NewPrivateChatForm({
           );
         })}
       </div>
-      <button onClick={submitHandler}>
+      <button aria-label="create chat" onClick={submitHandler}>
         <SendCircle />
       </button>
     </div>
