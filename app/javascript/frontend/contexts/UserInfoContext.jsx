@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from "react";
 import { useUserInfo } from "../hooks/useUserInfo";
 
-const UserInfoContext = createContext(null);
+export const UserInfoContext = createContext(null);
 
 export function useUserInfoContext() {
   const value = useContext(UserInfoContext);

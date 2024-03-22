@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from "react";
 import { useActionCable } from "../hooks/useActionCable";
 
-const ActionCableContext = createContext(null);
+export const ActionCableContext = createContext(null);
 
 export function useActionCableContext() {
   const value = useContext(ActionCableContext);

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 import { useWindowResize } from "../hooks/useWindowResize";
 
-const VisibilityContext = createContext(null);
+export const VisibilityContext = createContext(null);
 
 const MOBILE_LAYOUT_BREAKPOINT = 768;
 

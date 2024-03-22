@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from "react";
 import { usePrivateChats } from "../hooks/usePrivateChats";
 
-const PrivateChatsContext = createContext(null);
+export const PrivateChatsContext = createContext(null);
 
 export function usePrivateChatsContext() {
   const value = useContext(PrivateChatsContext);
