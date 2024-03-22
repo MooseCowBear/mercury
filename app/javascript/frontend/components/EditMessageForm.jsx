@@ -23,6 +23,7 @@ export default function EditMessageForm({ message, setEditing }) {
     const input = document.getElementById("body").value.trim();
     if (input === "") {
       setError("Message must have content.");
+      return;
     } else if (input === message.body) {
       setEditing(false);
       return;
@@ -45,6 +46,7 @@ export default function EditMessageForm({ message, setEditing }) {
       <input
         autoFocus
         id="body"
+        aria-label="edit message"
         type="text"
         value={body}
         onChange={changeHandler}
