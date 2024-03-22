@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import SendMessageButton from "./SendMessageButton";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
-import { postResource } from "../utils/apiRequest";
+import { postResource, postResource2 } from "../utils/apiRequest";
 
 export default function NewImageMessageInput() {
   const { userInfo } = useUserInfoContext();
@@ -78,7 +78,11 @@ export default function NewImageMessageInput() {
       }
     };
 
-    postResource("/api/v1/image_messages/create", body, "POST", dataHandler);
+    //postResource("/api/v1/image_messages/create", body, "POST", dataHandler);
+
+    postResource2("/api/v1/image_messages/create", body, "POST")
+      .then((data) => dataHandler(data))
+      .catch((e) => console.log(e));
   };
   return (
     <>
