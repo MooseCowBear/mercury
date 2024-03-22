@@ -5,13 +5,7 @@ import "@testing-library/jest-dom";
 import ChatCard from "../../frontend/components/ChatCard";
 import { renderWithContexts } from "../contextWrapper";
 import { postResource } from "../../frontend/utils/apiRequest";
-import {
-  blocked,
-  chatInitial,
-  chatMembers,
-  chatTitle,
-  clearNotifications,
-} from "../../frontend/utils/chats";
+import { chatTitle } from "../../frontend/utils/chats";
 
 jest.mock("../../frontend/utils/apiRequest", () => ({
   postResource: jest.fn(),
