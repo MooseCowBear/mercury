@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { postResource } from "../utils/apiRequest";
+import { postResource, postResource2 } from "../utils/apiRequest";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useVisibilityContext } from "../contexts/VisibilityContext";
 import { usePublicChatsContext } from "../contexts/PublicChatsContext";
@@ -44,12 +44,20 @@ export default function NewPublicChatForm({ setNewChatForm }) {
       }
     };
 
-    postResource(
+    // postResource(
+    //   "/api/v1/public_chats",
+    //   JSON.stringify({ name: input }),
+    //   "POST",
+    //   dataHandler
+    // );
+
+    postResource2(
       "/api/v1/public_chats",
       JSON.stringify({ name: input }),
-      "POST",
-      dataHandler
-    );
+      "POST"
+    )
+      .then((data) => dataHandler(data))
+      .catch((e) => console.log(error));
   };
 
   const cancelHandler = () => {
