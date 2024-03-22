@@ -18,8 +18,6 @@ const CONTEXT_MAP = {
 };
 
 const setupComponent = (component, renderOptions) => {
-  const { withContext } = renderOptions;
-
   if (!renderOptions) return component;
 
   return (
