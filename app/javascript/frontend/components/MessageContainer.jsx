@@ -5,7 +5,7 @@ import {
   subscribeToChatChannel,
   unsubscribeToChatChannel,
 } from "../../channels/chat_channel";
-import { getResource } from "../utils/apiRequest";
+import { getResource, getResource2 } from "../utils/apiRequest";
 import Message from "./Message";
 
 /* when user enters a chat, need to get the messages for that chat from the backend. 
@@ -36,8 +36,8 @@ export default function MessageContainer() {
 
   const setMessagesAndScroll = (data) => {
     setMessages(data);
-    setScroll((scroll) => !scroll);
     setError(null);
+    setScroll((scroll) => !scroll);
   };
 
   /* two ways to update messages, either by adding a new one or by updating the body of an existing message */
@@ -72,12 +72,16 @@ export default function MessageContainer() {
 
       const abortController = new AbortController();
 
-      getResource(
-        "/api/v1/messages",
-        abortController,
-        setMessagesAndScroll,
-        setError
-      );
+      // getResource(
+      //   "/api/v1/messages",
+      //   abortController,
+      //   setMessagesAndScroll,
+      //   setError
+      // );
+
+      getResource2("/api/v1/messages", abortController)
+        .then((data) => setMessagesAndScroll(data))
+        .catch((e) => setError(e));
 
       return () => {
         abortController.abort();
@@ -87,7 +91,7 @@ export default function MessageContainer() {
   }, [userInfo]);
 
   if (error) return <p>Something went wrong.</p>;
-  if (userInfo === null) return <p>Loading...</p>;
+  if (!userInfo) return <p>Loading...</p>;
 
   return (
     <div
