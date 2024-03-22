@@ -29,13 +29,14 @@ export default function EditMessageForm({ message, setEditing }) {
     }
 
     const chat_id = userInfo.current_chat_id;
+
     postResource(
       `/api/v1/messages/${message.id}`,
       JSON.stringify({ body, chat_id }),
-      "PATCH",
-      dataHandler,
-      setError
-    );
+      "PATCH"
+    )
+      .then((data) => dataHandler(data))
+      .catch((e) => setError(e));
   };
 
   return (

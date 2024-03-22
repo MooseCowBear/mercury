@@ -1,7 +1,7 @@
 import React from "react";
 import { displayDateTime } from "../utils/datetime";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
-import { postResource, postResource2 } from "../utils/apiRequest";
+import { postResource } from "../utils/apiRequest";
 import {
   chatInitial,
   chatMembers,
@@ -34,14 +34,8 @@ export default function ChatCard({ chat }) {
         setPrivateChats(clearNotifications(data.current_chat_id, privateChats));
       }
     };
-    // postResource(
-    //   `/api/v1/users/${userInfo.id}`,
-    //   JSON.stringify({ user: { current_chat_id: chat.id } }),
-    //   "PATCH",
-    //   dataHandler
-    // );
 
-    postResource2(
+    postResource(
       `/api/v1/users/${userInfo.id}`,
       JSON.stringify({ user: { current_chat_id: chat.id } }),
       "PATCH"

@@ -4,10 +4,10 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import MuteButton from "../../frontend/components/MuteButton";
 import { renderWithContexts } from "../contextWrapper";
-import { postResource2 } from "../../frontend/utils/apiRequest";
+import { postResource } from "../../frontend/utils/apiRequest";
 
 jest.mock("../../frontend/utils/apiRequest", () => ({
-  postResource2: jest.fn(),
+  postResource: jest.fn(),
 }));
 
 describe("MuteButton", () => {
@@ -42,7 +42,7 @@ describe("MuteButton", () => {
   });
 
   it("sends a post request when clicked", async () => {
-    postResource2.mockReturnValue(Promise.resolve([]));
+    postResource.mockReturnValue(Promise.resolve([]));
     const user = userEvent.setup();
 
     renderWithContexts(<MuteButton currentlyMuted={true} />, [
@@ -57,6 +57,6 @@ describe("MuteButton", () => {
     ]);
 
     await user.click(screen.getByLabelText("unmute"));
-    expect(postResource2.mock.calls.length).toBe(1);
+    expect(postResource.mock.calls.length).toBe(1);
   });
 });

@@ -4,7 +4,7 @@ import SendCircle from "../icons/SendCircle";
 import { selectedPeopleIds } from "../utils/chats";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useVisibilityContext } from "../contexts/VisibilityContext";
-import { postResource, postResource2 } from "../utils/apiRequest";
+import { postResource } from "../utils/apiRequest";
 import { usePrivateChatsContext } from "../contexts/PrivateChatsContext";
 
 /* like for public chats, want a newly created private chat to appear for the creator
@@ -39,14 +39,7 @@ export default function NewPrivateChatForm({
       }
     };
 
-    // postResource(
-    //   "/api/v1/private_chats",
-    //   JSON.stringify({ chat_participants_attributes: ids }),
-    //   "POST",
-    //   dataHandler
-    // );
-
-    postResource2(
+    postResource(
       "/api/v1/private_chats",
       JSON.stringify({ chat_participants_attributes: ids }),
       "POST"

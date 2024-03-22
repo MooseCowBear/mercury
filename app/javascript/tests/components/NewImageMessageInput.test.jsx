@@ -4,10 +4,10 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import NewImageMessageInput from "../../frontend/components/NewImageMessageInput";
 import { renderWithContexts } from "../contextWrapper";
-import { postResource2 } from "../../frontend/utils/apiRequest";
+import { postResource } from "../../frontend/utils/apiRequest";
 
 jest.mock("../../frontend/utils/apiRequest", () => ({
-  postResource2: jest.fn(),
+  postResource: jest.fn(),
 }));
 
 describe("NewImageMessageInput", () => {

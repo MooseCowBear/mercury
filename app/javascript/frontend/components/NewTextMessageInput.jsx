@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import SendMessageButton from "./SendMessageButton";
-import { postResource, postResource2 } from "../utils/apiRequest";
+import { postResource } from "../utils/apiRequest";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { blocked } from "../utils/chats";
 
@@ -35,14 +35,8 @@ export default function NewTextMessageInput() {
         setError(null);
       }
     };
-    // postResource(
-    //   "/api/v1/messages",
-    //   JSON.stringify({ body, chat_id }),
-    //   "POST",
-    //   dataHandler
-    // );
 
-    postResource2("/api/v1/messages", JSON.stringify({ body, chat_id }), "POST")
+    postResource("/api/v1/messages", JSON.stringify({ body, chat_id }), "POST")
       .then((data) => dataHandler(data))
       .catch((e) => console.log(e));
   };

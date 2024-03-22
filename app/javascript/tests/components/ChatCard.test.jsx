@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import ChatCard from "../../frontend/components/ChatCard";
 import { renderWithContexts } from "../contextWrapper";
-import { postResource2 } from "../../frontend/utils/apiRequest";
+import { postResource } from "../../frontend/utils/apiRequest";
 import {
   blocked,
   chatInitial,
@@ -14,7 +14,7 @@ import {
 } from "../../frontend/utils/chats";
 
 jest.mock("../../frontend/utils/apiRequest", () => ({
-  postResource2: jest.fn(),
+  postResource: jest.fn(),
 }));
 
 jest.mock("../../frontend/utils/chats", () => ({
@@ -121,7 +121,7 @@ describe("ChatCard", () => {
   it("sends post request when clicked", async () => {
     const user = userEvent.setup();
     const testChat = { name: "test chat", is_private: false };
-    postResource2.mockReturnValue(Promise.resolve());
+    postResource.mockReturnValue(Promise.resolve());
 
     renderWithContexts(<ChatCard chat={testChat} />, [
       { context: "UserInfoContext", contextValue: { userInfo: { id: 1 } } },
@@ -136,6 +136,6 @@ describe("ChatCard", () => {
     ]);
 
     await user.click(screen.getByLabelText("select chat"));
-    expect(postResource2.mock.calls.length).toBe(1);
+    expect(postResource.mock.calls.length).toBe(1);
   });
 });

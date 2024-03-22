@@ -4,10 +4,10 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import NewTextMessageInput from "../../frontend/components/NewTextMessageInput";
 import { renderWithContexts } from "../contextWrapper";
-import { postResource2 } from "../../frontend/utils/apiRequest";
+import { postResource } from "../../frontend/utils/apiRequest";
 
 jest.mock("../../frontend/utils/apiRequest", () => ({
-  postResource2: jest.fn(),
+  postResource: jest.fn(),
 }));
 
 describe("NewTextMessageInput", () => {
@@ -71,7 +71,7 @@ describe("NewTextMessageInput", () => {
   });
 
   it("submits post request if input not empty when submitted", async () => {
-    postResource2.mockReturnValue(Promise.resolve());
+    postResource.mockReturnValue(Promise.resolve());
     const user = userEvent.setup();
 
     renderWithContexts(<NewTextMessageInput />, [
@@ -86,6 +86,6 @@ describe("NewTextMessageInput", () => {
     await user.type(screen.getByLabelText("message form"), "hello");
     expect(screen.queryByDisplayValue("hello")).not.toBeNull();
     await user.click(screen.getByLabelText("send"));
-    expect(postResource2.mock.calls.length).toBe(1);
+    expect(postResource.mock.calls.length).toBe(1);
   });
 });

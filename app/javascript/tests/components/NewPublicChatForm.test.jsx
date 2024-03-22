@@ -4,10 +4,10 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import NewPublicChatForm from "../../frontend/components/NewPublicChatForm";
 import { renderWithContexts } from "../contextWrapper";
-import { postResource2 } from "../../frontend/utils/apiRequest";
+import { postResource } from "../../frontend/utils/apiRequest";
 
 jest.mock("../../frontend/utils/apiRequest", () => ({
-  postResource2: jest.fn(),
+  postResource: jest.fn(),
 }));
 
 describe("NewPublicChatForm", () => {
@@ -70,7 +70,7 @@ describe("NewPublicChatForm", () => {
   });
 
   it("makes post request when submitted", async () => {
-    postResource2.mockReturnValue(Promise.resolve());
+    postResource.mockReturnValue(Promise.resolve());
     const mockHandler = jest.fn();
     const user = userEvent.setup();
 
@@ -89,6 +89,6 @@ describe("NewPublicChatForm", () => {
     await user.type(screen.getByLabelText("new chat name"), "new chat");
     expect(screen.queryByDisplayValue("new chat")).not.toBeNull();
     await user.click(screen.getByRole("button", { name: /create/i }));
-    expect(postResource2.mock.calls.length).toBe(1);
+    expect(postResource.mock.calls.length).toBe(1);
   });
 });

@@ -3,7 +3,7 @@ import Muted from "../icons/Muted";
 import Unmuted from "../icons/Unmuted";
 import { usePrivateChatsContext } from "../contexts/PrivateChatsContext";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
-import { postResource, postResource2 } from "../utils/apiRequest";
+import { postResource } from "../utils/apiRequest";
 
 export default function MuteButton({ currentlyMuted }) {
   const { userInfo, setUserInfo } = useUserInfoContext();
@@ -23,14 +23,7 @@ export default function MuteButton({ currentlyMuted }) {
       });
     };
 
-    // postResource(
-    //   `/api/v1/private_chats/${userInfo.current_chat_id}/silence`,
-    //   JSON.stringify({}),
-    //   "POST",
-    //   dataHandler
-    // );
-
-    postResource2(
+    postResource(
       `/api/v1/private_chats/${userInfo.current_chat_id}/silence`,
       JSON.stringify({}),
       "POST"

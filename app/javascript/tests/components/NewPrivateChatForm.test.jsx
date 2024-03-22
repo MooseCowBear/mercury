@@ -4,10 +4,10 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import NewPrivateChatForm from "../../frontend/components/NewPrivateChatForm";
 import { renderWithContexts } from "../contextWrapper";
-import { postResource2 } from "../../frontend/utils/apiRequest";
+import { postResource } from "../../frontend/utils/apiRequest";
 
 jest.mock("../../frontend/utils/apiRequest", () => ({
-  postResource2: jest.fn(),
+  postResource: jest.fn(),
 }));
 
 jest.mock("../../frontend/components/SelectedPerson", () => ({
@@ -76,7 +76,7 @@ describe("NewPrivateChatForm", () => {
   });
 
   it("submits a post request when submit button clicked", async () => {
-    postResource2.mockReturnValue(Promise.resolve());
+    postResource.mockReturnValue(Promise.resolve());
     const selectedPeople = [
       { id: 1, username: "one" },
       { id: 2, username: "two" },
@@ -106,7 +106,7 @@ describe("NewPrivateChatForm", () => {
     );
 
     await user.click(screen.getByLabelText("create chat"));
-    expect(postResource2.mock.calls.length).toBe(1);
+    expect(postResource.mock.calls.length).toBe(1);
   });
 });
 
