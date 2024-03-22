@@ -1,16 +1,16 @@
 import React from "react";
 import { displayDateTime } from "../utils/datetime";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
-import { postResource } from "../utils/apiRequest";
+import { postResource, postResource2 } from "../utils/apiRequest";
 import {
   chatInitial,
   chatMembers,
   chatTitle,
   clearNotifications,
+  blocked,
 } from "../utils/chats";
 import { usePrivateChatsContext } from "../contexts/PrivateChatsContext";
 import Group from "../icons/Group";
-import { blocked } from "../utils/chats";
 
 export default function ChatCard({ chat }) {
   const { userInfo, setUserInfo } = useUserInfoContext();
@@ -34,12 +34,20 @@ export default function ChatCard({ chat }) {
         setPrivateChats(clearNotifications(data.current_chat_id, privateChats));
       }
     };
-    postResource(
+    // postResource(
+    //   `/api/v1/users/${userInfo.id}`,
+    //   JSON.stringify({ user: { current_chat_id: chat.id } }),
+    //   "PATCH",
+    //   dataHandler
+    // );
+
+    postResource2(
       `/api/v1/users/${userInfo.id}`,
       JSON.stringify({ user: { current_chat_id: chat.id } }),
-      "PATCH",
-      dataHandler
-    );
+      "PATCH"
+    )
+      .then((data) => dataHandler(data))
+      .catch((e) => console.log(e));
   };
 
   return (
@@ -48,6 +56,7 @@ export default function ChatCard({ chat }) {
         currChatId == chat.id && "bg-neutral-100 dark:bg-neutral-700/90"
       }`}
       onClick={clickHandler}
+      aria-label="select chat"
     >
       <div className="grid grid-col-[auto,_1fr] grid-rows-2 gap-x-2 text-nowrap justify-start">
         {!isPrivate && (
@@ -78,4 +87,3 @@ export default function ChatCard({ chat }) {
     </button>
   );
 }
-
