@@ -1,10 +1,11 @@
 import React from "react";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
+import { editedMessage, ownedByUser } from "../utils/messages";
 
-export default MessageContent = ({ message }) => {
+export default function MessageContent({ message }) {
   const { userInfo } = useUserInfoContext();
-  const edited = message.created_at !== message.updated_at;
-  const isOwner = message.user.id === userInfo.id;
+  const edited = editedMessage(message);
+  const isOwner = ownedByUser(message, userInfo);
 
   return (
     <div
@@ -42,4 +43,4 @@ export default MessageContent = ({ message }) => {
       </p>
     </div>
   );
-};
+}
