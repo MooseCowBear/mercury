@@ -2,11 +2,11 @@ import React from "react";
 import { screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import PeopleSidebar from "../../frontend/layout/PeopleSidebar";
-import { getResource2 } from "../../frontend/utils/apiRequest";
+import { getResource } from "../../frontend/utils/apiRequest";
 import { renderWithContexts } from "../contextWrapper";
 
 jest.mock("../../frontend/utils/apiRequest", () => ({
-  getResource2: jest.fn(),
+  getResource: jest.fn(),
 }));
 
 jest.mock("../../frontend/components/PersonCard", () => ({
@@ -32,7 +32,7 @@ jest.mock("../../frontend/components/NewPrivateChatForm", () => ({
 
 describe("PeopleSidebar", () => {
   it("renders a PersonCard for every person", async () => {
-    getResource2.mockReturnValueOnce(
+    getResource.mockReturnValueOnce(
       Promise.resolve([
         { id: 1, username: "alice" },
         { id: 2, username: "bob" },
@@ -51,7 +51,7 @@ describe("PeopleSidebar", () => {
   });
 
   it("renders a Searchbar", async () => {
-    getResource2.mockReturnValueOnce(Promise.resolve([]));
+    getResource.mockReturnValueOnce(Promise.resolve([]));
 
     renderWithContexts(<PeopleSidebar />, [
       {
@@ -65,7 +65,7 @@ describe("PeopleSidebar", () => {
   });
 
   it("renders new private chat form", async () => {
-    getResource2.mockReturnValueOnce(Promise.resolve([]));
+    getResource.mockReturnValueOnce(Promise.resolve([]));
 
     renderWithContexts(<PeopleSidebar />, [
       {
@@ -79,7 +79,7 @@ describe("PeopleSidebar", () => {
   });
 
   it("renders error message if error thrown", async () => {
-    getResource2.mockRejectedValue(new Error("error"));
+    getResource.mockRejectedValue(new Error("error"));
 
     renderWithContexts(<PeopleSidebar />, [
       {

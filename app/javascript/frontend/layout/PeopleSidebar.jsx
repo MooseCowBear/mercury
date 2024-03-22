@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Searchbar from "../components/SearchBar";
 import { useVisibilityContext } from "../contexts/VisibilityContext";
 import PersonCard from "../components/PersonCard";
-import { getResource, getResource2 } from "../utils/apiRequest";
+import { getResource } from "../utils/apiRequest";
 
 import NewPrivateChatForm from "../components/NewPrivateChatForm";
 import { filterPeople } from "../utils/chats";
@@ -32,9 +32,7 @@ export default function PeopleSidebar() {
       setLoading(false);
     };
 
-    //getResource("/api/v1/users", abortController, dataHandler, errorHandler);
-
-    getResource2("/api/v1/users", abortController)
+    getResource("/api/v1/users", abortController)
       .then((data) => dataHandler(data))
       .catch((e) => errorHandler(e));
 

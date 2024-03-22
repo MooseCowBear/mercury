@@ -3,10 +3,10 @@ import { screen, act } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import MessageContainer from "../../frontend/components/MessageContainer";
 import { renderWithContexts } from "../contextWrapper";
-import { getResource2 } from "../../frontend/utils/apiRequest";
+import { getResource } from "../../frontend/utils/apiRequest";
 
 jest.mock("../../frontend/utils/apiRequest", () => ({
-  getResource2: jest.fn(),
+  getResource: jest.fn(),
 }));
 
 jest.mock("../../channels/chat_channel", () => {
@@ -29,7 +29,7 @@ jest.mock("../../frontend/components/Message", () => ({
 
 describe("MessageContainer", () => {
   it("renders each message", async () => {
-    getResource2.mockReturnValueOnce(Promise.resolve([{ id: 1 }, { id: 2 }]));
+    getResource.mockReturnValueOnce(Promise.resolve([{ id: 1 }, { id: 2 }]));
 
     await act(async () => {
       renderWithContexts(<MessageContainer />, [
@@ -54,7 +54,7 @@ describe("MessageContainer", () => {
   });
 
   it("displays error message if error", async () => {
-    getResource2.mockRejectedValue(new Error("error"));
+    getResource.mockRejectedValue(new Error("error"));
 
     await act(async () => {
       renderWithContexts(<MessageContainer />, [
@@ -79,7 +79,7 @@ describe("MessageContainer", () => {
   });
 
   it("displays loading screen", async () => {
-    getResource2.mockReturnValue(Promise.resolve([]));
+    getResource.mockReturnValue(Promise.resolve([]));
 
     renderWithContexts(<MessageContainer />, [
       {

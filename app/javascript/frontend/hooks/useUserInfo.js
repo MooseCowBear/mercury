@@ -15,7 +15,9 @@ export const useUserInfo = () => {
       setUserInfo(data);
     };
 
-    getResource("/api/v1/users/show", abortController, dataHandler);
+    getResource("/api/v1/users/show", abortController)
+      .then((data) => dataHandler(data))
+      .catch((e) => console.log(e));
 
     return () => {
       abortController.abort(); // cancel request if unmount

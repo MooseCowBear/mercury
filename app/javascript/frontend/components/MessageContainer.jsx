@@ -5,7 +5,7 @@ import {
   subscribeToChatChannel,
   unsubscribeToChatChannel,
 } from "../../channels/chat_channel";
-import { getResource, getResource2 } from "../utils/apiRequest";
+import { getResource } from "../utils/apiRequest";
 import Message from "./Message";
 
 /* when user enters a chat, need to get the messages for that chat from the backend. 
@@ -72,14 +72,7 @@ export default function MessageContainer() {
 
       const abortController = new AbortController();
 
-      // getResource(
-      //   "/api/v1/messages",
-      //   abortController,
-      //   setMessagesAndScroll,
-      //   setError
-      // );
-
-      getResource2("/api/v1/messages", abortController)
+      getResource("/api/v1/messages", abortController)
         .then((data) => setMessagesAndScroll(data))
         .catch((e) => setError(e));
 

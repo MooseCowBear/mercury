@@ -14,7 +14,9 @@ export const usePrivateChats = () => {
       setPrivateChats(data);
     };
 
-    getResource("/api/v1/private_chats", abortController, dataHandler);
+    getResource("/api/v1/private_chats", abortController)
+      .then((data) => dataHandler(data))
+      .catch((e) => console.log(e));
 
     return () => {
       abortController.abort(); // cancel request if unmount
