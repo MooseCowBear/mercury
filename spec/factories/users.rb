@@ -4,5 +4,6 @@ FactoryBot.define do
     sequence(:email) { |n| "person#{n}@example.com" }
     password { "123456" }
     current_chat { nil }
+    editable { true }
   end
 end
