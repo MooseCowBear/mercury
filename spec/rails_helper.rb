@@ -71,6 +71,7 @@ end
 Capybara.server = :puma
 Capybara.default_max_wait_time = 10
 Capybara.disable_animation = true
+Capybara.enable_aria_label = true
 
 Capybara.javascript_driver = :cuprite
 Capybara.register_driver(:cuprite) do |app|
