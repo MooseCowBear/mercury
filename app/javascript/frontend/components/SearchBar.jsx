@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Search from "../icons/Search";
 
-export default function Searchbar({ title, onChangeHandler}) {
+export default function Searchbar({ title, onChangeHandler }) {
   const [input, setInput] = useState("");
 
   const changeHandler = (e) => {
@@ -14,6 +14,7 @@ export default function Searchbar({ title, onChangeHandler}) {
       <h2 className="uppercase text-sm tracking-wider">{title}</h2>
       <div className="grow flex flex-nowrap gap-2">
         <input
+          id={`${title}-search`}
           aria-label="search"
           type="text"
           value={input}
