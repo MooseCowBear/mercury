@@ -6,6 +6,8 @@ require_relative '../config/environment'
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
+require 'capybara/rspec'
+require 'capybara/cuprite'
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
@@ -63,4 +65,26 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
   config.include Devise::Test::IntegrationHelpers, type: :request
+  config.include Devise::Test::IntegrationHelpers, type: :system
+end
+
+Capybara.server = :puma
+Capybara.default_max_wait_time = 10
+Capybara.disable_animation = true
+
+Capybara.javascript_driver = :cuprite
+Capybara.register_driver(:cuprite) do |app|
+  Capybara::Cuprite::Driver.new(app, inspector: ENV['INSPECTOR'])
+end
+
+RSpec.configure do |config|
+  config.before(:each, type: :system) do
+    driven_by(:cuprite, screen_size: [1440, 810], options: {
+      js_errors: true,
+      process_timeout: 15,
+      timeout: 20
+    })
+  end
+
+  config.filter_gems_from_backtrace("capybara", "cuprite", "ferrum")
 end
