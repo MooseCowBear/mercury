@@ -50,7 +50,7 @@ export default function NewPublicChatForm({ setNewChatForm }) {
       "POST"
     )
       .then((data) => dataHandler(data))
-      .catch((e) => console.log(error));
+      .catch((e) => console.log(e));
   };
 
   const cancelHandler = () => {
@@ -69,6 +69,7 @@ export default function NewPublicChatForm({ setNewChatForm }) {
     >
       {error && <span className="justify-self-center text-xs">{error}</span>}
       <input
+        id="new-chat-name"
         aria-label="new chat name"
         type="text"
         onChange={changeHandler}
