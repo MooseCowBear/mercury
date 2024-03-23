@@ -11,17 +11,29 @@ visible, people and chats hidden.
  */
 
 export default function Menu() {
-  const { chatVisibilityHandler, peopleVisibilityHandler } =
+  const { visibility, chatVisibilityHandler, peopleVisibilityHandler } =
     useVisibilityContext();
+
+  const chatButtonLabel = !visibility.messages
+    ? "view chat messages"
+    : "view chats";
 
   return (
     <div className="flex row-start-2 xs:row-start-1 xs:flex-col justify-between items-center bg-neutral-800 rounded-xl p-5 shadow dark:bg-neutral-700/90">
       <FeatherIcon />
       <div className="flex xs:flex-col gap-3">
-        <button aria-label="view chats" onClick={chatVisibilityHandler}>
+        <button
+          id="chat-button"
+          aria-label={chatButtonLabel}
+          onClick={chatVisibilityHandler}
+        >
           <CommentIcon />
         </button>
-        <button aria-label="find people" onClick={peopleVisibilityHandler}>
+        <button
+          id="people-button"
+          aria-label="find people"
+          onClick={peopleVisibilityHandler}
+        >
           <PeopleIcon />
         </button>
       </div>
@@ -31,3 +43,6 @@ export default function Menu() {
     </div>
   );
 }
+
+// TODO: update the aria-label of view chats depending on whether the chat messages
+// are visible OR NOT!!!
