@@ -3,7 +3,6 @@ class Api::V1::UsersController < ApplicationController
   before_action :set_chat, only: [:update]
   
   def show
-
     render json: current_user.to_json
   end
 
@@ -13,7 +12,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update
-    if @chat.participant?(current_user)
+    if @chat.participant?(current_user) 
       current_user.update(user_params) 
       render json: current_user.to_json
     else

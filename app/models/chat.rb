@@ -38,6 +38,11 @@ class Chat < ApplicationRecord
   # for preventing a user with chat blocked, or non-chat member from sending messages to chat
   def participant?(user)
     return true unless is_private
+    users.exists?(user.id)
+  end
+
+  def active_participant?(user)
+    return true unless is_private
     active_users.exists?(user.id)
   end
 
@@ -66,7 +71,7 @@ class Chat < ApplicationRecord
       if is_private && options[:user]
         json[:notification_count] = notification_count(options[:user])
         json[:last_message] = last_private_message(options[:user])
-        json[:silenced] = !participant?(options[:user])
+        json[:silenced] = !active_participant?(options[:user])
       elsif !is_private
         json[:last_message] = last_message
       end
