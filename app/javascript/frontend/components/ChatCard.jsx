@@ -74,6 +74,7 @@ export default function ChatCard({ chat }) {
             chat.notification_count > 0 &&
             "bg-poppy-500 text-white"
           }`}
+          aria-label="notifications"
         >
           {chat.notification_count}
         </div>
