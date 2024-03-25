@@ -13,14 +13,18 @@ export default function MessageContent({ message }) {
     >
       {!isOwner && <span className="grow-0">{message.user.username}</span>}
       <p
-        className={`flex flex-col px-5 py-2 grow rounded-tr-xl rounded-tl-xl ${
-          isOwner
-            ? "self-start rounded-bl-xl bg-poppy-500 text-white "
-            : "self-end rounded-br-xl bg-neutral-100"
+        className={`flex flex-col grow rounded-tr-xl rounded-tl-xl overflow-hidden ${
+          isOwner ? "self-start rounded-bl-xl" : "self-end rounded-br-xl"
         }`}
       >
         {message.body && (
-          <span className={`text-left ${!isOwner && "dark:text-neutral-800"}`}>
+          <span
+            className={`text-left px-5 py-2 ${
+              isOwner
+                ? "bg-poppy-500 text-white dark:text-neutral-800"
+                : "bg-neutral-100"
+            }`}
+          >
             {message.body}
           </span>
         )}
