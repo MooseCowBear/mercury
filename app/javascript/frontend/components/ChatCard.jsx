@@ -20,7 +20,7 @@ export default function ChatCard({ chat }) {
   const currChatId = userInfo ? userInfo.current_chat_id : null;
 
   const isPrivate = chat.is_private;
-  const isBlocked = blocked(userInfo);
+  const isBlocked = chat.silenced;
 
   const time = chat.last_message
     ? displayDateTime(chat.last_message.created_at)
@@ -57,7 +57,7 @@ export default function ChatCard({ chat }) {
     >
       <div className="grid grid-col-[auto,_1fr] grid-rows-2 gap-x-2 text-nowrap justify-start">
         {!isPrivate && (
-          <div className="size-10 rounded-full row-span-2 flex items-center justify-center bg-neutral-800 text-white uppercase dark:bg-neutral-100 dark:text-neutral-800">
+          <div className="size-10 rounded-full row-span-2 flex items-center justify-center bg-neutral-800 text-white uppercase dark:bg-neutral-100/80 dark:text-neutral-800">
             {chatInitial(chat, userInfo)}
           </div>
         )}
