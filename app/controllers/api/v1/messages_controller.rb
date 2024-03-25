@@ -1,15 +1,15 @@
 class Api::V1::MessagesController < ApplicationController
   include ConfirmParticipantConcern
 
-  before_action :set_message, only: [:update, :destroy]
+  before_action :set_message, only: [:update]
   before_action :confirm_participant, only: [:create]
-  before_action :delete_from_cloudinary, only: [:destroy]
+  before_action :delete_from_cloudinary, only: [:destroy] # TODO: can be a method on model
   before_action :confirm_text_message, only: [:update]
   after_action -> { current_user.update_last_active if current_user }
 
   def index
     messages = current_user.current_chat.chat_messages(current_user) # not sure this param  will stay
-    render json: messages, include: [:user] # check this
+    render json: messages, include: [:user], methods: [:is_private] # check this
   end
 
   def create
@@ -19,7 +19,7 @@ class Api::V1::MessagesController < ApplicationController
     if message.save 
       Notifications::CreateService.call(message)
       Message::BroadcastService.call(message)
-      render json: message.to_json(include: [:user])
+      render json: message.to_json(include: [:user], methods: [:is_private])
     else
       render json: { message: "Validations Failed", 
                     errors: message.errors.full_messages }, 
@@ -30,7 +30,7 @@ class Api::V1::MessagesController < ApplicationController
   def update
     if @message.update(message_params) 
       Message::BroadcastService.call(@message)
-      render json: @message.to_json(include: [:user])
+      render json: @message.to_json(include: [:user], methods: [:is_private])
     else
       render json: { message: "Validations Failed", 
                     errors: @message.errors.full_messages }, 
@@ -39,8 +39,9 @@ class Api::V1::MessagesController < ApplicationController
   end
 
   def destroy
-    @message.destroy
-    render json: @message.to_json(include: [:user]) # so frontend can remove the message
+    
+
+    render json: message.to_json(include: [:user], methods: [:is_private]) # so frontend can remove the message
   end
 
   private 
