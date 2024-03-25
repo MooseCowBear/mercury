@@ -9,20 +9,20 @@ export default function MessageContent({ message }) {
 
   return (
     <div
-      className={`flex items-end gap-2 ${isOwner ? "self-end" : "self-start"}`}
+      className={`relative flex items-end gap-2 ${
+        isOwner ? "self-end" : "self-start"
+      }`}
     >
       {!isOwner && <span className="grow-0">{message.user.username}</span>}
-      <p
-        className={`flex flex-col grow rounded-tr-xl rounded-tl-xl overflow-hidden ${
-          isOwner ? "self-start rounded-bl-xl" : "self-end rounded-br-xl"
-        }`}
+      <div
+        className={`flex flex-col grow ${isOwner ? "self-start" : "self-end"}`}
       >
         {message.body && (
           <span
-            className={`text-left px-5 py-2 ${
+            className={`text-left px-5 py-2 rounded-tr-xl rounded-tl-xl ${
               isOwner
-                ? "bg-poppy-500 text-white dark:text-neutral-800"
-                : "bg-neutral-100"
+                ? "bg-poppy-500 text-white rounded-bl-xl"
+                : "bg-neutral-100 dark:bg-neutral-100/80 dark:text-neutral-800 rounded-br-xl"
             }`}
           >
             {message.body}
@@ -36,15 +36,9 @@ export default function MessageContent({ message }) {
           />
         )}
         {edited && (
-          <span
-            className={`text-xs self-end ${
-              isOwner ? "text-white" : "text-gray-400"
-            }`}
-          >
-            edited
-          </span>
+          <span className={`text-xs self-end text-neutral-400`}>edited</span>
         )}
-      </p>
+      </div>
     </div>
   );
 }
