@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Private Chats', type: :system, js: true do
   before(:each) do
+    allow_any_instance_of(ActionController::Base).to receive(:protect_against_forgery?).and_return(true)
     @user = create(:user)
     @other_user = create(:user)
     sign_in @user

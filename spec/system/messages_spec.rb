@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Messages', type: :system, js: true do
   before(:each) do
+    allow_any_instance_of(ActionController::Base).to receive(:protect_against_forgery?).and_return(true)
     @chat = create(:chat, :public, always_visible: true)
     @user = create(:user, current_chat_id: @chat.id)
     sign_in @user

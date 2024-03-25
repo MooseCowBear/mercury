@@ -32,7 +32,17 @@ RSpec.describe "Api::V1::PublicChats", type: :request do
       expect(response.body).to include("untaken name")
     end
 
-    it "returns 422 response if name is taken" do
+    it "creates a new public chat if name is taken by an inactive chat" do
+      old_chat = create(:old_chat)
+
+      post api_v1_public_chats_path, params: { public_chat: { name: old_chat.name } }
+
+      expect(response).to have_http_status(200)
+      expect(response.content_type).to eq("application/json; charset=utf-8")
+      expect(response.body).to include(old_chat.name)
+    end
+
+    it "returns 422 response if name is taken by active chat" do
       create(:chat, :public, name: "taken name")
       post api_v1_public_chats_path, params: { public_chat: { name: "taken name" } }
 
