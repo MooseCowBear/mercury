@@ -89,7 +89,7 @@ export default function MessageContainer() {
   return (
     <div
       id="messages-container"
-      className="overflow-y-auto flex flex-col gap-3 mb-2 px-2"
+      className="overflow-y-auto flex flex-col gap-3 mb-2 px-2 mx-4 py-3"
     >
       {messages.map((message) => {
         return <Message key={message.id} message={message} />;
