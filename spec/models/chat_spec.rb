@@ -118,16 +118,38 @@ RSpec.describe Chat, type: :model do
       expect(@chat1.participant?(@user1)).to be true
     end
 
+    it "returns true if user is in chat users" do
+      private_chat = create(:chat, :private)
+      allow(private_chat).to receive_message_chain(:users, :exists?).and_return(true)
+      expect(private_chat.participant?(@user1)).to be true
+    end
+
+    it "returns false if user not in chat users" do
+      private_chat = create(:chat, :private)
+      allow(private_chat).to receive_message_chain(:users, :exists?).and_return(false)
+      expect(private_chat.participant?(@user1)).to be false
+    end
+  end
+
+  describe "#active_participant?" do
+    before(:each) do
+      @user1 = create(:user)
+    end
+
+    it "returns true if chat is public" do
+      expect(@chat1.active_participant?(@user1)).to be true
+    end
+
     it "returns true if user is in active chat users" do
       private_chat = create(:chat, :private)
       allow(private_chat).to receive_message_chain(:active_users, :exists?).and_return(true)
-      expect(private_chat.participant?(@user1)).to be true
+      expect(private_chat.active_participant?(@user1)).to be true
     end
 
     it "returns false if user not in active chat users" do
       private_chat = create(:chat, :private)
       allow(private_chat).to receive_message_chain(:active_users, :exists?).and_return(false)
-      expect(private_chat.participant?(@user1)).to be false
+      expect(private_chat.active_participant?(@user1)).to be false
     end
   end
 
