@@ -69,8 +69,23 @@ RSpec.describe Chat, type: :model do
       expect(Chat.active).not_to include(@old)
     end
 
-    it "includes public chats updated in last week" do
+    it "includes chats updated in last week" do
       expect(Chat.active).to include(@new)
+    end
+  end
+
+  describe ".inactive" do
+    before(:each) do
+      @old = create(:old_chat)
+      @new = create(:new_chat)
+    end
+
+    it "includes chats not updated in over a week" do
+      expect(Chat.inactive).not_to include(@new)
+    end
+
+    it "excludes chats updated within the last week" do
+      expect(Chat.inactive).to include(@old)
     end
   end
 

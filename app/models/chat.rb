@@ -15,6 +15,7 @@ class Chat < ApplicationRecord
   
   scope :public_chats, -> { where(is_private: false) }
   scope :active, -> { where("updated_at >= ?", 1.week.ago) } 
+  scope :inactive, -> { where("updated_at < ?", 1.week.ago) }
   scope :has_message, -> { where(id: Message.select(:chat_id)) }
   scope :visible, -> { where(always_visible: true).or(active.has_message) }
 
