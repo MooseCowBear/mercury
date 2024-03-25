@@ -10,11 +10,13 @@ import {
   blocked,
 } from "../utils/chats";
 import { usePrivateChatsContext } from "../contexts/PrivateChatsContext";
+import { useVisibilityContext } from "../contexts/VisibilityContext";
 import Group from "../icons/Group";
 
 export default function ChatCard({ chat }) {
   const { userInfo, setUserInfo } = useUserInfoContext();
   const { privateChats, setPrivateChats } = usePrivateChatsContext();
+  const { chatVisibilityHandler } = useVisibilityContext();
   const currChatId = userInfo ? userInfo.current_chat_id : null;
 
   const isPrivate = chat.is_private;
@@ -30,6 +32,7 @@ export default function ChatCard({ chat }) {
   const clickHandler = () => {
     const dataHandler = (data) => {
       setUserInfo(data);
+      chatVisibilityHandler();
       if (data.current_chat.is_private) {
         setPrivateChats(clearNotifications(data.current_chat_id, privateChats));
       }
