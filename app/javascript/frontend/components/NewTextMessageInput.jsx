@@ -52,7 +52,7 @@ export default function NewTextMessageInput() {
       <div className="flex flex-col items-center">
         {error && <span className="text-xs">{error}</span>}
         <input
-          id="input"
+          id="new-text-message"
           aria-label="message form"
           className="border py-1 px-5 rounded-full text-sm w-full dark:bg-neutral-800/90"
           placeholder={placeholder}
