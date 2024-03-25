@@ -12,7 +12,7 @@ class Api::V1::ImageMessagesController < ApplicationController
       { 
         allowed_formats: ["jpeg", "jpg", "png"], 
         folder: "Mercury", 
-        upload_preset: "frcpb9q2" 
+        upload_preset: "frcpb9q2" # for making the images small
       }
     )
   
