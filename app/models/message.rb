@@ -1,4 +1,6 @@
 class Message < ApplicationRecord
+  after_destroy :delete_from_cloudinary
+
   belongs_to :user
   belongs_to :chat, touch: true
 
@@ -29,5 +31,10 @@ class Message < ApplicationRecord
     if self.body.blank? && self.image.blank?
       errors.add(:message, "must have content")
     end
+  end
+
+  def delete_from_cloudinary
+    return unless public_id # only image messages have public ids
+    Cloudinary::Uploader.destroy(@message.public_id)
   end
 end
