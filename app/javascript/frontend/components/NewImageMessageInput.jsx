@@ -3,7 +3,7 @@ import SendMessageButton from "./SendMessageButton";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { postResource } from "../utils/apiRequest";
 
-export default function NewImageMessageInput() {
+export default function NewImageMessageInput({ setText }) {
   const { userInfo } = useUserInfoContext();
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -69,16 +69,18 @@ export default function NewImageMessageInput() {
     body.append("image", selectedFile);
     body.append("chat_id", userInfo.current_chat_id);
 
+    console.log(body);
+
     const dataHandler = (data) => {
       if (data.hasOwnProperty("errors")) {
         errorSetter(data.errors.join(", "));
       } else {
-        setUploadImage(false);
         setError(null);
+        setText(true); // go back to the default of text message form showing
       }
     };
 
-    postResource("/api/v1/image_messages/create", body, "POST")
+    postResource("/api/v1/image_messages/create", body, "POST", false)
       .then((data) => dataHandler(data))
       .catch((e) => console.log(e));
   };
@@ -116,6 +118,7 @@ export default function NewImageMessageInput() {
                 ref={inputRef}
                 type="file"
                 id="file"
+                name="file"
                 accept="image/png, image/jpeg, image/jpg"
                 onChange={onSelectFile}
                 className="hidden"

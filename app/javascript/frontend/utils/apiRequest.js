@@ -10,15 +10,18 @@ export const getResource = async (url, abortController) => {
   return response.json(); // now returns a promise or an error
 };
 
-export const postResource = async (url, body, method) => {
+export const postResource = async (url, body, method, json = true) => {
   const token = document.querySelector('meta[name="csrf-token"]').content;
+  const headers = json
+    ? { "X-CSRF-Token": token, "Content-Type": "application/json" }
+    : {
+        "X-CSRF-Token": token,
+      };
+
   const response = await fetch(url, {
     mode: "cors",
     method: method,
-    headers: {
-      "X-CSRF-Token": token,
-      "Content-Type": "application/json",
-    },
+    headers: headers,
     body: body,
   });
 

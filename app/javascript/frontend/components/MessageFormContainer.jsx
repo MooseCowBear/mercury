@@ -38,7 +38,7 @@ export default function MessageFormContainer() {
         </button>
       )}
       {text && <NewTextMessageInput />}
-      {!text && <NewImageMessageInput />}
+      {!text && <NewImageMessageInput setText={setText} />}
     </div>
   );
 }

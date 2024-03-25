@@ -16,13 +16,14 @@ class Api::V1::ImageMessagesController < ApplicationController
       }
     )
   
-    message.image = res["secure_url"] # if doesn't exist, will be nil
+    message.image = res["secure_url"] # if doesn't exist, will be nil. message won't save bc won't pass validations
     message.public_id = res["public_id"]
 
     message.user = current_user
     message.chat = @chat
 
     if message.save 
+      Message::BroadcastService.call(message)
       render json: message.to_json(include: [:user])
     else
       render json: { message: "Validations Failed", 
