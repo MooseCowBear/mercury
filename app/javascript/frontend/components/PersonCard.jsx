@@ -27,6 +27,7 @@ export default function PersonCard({ person, setSelectedPeople }) {
       className={`w-full flex justify-between items-center py-2 px-4 ${
         selected && "bg-neutral-100 dark:bg-neutral-500/80"
       }`}
+      aria-label={`send ${person.username} a message`}
     >
       <h3>{person.username}</h3>
       {active && <span className="text-xs text-gray-400">active</span>}
