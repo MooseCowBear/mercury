@@ -21,7 +21,7 @@ FactoryBot.define do
     trait :within_week_old do
       name { "newish chat" }
       updated_at { 1.day.ago }
-      is_private { true }
+      is_private { false }
     end
 
     trait :visible do

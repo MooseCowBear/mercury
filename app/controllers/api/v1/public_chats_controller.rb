@@ -8,9 +8,8 @@ class Api::V1::PublicChatsController < ApplicationController
     render json: chats, methods: :last_message
   end
 
-  # should destroy inactive chats BEFORE trying to create a new one, so possibly free up name!!!
-  # after adding a buffer zone of read only chats
   def create
+    PublicChat::DestroyService.call
     chat = Chat.new(chat_params)
     if chat.save 
       current_user.update(current_chat_id: chat.id) # put the user in the chat they created
