@@ -27,7 +27,7 @@ export default function MessageContent({ message }) {
         {message.image && (
           <img
             src={message.image}
-            alt=""
+            alt="image message"
             className="self-center max-w-[150px] max-h-[150px] rounded-md"
           />
         )}
