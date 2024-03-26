@@ -6,6 +6,7 @@ export default function MessageContent({ message }) {
   const { userInfo } = useUserInfoContext();
   const edited = editedMessage(message);
   const isOwner = ownedByUser(message, userInfo);
+  const username = message.user ? message.user.username : ""; // in case message sender deleted account
 
   return (
     <div
@@ -13,7 +14,7 @@ export default function MessageContent({ message }) {
         isOwner ? "self-end" : "self-start"
       }`}
     >
-      {!isOwner && <span className="grow-0">{message.user.username}</span>}
+      {!isOwner && <span className="grow-0">{username}</span>}
       <div
         className={`flex flex-col grow ${isOwner ? "self-start" : "self-end"}`}
       >
