@@ -3,7 +3,6 @@ class Api::V1::MessagesController < ApplicationController
 
   before_action :set_message, only: [:update]
   before_action :confirm_participant, only: [:create]
-  before_action :delete_from_cloudinary, only: [:destroy] # TODO: can be a method on model
   before_action :confirm_text_message, only: [:update]
   after_action -> { current_user.update_last_active if current_user }
 
@@ -38,10 +37,15 @@ class Api::V1::MessagesController < ApplicationController
     end
   end
 
+  # destroy action removes a message from the set of private messages that a user
+  # sees. 
   def destroy
-    
-
-    render json: message.to_json(include: [:user], methods: [:is_private]) # so frontend can remove the message
+    recipient_record = PrivateMessageRecipient.find_by(user_id: current_user.id, message_id: params[:id])
+    if recipient_record.destroy
+      render json: { status: :success }
+    else 
+      render json: { status: :unprocessable_entity }
+    end
   end
 
   private 
@@ -52,17 +56,6 @@ class Api::V1::MessagesController < ApplicationController
 
   def set_message
     @message = current_user.messages.find(params[:id])
-  end
-
-  def delete_from_cloudinary
-    return unless @message.public_id 
-    res = Cloudinary::Uploader.destroy(@message.public_id)
-
-    unless res["result"] == "ok"
-      render json: { message: "Image could not be deleted at this time", 
-                    errors: "Cloud storage failure." }, 
-                    status: :unprocessable_entity
-    end
   end
 
   def confirm_text_message

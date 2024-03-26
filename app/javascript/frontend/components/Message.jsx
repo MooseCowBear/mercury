@@ -4,6 +4,7 @@ import MessageContent from "./MessageContent";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import Delete from "../icons/Delete";
 import { blocked } from "../utils/chats";
+import { postResource } from "../utils/apiRequest";
 
 export default function Message({ message, setMessages }) {
   const { userInfo } = useUserInfoContext();
@@ -13,23 +14,21 @@ export default function Message({ message, setMessages }) {
   const isBlocked = blocked(userInfo);
   const isPrivate = message.is_private;
 
-  console.log("MESSAGE", message);
-
   const deleteButtonHandler = () => {
     console.log("clicked!");
     confirm("Are you sure? Deleted messages are not recoverable.");
 
     const dataHandler = (data) => {
-      setMessages((messages) => {
-        return messages.filter((elem) => elem.id !== data.id);
-      });
+      if (data.status === "success") {
+        setMessages((messages) => {
+          return messages.filter((elem) => elem.id !== message.id);
+        });
+      }
     };
 
-    // TODO: add request -- then need to set messages by removing the deleted message
-
-    // get the deleted message back and remove it from messages
-
-    // PROBLEM: right now only can do "deleting" private messages
+    postResource(`/api/v1/messages/${message.id}`, JSON.stringify({}), "DELETE")
+      .then((data) => dataHandler(data))
+      .catch((e) => console.log(e));
   };
 
   return (
