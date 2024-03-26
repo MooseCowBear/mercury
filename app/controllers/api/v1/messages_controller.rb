@@ -7,8 +7,8 @@ class Api::V1::MessagesController < ApplicationController
   after_action -> { current_user.update_last_active if current_user }
 
   def index
-    messages = current_user.current_chat.chat_messages(current_user) # not sure this param  will stay
-    render json: messages, include: [:user], methods: [:is_private] # check this
+    messages = current_user.current_chat.chat_messages(current_user)
+    render json: messages, include: [:user], methods: [:is_private]
   end
 
   def create
@@ -38,11 +38,14 @@ class Api::V1::MessagesController < ApplicationController
   end
 
   # destroy action removes a message from the set of private messages that a user
-  # sees. 
+  # sees
+  # after a delete, also want to remove the message preview. 
+  # this requires broadcasting the chat but only to current user
   def destroy
     recipient_record = PrivateMessageRecipient.find_by(user_id: current_user.id, message_id: params[:id])
     if recipient_record
       recipient_record.destroy
+      Message::BroadcastService.call(recipient_record.message, current_user)
       render json: { status: "success" }
     else 
       render json: {}, status: :unprocessable_entity

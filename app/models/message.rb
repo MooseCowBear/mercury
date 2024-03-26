@@ -2,7 +2,7 @@ class Message < ApplicationRecord
   after_destroy :delete_from_cloudinary
 
   belongs_to :user
-  belongs_to :chat, touch: true
+  belongs_to :chat, touch: true # for determining whether a chat is still active
 
   has_one :notification, dependent: :destroy
   has_many :private_message_recipients, dependent: :destroy
