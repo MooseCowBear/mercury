@@ -23,7 +23,7 @@ class Chat < ApplicationRecord
     -> (user_ids) {
       where(
         id: ChatParticipant.select(:chat_id)
-        .where(user_id: [user_ids])
+        .where(user_id: user_ids)
         .group(:chat_id)
         .having("count(user_id) = ?", user_ids.count)
       )
