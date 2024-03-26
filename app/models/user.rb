@@ -27,7 +27,7 @@ class User < ApplicationRecord
     ->(chat) { where.not(current_chat_id: chat).or(where(current_chat_id: nil)) }
 
   before_validation :clean_username
-  after_update :clear_user_notifications, if: :saved_change_to_current_chat_id? # is this staying here?
+  after_update :clear_user_notifications, if: :saved_change_to_current_chat_id?
 
   def update_last_active
     self.touch(:last_active)

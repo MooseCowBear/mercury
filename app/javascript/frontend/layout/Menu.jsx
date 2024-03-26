@@ -43,6 +43,3 @@ export default function Menu() {
     </div>
   );
 }
-
-// TODO: update the aria-label of view chats depending on whether the chat messages
-// are visible OR NOT!!!
