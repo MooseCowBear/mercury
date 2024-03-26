@@ -41,7 +41,7 @@ RSpec.describe Message::BroadcastService, type: :service do
       end
 
       it "broadcasts to private chat channel for each notification recipient" do
-        allow(@new_message).to receive(:notification_recipients).and_return([@user1, @user2])
+        allow(@new_message).to receive(:message_recipients).and_return([@user1, @user2])
         expect { Message::BroadcastService.call(@new_message) }.to have_broadcasted_to("private_chat_for_#{@user1.id}")
         expect { Message::BroadcastService.call(@new_message) }.to have_broadcasted_to("private_chat_for_#{@user2.id}")
       end
@@ -58,5 +58,15 @@ RSpec.describe Message::BroadcastService, type: :service do
         expect { Message::BroadcastService.call(updated_message) }.to have_broadcasted_to("chat_#{updated_message.chat_id}")
       end
     end
+
+    context "when passed a user" do
+      it "broadcasts to user's private chat channel" do
+        message = create(:message, chat: @private_chat)
+        user = create(:user)
+        expect { Message::BroadcastService.call(message, user) }.to have_broadcasted_to("private_chat_for_#{user.id}")
+      end
+    end
   end
 end
+
+# UPDATE: to cover "deleted" messages
