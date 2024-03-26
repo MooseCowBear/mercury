@@ -53,7 +53,7 @@ class Message::BroadcastService < ApplicationService
   def broadcast_message
     ActionCable.server.broadcast(
       "chat_#{@message.chat_id}",
-      @message.as_json(include: :user)
+      @message.to_json(include: [:user], methods: [:is_private])
     )
   end
 end

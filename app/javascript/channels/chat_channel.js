@@ -12,8 +12,7 @@ export const subscribeToChatChannel = (
     },
     {
       received(data) {
-        console.log("data", data);
-        setMessages((messages) => updateMessages(data, messages));
+        setMessages((messages) => updateMessages(JSON.parse(data), messages));
       },
     }
   );

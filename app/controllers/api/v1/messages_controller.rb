@@ -41,10 +41,11 @@ class Api::V1::MessagesController < ApplicationController
   # sees. 
   def destroy
     recipient_record = PrivateMessageRecipient.find_by(user_id: current_user.id, message_id: params[:id])
-    if recipient_record.destroy
-      render json: { status: :success }
+    if recipient_record
+      recipient_record.destroy
+      render json: { status: "success" }
     else 
-      render json: { status: :unprocessable_entity }
+      render json: {}, status: :unprocessable_entity
     end
   end
 
