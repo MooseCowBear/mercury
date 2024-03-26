@@ -45,7 +45,7 @@ export default function NewPrivateChatForm({
       "POST"
     )
       .then((data) => dataHandler(data))
-      .catch((e) => console.log(error));
+      .catch((e) => console.log(e));
   };
 
   return (

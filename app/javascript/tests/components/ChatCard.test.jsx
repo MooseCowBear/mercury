@@ -32,10 +32,16 @@ describe("ChatCard", () => {
     chatTitle.mockReturnValue("test chat");
 
     renderWithContexts(<ChatCard chat={testChat} />, [
-      { context: "UserInfoContext", contextValue: { userInfo: { id: 1 } } },
+      {
+        context: "UserInfoContext",
+        contextValue: { userInfo: { id: 1 }, setUserInfo: jest.fn() },
+      },
       {
         context: "VisibilityContext",
-        contextValue: { visibility: { chats: true } },
+        contextValue: {
+          visibility: { chats: true },
+          chatVisibilityHandler: jest.fn(),
+        },
       },
       {
         context: "PrivateChatsContext",
@@ -54,10 +60,16 @@ describe("ChatCard", () => {
     };
 
     renderWithContexts(<ChatCard chat={testChat} />, [
-      { context: "UserInfoContext", contextValue: { userInfo: { id: 1 } } },
+      {
+        context: "UserInfoContext",
+        contextValue: { userInfo: { id: 1 }, setUserInfo: jest.fn() },
+      },
       {
         context: "VisibilityContext",
-        contextValue: { visibility: { chats: true } },
+        contextValue: {
+          visibility: { chats: true },
+          chatVisibilityHandler: jest.fn(),
+        },
       },
       {
         context: "PrivateChatsContext",
@@ -76,10 +88,16 @@ describe("ChatCard", () => {
     };
 
     renderWithContexts(<ChatCard chat={testChat} />, [
-      { context: "UserInfoContext", contextValue: { userInfo: { id: 1 } } },
+      {
+        context: "UserInfoContext",
+        contextValue: { userInfo: { id: 1 }, setUserInfo: jest.fn() },
+      },
       {
         context: "VisibilityContext",
-        contextValue: { visibility: { chats: true } },
+        contextValue: {
+          visibility: { chats: true },
+          chatVisibilityHandler: jest.fn(),
+        },
       },
       {
         context: "PrivateChatsContext",
@@ -98,10 +116,16 @@ describe("ChatCard", () => {
     };
 
     renderWithContexts(<ChatCard chat={testChat} />, [
-      { context: "UserInfoContext", contextValue: { userInfo: { id: 1 } } },
+      {
+        context: "UserInfoContext",
+        contextValue: { userInfo: { id: 1 }, setUserInfo: jest.fn() },
+      },
       {
         context: "VisibilityContext",
-        contextValue: { visibility: { chats: true } },
+        contextValue: {
+          visibility: { chats: true },
+          chatVisibilityHandler: jest.fn(),
+        },
       },
       {
         context: "PrivateChatsContext",
@@ -115,13 +139,19 @@ describe("ChatCard", () => {
   it("sends post request when clicked", async () => {
     const user = userEvent.setup();
     const testChat = { name: "test chat", is_private: false };
-    postResource.mockReturnValue(Promise.resolve());
+    postResource.mockReturnValue(Promise.resolve({ id: 1, current_chat: {} }));
 
     renderWithContexts(<ChatCard chat={testChat} />, [
-      { context: "UserInfoContext", contextValue: { userInfo: { id: 1 } } },
+      {
+        context: "UserInfoContext",
+        contextValue: { userInfo: { id: 1 }, setUserInfo: jest.fn() },
+      },
       {
         context: "VisibilityContext",
-        contextValue: { visibility: { chats: true } },
+        contextValue: {
+          visibility: { chats: true },
+          chatVisibilityHandler: jest.fn(),
+        },
       },
       {
         context: "PrivateChatsContext",

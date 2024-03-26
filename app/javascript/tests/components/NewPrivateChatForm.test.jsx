@@ -33,7 +33,10 @@ describe("NewPrivateChatForm", () => {
         },
         {
           context: "VisibilityContext",
-          contextValue: { visibility: { people: true } },
+          contextValue: {
+            visibility: { people: true },
+            chatVisibilityHandler: jest.fn(),
+          },
         },
         {
           context: "PrivateChatsContext",
@@ -63,7 +66,10 @@ describe("NewPrivateChatForm", () => {
         },
         {
           context: "VisibilityContext",
-          contextValue: { visibility: { people: true } },
+          contextValue: {
+            visibility: { people: true },
+            chatVisibilityHandler: jest.fn(),
+          },
         },
         {
           context: "PrivateChatsContext",
@@ -76,7 +82,7 @@ describe("NewPrivateChatForm", () => {
   });
 
   it("submits a post request when submit button clicked", async () => {
-    postResource.mockReturnValue(Promise.resolve());
+    postResource.mockReturnValue(Promise.resolve({ id: 1, current_chat: {} }));
     const selectedPeople = [
       { id: 1, username: "one" },
       { id: 2, username: "two" },
@@ -96,7 +102,10 @@ describe("NewPrivateChatForm", () => {
         },
         {
           context: "VisibilityContext",
-          contextValue: { visibility: { people: true } },
+          contextValue: {
+            visibility: { people: true },
+            chatVisibilityHandler: jest.fn(),
+          },
         },
         {
           context: "PrivateChatsContext",
@@ -109,4 +118,3 @@ describe("NewPrivateChatForm", () => {
     expect(postResource.mock.calls.length).toBe(1);
   });
 });
-

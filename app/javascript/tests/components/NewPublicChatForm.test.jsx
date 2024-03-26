@@ -18,7 +18,10 @@ describe("NewPublicChatForm", () => {
       { context: "UserInfoContext", contextValue: { setUserInfo: jest.fn() } },
       {
         context: "VisibilityContext",
-        contextValue: { visibility: { chats: true } },
+        contextValue: {
+          visibility: { chats: true },
+          chatVisibilityHandler: jest.fn(),
+        },
       },
       {
         context: "PublicChatsContext",
@@ -36,7 +39,10 @@ describe("NewPublicChatForm", () => {
       { context: "UserInfoContext", contextValue: { setUserInfo: jest.fn() } },
       {
         context: "VisibilityContext",
-        contextValue: { visibility: { chats: true } },
+        contextValue: {
+          visibility: { chats: true },
+          chatVisibilityHandler: jest.fn(),
+        },
       },
       {
         context: "PublicChatsContext",
@@ -55,7 +61,10 @@ describe("NewPublicChatForm", () => {
       { context: "UserInfoContext", contextValue: { setUserInfo: jest.fn() } },
       {
         context: "VisibilityContext",
-        contextValue: { visibility: { chats: true } },
+        contextValue: {
+          visibility: { chats: true },
+          chatVisibilityHandler: jest.fn(),
+        },
       },
       {
         context: "PublicChatsContext",
@@ -70,7 +79,7 @@ describe("NewPublicChatForm", () => {
   });
 
   it("makes post request when submitted", async () => {
-    postResource.mockReturnValue(Promise.resolve());
+    postResource.mockReturnValue(Promise.resolve({ id: 1 }));
     const mockHandler = jest.fn();
     const user = userEvent.setup();
 
@@ -78,7 +87,10 @@ describe("NewPublicChatForm", () => {
       { context: "UserInfoContext", contextValue: { setUserInfo: jest.fn() } },
       {
         context: "VisibilityContext",
-        contextValue: { visibility: { chats: true } },
+        contextValue: {
+          visibility: { chats: true },
+          chatVisibilityHandler: jest.fn(),
+        },
       },
       {
         context: "PublicChatsContext",

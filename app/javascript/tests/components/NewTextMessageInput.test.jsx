@@ -71,7 +71,7 @@ describe("NewTextMessageInput", () => {
   });
 
   it("submits post request if input not empty when submitted", async () => {
-    postResource.mockReturnValue(Promise.resolve());
+    postResource.mockReturnValue(Promise.resolve({ id: 1 }));
     const user = userEvent.setup();
 
     renderWithContexts(<NewTextMessageInput />, [
