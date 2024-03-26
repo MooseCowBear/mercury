@@ -35,7 +35,7 @@ class Message::BroadcastService < ApplicationService
   end
 
   def broadcast_private
-    @message.notification_recipients.each do |user|
+    @message.message_recipients.each do |user|
       ActionCable.server.broadcast(
         "private_chat_for_#{user.id}", 
         @message.chat.to_json({ user: user })
