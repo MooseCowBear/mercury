@@ -15,7 +15,6 @@ export default function Message({ message, setMessages }) {
   const isPrivate = message.is_private;
 
   const deleteButtonHandler = () => {
-    console.log("clicked!");
     confirm("Are you sure? Deleted messages are not recoverable.");
 
     const dataHandler = (data) => {

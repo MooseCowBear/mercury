@@ -69,8 +69,6 @@ export default function NewImageMessageInput({ setText }) {
     body.append("image", selectedFile);
     body.append("chat_id", userInfo.current_chat_id);
 
-    console.log(body);
-
     const dataHandler = (data) => {
       if (data.hasOwnProperty("errors")) {
         errorSetter(data.errors.join(", "));
