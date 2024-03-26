@@ -1,8 +1,22 @@
-/* chat create action returns chat information want new chat to appear 
-at the top of the chats display */
+/* chats sorted by most recent last message first */
 export const updateChats = (data, chats) => {
-  const chatsMinusData = chats.filter((elem) => elem.id !== data.id);
-  return [data].concat(chatsMinusData);
+  const updatedChats = chats.filter((elem) => elem.id !== data.id);
+  updatedChats.push(data);
+  return updatedChats.sort(sortByLastMessage);
+};
+
+const sortByLastMessage = (a, b) => {
+  if (a.last_message && b.last_message) {
+    return (
+      new Date(b.last_message.created_at) - new Date(a.last_message.created_at)
+    );
+  } else if (a.last_message) {
+    return -1;
+  } else if (b.last_message) {
+    return 1;
+  } else {
+    return new Date(b.created_at) - new Date(a.created_at); // want most recent (higher date num) first
+  }
 };
 
 /* backend wants ids of chat participants, including the user who initiated the chat.
@@ -72,9 +86,9 @@ export const filterPeople = (people, filterPeopleBy) => {
   return people.filter((elem) => elem.username.includes(filterPeopleBy));
 };
 
-// helper for visual indications that a chat is blocked and for disabling new message form 
+// helper for visual indications that a chat is blocked and for disabling new message form
 export const blocked = (userInfo) => {
   return (
     !userInfo || !userInfo.current_chat_id || userInfo.current_chat_silenced
   );
-}
+};

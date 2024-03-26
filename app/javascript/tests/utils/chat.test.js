@@ -11,22 +11,67 @@ import {
 } from "../../frontend/utils/chats";
 
 describe("updateChats", () => {
-  it("creates a new chat array with the new chat at index 0", () => {
-    const testChats = [{ id: 1 }];
-    const testData = { id: 2 };
-    const res = updateChats(testData, testChats);
-    expect(res).not.toBe(testChats);
-    expect(res[0]).toBe(testData);
-    expect(res.length).toEqual(2);
+  it("returns chats with most recent last message first", () => {
+    const existingChats = [
+      {
+        id: 2,
+        last_message: { created_at: "2012-04-11T10:20:30Z" },
+      },
+      {
+        id: 1,
+        last_message: { created_at: "2011-04-11T10:20:30Z" },
+      },
+    ];
+    const newChatData = {
+      id: 1,
+      last_message: { created_at: "2013-04-11T10:20:30Z" },
+    };
+
+    const res = updateChats(newChatData, existingChats);
+
+    expect(res.length).toBe(2);
+    expect(res[0].id).toBe(1);
+    expect(res[1].id).toBe(2);
   });
 
-  it("creates a new chat array with updated chat at index 0", () => {
-    const testChats = [{ id: 1 }, { id: 2 }];
-    const testData = { id: 2 };
-    const res = updateChats(testData, testChats);
-    expect(res).not.toBe(testChats);
-    expect(res[0]).toBe(testData);
-    expect(res.length).toEqual(2);
+  it("returns a chat with no messages after chat with message", () => {
+    const existingChats = [
+      {
+        id: 2,
+      },
+      {
+        id: 1,
+        last_message: { created_at: "2011-04-11T10:20:30Z" },
+      },
+    ];
+    const newChatData = {
+      id: 1,
+      last_message: { created_at: "2013-04-11T10:20:30Z" },
+    };
+    const res = updateChats(newChatData, existingChats);
+    expect(res.length).toBe(2);
+    expect(res[0].id).toBe(1);
+    expect(res[1].id).toBe(2);
+  });
+
+  it("returns two chats without messages in descending order of creation", () => {
+    const existingChats = [
+      {
+        id: 2,
+        created_at: "2012-04-11T10:20:30Z",
+      },
+      {
+        id: 1,
+        created_at: "2011-04-11T10:20:30Z",
+      },
+    ];
+    const newChatData = { id: 3, created_at: "2013-04-11T10:20:30Z" };
+
+    const res = updateChats(newChatData, existingChats);
+    expect(res.length).toBe(3);
+    expect(res[0].id).toBe(3);
+    expect(res[1].id).toBe(2);
+    expect(res[2].id).toBe(1);
   });
 });
 
