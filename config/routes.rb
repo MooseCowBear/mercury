@@ -8,7 +8,7 @@ Rails.application.routes.draw do
       get "users/show", to: "users#show" # need a way to get current user id from the front end
       resources :users, only: [:index, :update]
       resources :messages, only: [:index, :update, :create, :destroy]
-      resources :private_chats, only: [:index, :create, :destroy] do
+      resources :private_chats, only: [:index, :create] do
         member do
           post "/silence", to: "chat_participants#update" # silence_api_v1_private_chat POST /api/v1/private_chats/:id/silence
         end

@@ -19,13 +19,6 @@ class Api::V1::PrivateChatsController < ApplicationController
     end
   end
 
-  # MARK: currently not in use. Need to decide what the behavior of this will be
-  def destroy
-    @chat.private_chat_destroy(current_user)
-    
-    render json: @chat
-  end
-
   private
 
   def set_chat
