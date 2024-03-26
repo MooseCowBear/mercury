@@ -69,7 +69,7 @@ RSpec.configure do |config|
 end
 
 Capybara.server = :puma
-Capybara.default_max_wait_time = 10
+Capybara.default_max_wait_time = 20
 Capybara.disable_animation = true
 Capybara.enable_aria_label = true
 

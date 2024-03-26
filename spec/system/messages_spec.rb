@@ -49,4 +49,24 @@ RSpec.describe 'Messages', type: :system, js: true do
     # need to find the message somehow...
     expect(page).to have_css("img") 
   end
+
+  it "allows user to remove private message" do
+    private_chat = create(:chat, :private)
+    create(:chat_participant, user: @user, chat: private_chat)
+    private_message = create(:message, user: @user, chat: private_chat, body: "message to delete")
+    create(:private_message_recipient, user: @user, message: private_message)
+
+    visit chat_path
+
+    find("h4", text: private_chat.name).click
+
+    find("span", text: private_message.body).hover 
+
+    accept_confirm do
+      find('button[aria-label="delete message"]', match: :first).click
+    end
+    
+    expect(page).not_to have_content(/message to delete/i).twice
+    expect(page).not_to have_content(/message to delete/i)
+  end
 end
