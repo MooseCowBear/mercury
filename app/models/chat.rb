@@ -36,7 +36,6 @@ class Chat < ApplicationRecord
 
   before_validation :clean_name
 
-  # for preventing a user with chat blocked, or non-chat member from sending messages to chat
   def participant?(user)
     return true unless is_private
     users.exists?(user.id)

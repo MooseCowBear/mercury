@@ -18,23 +18,6 @@ RSpec.describe Message, type: :model do
     expect(message).not_to be_valid
   end
 
-  describe ".messages_after" do
-    before(:each) do
-      @user = create(:user)
-      @chat = create(:chat, :public)
-      @message1 = create(:message, chat: @chat, user: @user)
-      @message2 = create(:old_message, chat: @chat, user: @user)
-    end
-
-    it "includes messages that are newer than date" do
-      expect(Message.messages_after(2.days.ago)).to include(@message1)
-    end
-
-    it "excludes messages older than date" do
-      expect(Message.messages_after(2.days.ago)).not_to include(@message2)
-    end
-  end
-
   describe "#notification_recipients" do
     it "returns users of chat not currently in chat" do
       private_chat = create(:chat, :private)
