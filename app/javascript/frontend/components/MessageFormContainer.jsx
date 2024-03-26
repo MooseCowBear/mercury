@@ -19,26 +19,30 @@ export default function MessageFormContainer() {
       }`}
     >
       {text && (
-        <button
-          aria-label="add image"
-          disabled={disable}
-          onClick={() => setText(false)}
-          className="translate-y-[-1px]"
-        >
-          <Camera />
-        </button>
+        <>
+          <button
+            aria-label="add image"
+            disabled={disable}
+            onClick={() => setText(false)}
+            className="translate-y-[-1px]"
+          >
+            <Camera />
+          </button>
+          <NewTextMessageInput />
+        </>
       )}
       {!text && (
-        <button
-          aria-label="cancel"
-          onClick={() => setText(true)}
-          className="translate-y-[-1px]"
-        >
-          <Close />
-        </button>
+        <>
+          <button
+            aria-label="cancel"
+            onClick={() => setText(true)}
+            className="translate-y-[-1px]"
+          >
+            <Close />
+          </button>
+          <NewImageMessageInput setText={setText} />
+        </>
       )}
-      {text && <NewTextMessageInput />}
-      {!text && <NewImageMessageInput setText={setText} />}
     </div>
   );
 }
