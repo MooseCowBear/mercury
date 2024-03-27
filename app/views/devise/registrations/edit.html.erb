@@ -25,18 +25,6 @@
 
     <div class="field">
       <div class="flex gap-2 justify-between items-end">
-      <%= f.label :username, class: "uppercase text-sm" %>
-        <% f.object.errors.full_messages_for(:username).each do |msg| %>
-          <span class="text-raspberry-500 text-sm text-right"><%= msg %></span>
-        <% end %>
-      </div>
-      <%= f.text_field :username, 
-        autofocus: true, 
-        class: "border py-1 px-5 rounded-full text-sm w-full dark:bg-neutral-800/90" %>
-    </div>
-
-    <div class="field">
-      <div class="flex gap-2 justify-between items-end">
         <div>
           <%= f.label :password, class: "uppercase text-sm" %> 
           <i class="text-sm">(leave blank if you don't want to change it)</i>
