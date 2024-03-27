@@ -22,7 +22,7 @@ export default function MessageContent({ message }) {
           <span
             className={`text-left px-5 py-2 rounded-tr-xl rounded-tl-xl ${
               isOwner
-                ? "bg-poppy-500 text-white rounded-bl-xl"
+                ? "bg-raspberry-500 dark:bg-raspberry-500/90 text-white rounded-bl-xl"
                 : "bg-neutral-100 dark:bg-neutral-100/80 dark:text-neutral-800 rounded-br-xl"
             }`}
           >

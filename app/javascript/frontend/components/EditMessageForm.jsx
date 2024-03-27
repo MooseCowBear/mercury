@@ -50,7 +50,7 @@ export default function EditMessageForm({ message, setEditing }) {
         value={body}
         onChange={changeHandler}
         onBlur={updateHandler}
-        className="focus:outline-none w-full px-5 py-2 rounded-tr-xl rounded-tl-xl self-start rounded-bl-xl border border-poppy-500 dark:bg-neutral-800/90"
+        className="focus:outline-none w-full px-5 py-2 rounded-tr-xl rounded-tl-xl self-start rounded-bl-xl border border-raspberry-500 dark:border-raspberry-500/90 dark:bg-neutral-800/90"
       />
     </div>
   );

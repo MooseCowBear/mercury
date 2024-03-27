@@ -3,7 +3,7 @@ import React from "react";
 export default function FeatherIcon() {
   return (
     <svg
-      className="size-8 fill-poppy-500"
+      className="size-8 fill-raspberry-500 dark:fill-raspberry-500/90"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 512 512"
     >

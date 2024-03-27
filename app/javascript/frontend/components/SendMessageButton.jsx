@@ -4,7 +4,7 @@ export default function SendMessageButton({ submitHandler, disable = false }) {
   return (
     <button aria-label="send" onClick={submitHandler} disabled={disable}>
       <svg
-        className="size-6 fill-poppy-500 translate-y-[-1px]"
+        className="size-6 fill-raspberry-500 dark:fill-raspberry-500/90 translate-y-[-1px]"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >

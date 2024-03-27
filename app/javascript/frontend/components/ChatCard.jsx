@@ -75,7 +75,7 @@ export default function ChatCard({ chat }) {
           className={`flex items-center justify-center rounded-full size-6 text-transparent text-sm ${
             isPrivate &&
             chat.notification_count > 0 &&
-            "bg-poppy-500 text-white"
+            "bg-raspberry-500 text-white dark:bg-raspberry-500/90"
           }`}
           aria-label="notifications"
         >

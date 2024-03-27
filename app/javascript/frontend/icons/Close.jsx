@@ -3,7 +3,7 @@ import React from "react";
 export default function Close() {
   return (
     <svg
-      className="size-6 fill-poppy-500"
+      className="size-6 fill-raspberry-500 dark:fill-raspberry-500/90"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
     >

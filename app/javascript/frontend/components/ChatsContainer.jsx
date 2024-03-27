@@ -30,7 +30,7 @@ export default function ChatsContainer({ title, chats }) {
             isPrivate ? "create new private chat" : "create new public chat"
           }
           onClick={clickHandler}
-          className="bg-poppy-500 p-1 rounded-full"
+          className="bg-raspberry-500 dark:bg-raspberry-500/90 p-1 rounded-full"
         >
           <Plus />
         </button>

@@ -22,7 +22,7 @@ export default function Searchbar({ title, onChangeHandler }) {
           placeholder="Search"
           className="grow min-w-none border rounded-full px-3 py-1 text-sm lowercase tracking-wider dark:bg-neutral-800/90"
         />
-        <div className="bg-poppy-500 rounded-full p-2 flex items-center justify-center">
+        <div className="bg-raspberry-500 dark:bg-raspberry-500/90 rounded-full p-2 flex items-center justify-center">
           <Search />
         </div>
       </div>

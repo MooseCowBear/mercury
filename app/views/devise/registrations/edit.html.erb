@@ -10,7 +10,7 @@
       <div class="flex gap-2 justify-between items-end">
         <%= f.label :email, class: "uppercase text-sm" %>
         <% f.object.errors.full_messages_for(:email).each do |msg| %>
-          <span class="text-poppy-500 text-sm text-right"><%= msg %></span>
+          <span class="text-raspberry-500 text-sm text-right"><%= msg %></span>
         <% end %>
       </div>
       <%= f.email_field :email, 
@@ -27,7 +27,7 @@
       <div class="flex gap-2 justify-between items-end">
       <%= f.label :username, class: "uppercase text-sm" %>
         <% f.object.errors.full_messages_for(:username).each do |msg| %>
-          <span class="text-poppy-500 text-sm text-right"><%= msg %></span>
+          <span class="text-raspberry-500 text-sm text-right"><%= msg %></span>
         <% end %>
       </div>
       <%= f.text_field :username, 
@@ -42,7 +42,7 @@
           <i class="text-sm">(leave blank if you don't want to change it)</i>
         </div>
         <% f.object.errors.full_messages_for(:password).each do |msg| %>
-          <span class="text-poppy-500 text-sm text-right"><%= msg %></span>
+          <span class="text-raspberry-500 text-sm text-right"><%= msg %></span>
         <% end %>
       </div>
       <%= f.password_field :password, 
@@ -58,7 +58,7 @@
       <div class="flex gap-2 justify-between items-end">
         <%= f.label :password_confirmation, class: "uppercase text-sm" %>
         <% f.object.errors.full_messages_for(:password_confirmation).each do |msg| %>
-          <span class="text-poppy-500 text-sm text-right"><%= msg %></span>
+          <span class="text-raspberry-500 text-sm text-right"><%= msg %></span>
         <% end %>
       </div>
       <%= f.password_field :password_confirmation, 
@@ -73,7 +73,7 @@
           <i class="text-sm">(we need your current password to confirm your changes)</i>
         </div>
         <% f.object.errors.full_messages_for(:current_password).each do |msg| %>
-          <span class="text-poppy-500"><%= msg %></span>
+          <span class="text-raspberry-500"><%= msg %></span>
         <% end %>
       </div>
       <%= f.password_field :current_password, 
@@ -83,7 +83,7 @@
 
     <div class="actions">
       <%= f.submit "Update", 
-        class: "cursor-pointer border border-poppy-500 hover:bg-poppy-500 hover:text-white uppercase py-1 px-5 rounded-full text-sm w-full" %>
+        class: "cursor-pointer border border-raspberry-500 dark:border-raspberry-500/90 hover:bg-raspberry-500 dark:hover:bg-raspberry-500/90 hover:text-white uppercase py-1 px-5 rounded-full text-sm w-full" %>
     </div>
   <% end %>
 
@@ -96,6 +96,6 @@
         method: :delete %>
     </span>
 
-    <%= link_to "Back", :back, class: "uppercase tracking-wider self-center border-b-2 border-poppy-500" %>
+    <%= link_to "Back", :back, class: "uppercase tracking-wider self-center border-b-2 border-raspberry-500" %>
   </div>
 </div>

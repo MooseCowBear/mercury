@@ -34,8 +34,11 @@ module.exports = {
         melon: {
           500: "#ffcc70",
         },
-        poppy: {
+        raspberry: {
           500: "#fe794e",
+        },
+        raspberry: {
+          500: "#d040e0",
         },
         white: "#ffffff",
       },
