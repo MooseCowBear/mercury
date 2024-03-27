@@ -21,11 +21,10 @@ class PrivateChat::CreateService < ApplicationService
     user_ids = params.dig(:chat_participants_attributes).map { |key| key[:user_id].to_i }
     return unless user_ids.include?(current_user.id)
 
-    name = User.where(id: user_ids).pluck(:username).sort.join(", ")
-    chat = Chat.find_by(name: name)
+    chat = Chat.find_by(name: params.dig(:name))
 
     unless chat
-      chat = Chat.create(params.merge(is_private: true, name: name))
+      chat = Chat.create(params.merge(is_private: true))
     end
     chat
   end

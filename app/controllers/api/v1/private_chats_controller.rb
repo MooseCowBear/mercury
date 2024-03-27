@@ -9,7 +9,7 @@ class Api::V1::PrivateChatsController < ApplicationController
 
   def create
     chat = PrivateChat::CreateService.call(private_chat_params, current_user)
-    if chat.valid?
+    if chat&.valid?
       current_user.update(current_chat_id: chat.id) # put the user in the chat they created
       render json: current_user.to_json
     else
@@ -26,6 +26,6 @@ class Api::V1::PrivateChatsController < ApplicationController
   end
 
   def private_chat_params
-    params.require(:private_chat).permit(chat_participants_attributes: [:user_id])
+    params.require(:private_chat).permit(:name, chat_participants_attributes: [:user_id])
   end
 end

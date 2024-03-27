@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SelectedPerson from "./SelectedPerson";
 import SendCircle from "../icons/SendCircle";
-import { selectedPeopleIds } from "../utils/chats";
+import { privateChatName, selectedPeopleIds } from "../utils/chats";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useVisibilityContext } from "../contexts/VisibilityContext";
 import { postResource } from "../utils/apiRequest";
@@ -24,6 +24,7 @@ export default function NewPrivateChatForm({
   const submitHandler = () => {
     if (selectedPeople.length === 0) return;
     const ids = selectedPeopleIds(selectedPeople, userInfo);
+    const name = privateChatName(selectedPeople, userInfo);
 
     const dataHandler = (data) => {
       if (data.hasOwnProperty("errors")) {
@@ -41,7 +42,7 @@ export default function NewPrivateChatForm({
 
     postResource(
       "/api/v1/private_chats",
-      JSON.stringify({ chat_participants_attributes: ids }),
+      JSON.stringify({ name: name, chat_participants_attributes: ids }),
       "POST"
     )
       .then((data) => dataHandler(data))

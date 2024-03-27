@@ -8,6 +8,7 @@ import {
   filterChats,
   filterPeople,
   blocked,
+  privateChatName,
 } from "../../frontend/utils/chats";
 
 describe("updateChats", () => {
@@ -92,6 +93,15 @@ describe("selectedPeopleIds", () => {
     const res = selectedPeopleIds(testUserArr, testUser);
     expect(res.length).toEqual(1);
     expect(res.some((elem) => elem.user_id === 1)).toBeTruthy();
+  });
+});
+
+describe("privateChatName", () => {
+  it("returns usernames of selectedPeople and user in an alphebetically sorted comma seperated string", () => {
+    const testUserArr = [{ username: "frank" }, { username: "bob" }];
+    const testUser = { username: "alice" };
+    const expected = "alice, bob, frank";
+    expect(privateChatName(testUserArr, testUser)).toEqual(expected);
   });
 });
 

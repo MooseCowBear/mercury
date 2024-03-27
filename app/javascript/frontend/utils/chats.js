@@ -30,6 +30,14 @@ export const selectedPeopleIds = (selectedPeople, userInfo) => {
   return selectedPeopleIdArr;
 };
 
+export const privateChatName = (selectedPeople, userInfo) => {
+  const usernames = selectedPeople.map((person) => {
+    return person.username;
+  });
+  usernames.push(userInfo.username);
+  return usernames.sort().join(", ");
+};
+
 /* backend will delete notifications for a chat when a user enters it, but
 the frontend also needs to update. rather than rebroadcast the chat whenever a user 
 updates their current chat, we can just clear them on the frontend */

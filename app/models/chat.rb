@@ -1,7 +1,7 @@
 class Chat < ApplicationRecord 
   attr_accessor :current_user
 
-  has_many :messages, dependent: :destroy
+  has_many :messages, dependent: :destroy_async
   has_many :notifications, dependent: :destroy
   has_many :chat_participants, dependent: :destroy
   has_many :users, through: :chat_participants

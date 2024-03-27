@@ -50,14 +50,12 @@ A request to create a group chat from the frontend will call:
 ```
 def find_or_create
   user_ids = params.dig(:chat_participants_attributes).map { |key| key[:user_id].to_i }
-  name = User.where(id: user_ids).pluck(:username).sort.join(", ")
-
   return unless user_ids.include?(current_user.id)
 
-  chat = Chat.find_by(name: name)
+  chat = Chat.find_by(name: params.dig(:name))
 
   unless chat
-    chat = Chat.create(params.merge(is_private: true, name: name))
+    chat = Chat.create(params.merge(is_private: true))
   end
   chat
 end

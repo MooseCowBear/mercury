@@ -5,7 +5,8 @@ RSpec.describe PrivateChat::CreateService, type: :service do
     before(:each) do
       @user1 = create(:user)
       @user2 = create(:user, username: "user two", email: "two@fake.com")
-      @params = {chat_participants_attributes: [{ user_id: @user1.id }, { user_id: @user2.id }]}
+      @name = [@user1.username, @user2.username].sort.join(", ")
+      @params = {chat_participants_attributes: [{ user_id: @user1.id }, { user_id: @user2.id }], name: @name}
     end
 
     context "chat between users does not exist" do
@@ -17,8 +18,7 @@ RSpec.describe PrivateChat::CreateService, type: :service do
 
     context "chat between users already exists" do
       it "returns existing chat without creating new chat participants" do
-        name = [@user1.username, @user2.username].sort.join(", ")
-        existing_chat = create(:chat, :private, name: name)
+        existing_chat = create(:chat, :private, name: @name)
         create(:chat_participant, chat: existing_chat, user: @user1)
         create(:chat_participant, chat: existing_chat, user: @user2)
         chat = PrivateChat::CreateService.call(@params, @user1)

@@ -7,7 +7,7 @@ class Message::BroadcastService < ApplicationService
   # users that have blocked/silenced a private chat won't receive the message 
   # bc they will not be subscribed to the chat channel the message is being broadcast to
 
-  # when message is deleted, need to rebroadcast the chat so that the message
+  # when message is deleted, need to rebroadcast the current user's chat so that the message
   # preview in the sidebar updates (removing the message if it was the last one)
   
   def initialize(message, current_user = nil)
