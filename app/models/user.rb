@@ -21,6 +21,7 @@ class User < ApplicationRecord
     uniqueness: true, 
     length: { within: 1..20 }
 
+  scope :existing, -> { where(deleted: false) }
   scope :other_users, ->(user) { where.not(id: user) }
   scope :ordered_by_username, -> { order(username: :asc) }
   scope :outside_chat, 

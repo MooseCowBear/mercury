@@ -24,7 +24,21 @@ When the user makes a request to the backend, we check if the chat with the sele
 
 ### Identifying a group chat
 
-Originally, the idea was to identify a group chat through its chat participants. Which meant finding a chat with something like:
+Group chats are unique to their participants. So when a request for a new group chat is received, we first check whether there is an existing chat with those participants. If so, we return it. Otherwise a new chat and chat participants records are created. 
+
+```
+def find_or_create
+  user_ids = params.dig(:chat_participants_attributes).map { |key| key[:user_id].to_i }
+  return unless user_ids.include?(current_user.id)
+
+  chat = Chat.with_participants(user_ids).first
+
+  unless chat
+    chat = Chat.create(params.merge(is_private: true))
+  end
+  chat
+end
+```
 
 ```
 scope :with_participants,
@@ -43,25 +57,7 @@ scope :with_participants,
   }
 ```
 
-Which would’ve been fine, so long as users don’t delete their accounts.
-
-To get around this, a private chat is given a name that is composed of the sorted usernames of its participants. Since usernames are unique, the chat name is also unique, and we can find the chat even if a user deletes their account.
-
-A request to create a group chat from the frontend will call:
-
-```
-def find_or_create
-  user_ids = params.dig(:chat_participants_attributes).map { |key| key[:user_id].to_i }
-  return unless user_ids.include?(current_user.id)
-
-  chat = Chat.find_by(name: params.dig(:name))
-
-  unless chat
-    chat = Chat.create(params.merge(is_private: true))
-  end
-  chat
-end
-```
+In order to keep group chats from "collapsing" into other group chats, user accounts are soft deleted. 
 
 ### Blocking behavior
 
@@ -92,3 +88,10 @@ In order to prevent a user who blocked a chat from receiving messages that were 
 ### "Deleting" messages
 
 Message recipient records also allow users to remove a message from the messages they see without affecting other users. Instead of the message itself being deleted, a user deletes their message recipient record for that message, which removes it from their view. The message itself remains and other users will see it among their messages so long as the relevant message recipient records exist.
+
+#### Still to do
+
+- Prune the json information sent in responses to only what the frontend requires. 
+- Remove the name requirement from private chats, can switch to a name method to reconstruct the chat name from the participants instead of keeping that information in the chat model
+- Clean up frontend
+- Future features: emoji responses, code snippets
