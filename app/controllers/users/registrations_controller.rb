@@ -28,9 +28,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # DELETE /resource
-  # def destroy
-  #   super
-  # end
+  def destroy
+    # soft delete
+    current_user.update(deleted: true)
+  end
 
   # GET /resource/cancel
   # Forces the session data which is usually expired after sign
@@ -73,6 +74,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def destroy_chats
-    PrivateChatDestroyService.call(current_user)
+    PrivateChat::DestroyService.call(current_user)
   end
 end
