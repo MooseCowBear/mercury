@@ -3,7 +3,7 @@ import ChatMain from "../layout/ChatMain.jsx";
 import Menu from "../layout/Menu.jsx";
 import ChatSidebar from "../layout/ChatSidebar.jsx";
 import PeopleSidebar from "../layout/PeopleSidebar.jsx";
-import { VisibilityProvider } from "../contexts/VisibilityContext.jsx";
+import { useVisibilityContext } from "../contexts/VisibilityContext.jsx";
 import { useActionCableContext } from "../contexts/ActionCableContext.jsx";
 import { useUserInfoContext } from "../contexts/UserInfoContext.jsx";
 import { usePrivateChatsContext } from "../contexts/PrivateChatsContext.jsx";
@@ -30,6 +30,7 @@ export default function Dashboard() {
   const { userInfo } = useUserInfoContext();
   const { setPrivateChats } = usePrivateChatsContext();
   const { setPublicChats } = usePublicChatsContext();
+  const { visibility } = useVisibilityContext();
 
   const privateChatChannelRef = useRef(null);
   const publicChatChannelRef = useRef(null);
@@ -58,14 +59,11 @@ export default function Dashboard() {
   }, [userInfo]);
 
   return (
-    <VisibilityProvider>
-      <div className="h-[calc(100vh-100px)] grid grid-cols-1 grid-rows-[1fr,_auto] xs:grid-cols-[auto,_1fr] md:grid-cols-[auto,_1fr,_2fr] xs:grid-rows-1 gap-2">
-        <Menu />
-        <ChatSidebar />
-        <PeopleSidebar />
-        <ChatMain />
-      </div>
-    </VisibilityProvider>
+    <div className="h-[calc(100vh-100px)] grid grid-cols-1 grid-rows-[1fr,_auto] xs:grid-cols-[auto,_1fr] md:grid-cols-[auto,_1fr,_2fr] xs:grid-rows-1 gap-2">
+      <Menu />
+      {visibility.chats && <ChatSidebar />}
+      {visibility.people && <PeopleSidebar />}
+      <ChatMain />
+    </div>
   );
 }
-

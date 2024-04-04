@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Searchbar from "../components/SearchBar";
-import { useVisibilityContext } from "../contexts/VisibilityContext";
 import PersonCard from "../components/PersonCard";
 import { getResource } from "../utils/apiRequest";
 
@@ -8,15 +7,11 @@ import NewPrivateChatForm from "../components/NewPrivateChatForm";
 import { filterPeople } from "../utils/chats";
 
 export default function PeopleSidebar() {
-  const { visibility } = useVisibilityContext();
-
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [people, setPeople] = useState([]);
   const [selectedPeople, setSelectedPeople] = useState([]);
-  const [filterPeopleBy, setFilterPeopleBy] = useState(""); 
-
-  const visible = visibility.people;
+  const [filterPeopleBy, setFilterPeopleBy] = useState("");
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -44,11 +39,7 @@ export default function PeopleSidebar() {
   const filteredPeople = filterPeople(people, filterPeopleBy);
 
   return (
-    <div
-      className={`${
-        visible ? "grid grid-rows-[auto,_1fr] gap-2  min-w-fit" : "hidden"
-      }`}
-    >
+    <div className="grid grid-rows-[auto,_1fr] gap-2  min-w-fit">
       <Searchbar title="People" onChangeHandler={setFilterPeopleBy} />
       <div className="bg-white rounded-xl shadow divide-y-[1px] dark:divide-neutral-600 min-w-0 grid grid-rows-[auto,_1fr] min-h-0 dark:bg-neutral-800/90">
         <NewPrivateChatForm

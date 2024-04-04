@@ -4,6 +4,7 @@ import { ActionCableProvider } from "./contexts/ActionCableContext.jsx";
 import { UserInfoProvider } from "./contexts/UserInfoContext.jsx";
 import { PrivateChatsProvider } from "./contexts/PrivateChatsContext.jsx";
 import { PublicChatsProvider } from "./contexts/PublicChatsContext.jsx";
+import { VisibilityProvider } from "./contexts/VisibilityContext.jsx";
 
 export default App = () => {
   return (
@@ -11,7 +12,9 @@ export default App = () => {
       <UserInfoProvider>
         <PrivateChatsProvider>
           <PublicChatsProvider>
-            <Router />
+            <VisibilityProvider>
+              <Router />
+            </VisibilityProvider>
           </PublicChatsProvider>
         </PrivateChatsProvider>
       </UserInfoProvider>
