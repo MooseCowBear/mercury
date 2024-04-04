@@ -68,5 +68,3 @@ RSpec.describe Message::BroadcastService, type: :service do
     end
   end
 end
-
-# UPDATE: to cover "deleted" messages
