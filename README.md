@@ -12,6 +12,8 @@ Installing Tailwind: `./bin/rails css:install:tailwind`
 
 Running the server: `bin/dev`
 
+Also required: Postgres and Cloudinary for image messages
+
 ### How group messaging works
 
 A user create a private group chat by selecting any number of other users.
@@ -22,7 +24,7 @@ When the user makes a request to the backend, we check if the chat with the sele
 
 ### Identifying a group chat
 
-Originally, the idea was to identity a group chat through its chat participants. Which meant finding a chat with something like:
+Originally, the idea was to identify a group chat through its chat participants. Which meant finding a chat with something like:
 
 ```
 scope :with_participants,
