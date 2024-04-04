@@ -95,9 +95,7 @@ Message recipient records also allow users to remove a message from the messages
 
 ![alt text](screenshots/private_chat_dark2.png "private chat")
 
-![alt text](screenshots/small_screen_light.png "mobile layout")
-
-![alt text](screenshots/smallest_screen_dark.png "mobile layout for smallest screens")
+![alt text](screenshots/mobile.jpg "mobile layouts")
 
 #### Still to do
 
