@@ -45,13 +45,11 @@ class User < ApplicationRecord
     end
   end
 
-  protected
+  private
 
   def clean_username
-    self.username = self.username.strip.downcase
+    self.username = username.strip.downcase
   end
-
-  private 
 
   def clear_user_notifications
     if current_chat
