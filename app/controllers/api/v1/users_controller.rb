@@ -7,7 +7,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def index
-    users = User.other_users(current_user).ordered_by_username
+    users = User.existing.other_users(current_user).ordered_by_username
     render json: users
   end
 
