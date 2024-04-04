@@ -55,8 +55,4 @@ RSpec.describe "Api::V1::PrivateChats", type: :request do
       expect(response.body).to include(expected_chat_name)
     end
   end
-
-  describe "DELETE /api/v1/private_chats" do
-    # TODO: figure out the behavior of this
-  end
 end
