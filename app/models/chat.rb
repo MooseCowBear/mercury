@@ -83,12 +83,4 @@ class Chat < ApplicationRecord
   def clean_name
     self.name = self.name.strip.downcase if self.name
   end
-
-  private 
-
-  def broadcast_public_chat
-    unless is_private
-      ActionCable.server.broadcast("PublicChatsChannel", self)
-    end
-  end
 end
