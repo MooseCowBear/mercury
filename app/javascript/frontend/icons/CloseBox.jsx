@@ -3,7 +3,7 @@ import React from "react";
 export default function CloseBox() {
   return (
     <svg
-      className="size-4 fill-white"
+      className="size-4 fill-white dark:fill-neutral-800"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
     >
