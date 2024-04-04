@@ -1,9 +1,7 @@
 class PrivateChat::CreateService < ApplicationService
-  # want private chats to be unique to set of participants determined at the time
-  # of creation, regardless of whether one or more users have deleted their accounts since
-  # so if a chat already exists with participants, want to find it
-  # and if doesn't exist, then want to create both it and the participants that 
-  # belong to/define it
+  # private chats are identified by their participants. If a chat between a set of
+  # users already exists and someone tries to request a new chat with those users
+  # want to find the existing chat and return it
   attr_accessor :params, :current_user
 
   def initialize(params, current_user)
@@ -21,7 +19,7 @@ class PrivateChat::CreateService < ApplicationService
     user_ids = params.dig(:chat_participants_attributes).map { |key| key[:user_id].to_i }
     return unless user_ids.include?(current_user.id)
 
-    chat = Chat.find_by(name: params.dig(:name))
+    chat = Chat.with_participants(user_ids).first
 
     unless chat
       chat = Chat.create(params.merge(is_private: true))
