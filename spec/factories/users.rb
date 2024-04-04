@@ -5,5 +5,10 @@ FactoryBot.define do
     password { "123456" }
     current_chat { nil }
     editable { true }
+    deleted { false }
+
+    trait :deleted do
+      deleted { true }
+    end
   end
 end

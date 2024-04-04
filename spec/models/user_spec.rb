@@ -32,6 +32,21 @@ RSpec.describe User, type: :model do
     expect(user2.username).to eq("howie")
   end
 
+  describe ".existing" do
+    before(:each) do
+      @user1 = create(:user)
+      @user2 = create(:user, :deleted)
+    end
+
+    it "includes users where deleted is false" do
+      expect(User.existing).to include(@user1)
+    end
+
+    it "excludes users where deleted is true" do
+      expect(User.existing).not_to include(@user2)
+    end
+  end
+
   describe ".other_users" do
     before(:each) do
       @user1 = create(:user)
@@ -87,7 +102,6 @@ RSpec.describe User, type: :model do
 
     it "includes field for current chat silenced if current chat" do
       chat = create(:chat, :public)
-      pp chat
       @user.update(current_chat_id: chat.id)
       @user.reload
       expect(@user.as_json).to have_key(:current_chat_silenced)
