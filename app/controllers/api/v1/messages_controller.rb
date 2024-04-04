@@ -37,8 +37,7 @@ class Api::V1::MessagesController < ApplicationController
     end
   end
 
-  # destroy action removes a message from the set of private messages that a user
-  # sees
+  # destroy action removes a message from the set of private messages that a user sees
   # after a delete, also want to remove the message preview. 
   # this requires broadcasting the chat but only to current user
   def destroy
@@ -46,9 +45,9 @@ class Api::V1::MessagesController < ApplicationController
     if recipient_record
       recipient_record.destroy
       Message::BroadcastService.call(recipient_record.message, current_user)
-      render json: { status: "success" }
+      render json: { head: :ok }
     else 
-      render json: {}, status: :unprocessable_entity
+      render json: { head: :unprocessable_entity }
     end
   end
 

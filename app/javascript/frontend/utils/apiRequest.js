@@ -30,3 +30,17 @@ export const postResource = async (url, body, method, json = true) => {
   }
   return response.json();
 };
+
+export const deleteResource = async (url) => {
+  const token = document.querySelector('meta[name="csrf-token"]').content;
+  const response = await fetch(url, {
+    mode: "cors",
+    method: "DELETE",
+    headers: { "X-CSRF-Token": token, "Content-Type": "application/json" },
+  });
+
+  if (response.status !== 200) { // if can't find record
+    throw new Error("server error");
+  }
+  return;
+}

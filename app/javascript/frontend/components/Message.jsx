@@ -4,7 +4,7 @@ import MessageContent from "./MessageContent";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import Delete from "../icons/Delete";
 import { blocked } from "../utils/chats";
-import { postResource } from "../utils/apiRequest";
+import { deleteResource } from "../utils/apiRequest";
 
 export default function Message({ message, setMessages }) {
   const { userInfo } = useUserInfoContext();
@@ -17,16 +17,14 @@ export default function Message({ message, setMessages }) {
   const deleteButtonHandler = () => {
     confirm("Are you sure? Deleted messages are not recoverable.");
 
-    const dataHandler = (data) => {
-      if (data.status === "success") {
-        setMessages((messages) => {
-          return messages.filter((elem) => elem.id !== message.id);
-        });
-      }
+    const dataHandler = () => {
+      setMessages((messages) => {
+        return messages.filter((elem) => elem.id !== message.id);
+      });
     };
 
-    postResource(`/api/v1/messages/${message.id}`, JSON.stringify({}), "DELETE")
-      .then((data) => dataHandler(data))
+    deleteResource(`/api/v1/messages/${message.id}`)
+      .then(() => dataHandler())
       .catch((e) => console.log(e));
   };
 
