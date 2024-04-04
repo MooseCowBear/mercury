@@ -39,7 +39,7 @@ export default function PeopleSidebar() {
   const filteredPeople = filterPeople(people, filterPeopleBy);
 
   return (
-    <div className="grid grid-rows-[auto,_1fr] gap-2  min-w-fit">
+    <div className="grid grid-rows-[auto,_1fr] gap-2">
       <Searchbar title="People" onChangeHandler={setFilterPeopleBy} />
       <div className="bg-white rounded-xl shadow divide-y-[1px] dark:divide-neutral-600 min-w-0 grid grid-rows-[auto,_1fr] min-h-0 dark:bg-neutral-800/90">
         <NewPrivateChatForm

@@ -59,7 +59,7 @@ export default function Dashboard() {
   }, [userInfo]);
 
   return (
-    <div className="h-[calc(100vh-100px)] grid grid-cols-1 grid-rows-[1fr,_auto] xs:grid-cols-[auto,_1fr] md:grid-cols-[auto,_1fr,_2fr] xs:grid-rows-1 gap-2">
+    <div className="h-[calc(100vh-100px)] grid grid-cols-1 grid-rows-[1fr,_auto] xs:grid-cols-[auto,_1fr] md:grid-cols-[auto,_310px,_2fr] xs:grid-rows-1 gap-2">
       <Menu />
       {visibility.chats && <ChatSidebar />}
       {visibility.people && <PeopleSidebar />}
