@@ -1,6 +1,6 @@
 export const getResource = async (url, abortController) => {
   const response = await fetch(url, {
-    mode: "cors",
+    mode: "same-origin",
     signal: abortController.signal,
   });
 
@@ -19,7 +19,7 @@ export const postResource = async (url, body, method, json = true) => {
       };
 
   const response = await fetch(url, {
-    mode: "cors",
+    mode: "same-origin",
     method: method,
     headers: headers,
     body: body,
@@ -34,7 +34,7 @@ export const postResource = async (url, body, method, json = true) => {
 export const deleteResource = async (url) => {
   const token = document.querySelector('meta[name="csrf-token"]').content;
   const response = await fetch(url, {
-    mode: "cors",
+    mode: "same-origin",
     method: "DELETE",
     headers: { "X-CSRF-Token": token, "Content-Type": "application/json" },
   });
