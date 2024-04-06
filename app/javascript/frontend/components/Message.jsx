@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import EditMessageForm from "./EditMessageForm";
 import MessageContent from "./MessageContent";
-import { useUserInfoContext } from "../contexts/UserInfoContext";
 import Delete from "../icons/Delete";
+import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { blocked } from "../utils/chats";
 import { deleteResource } from "../utils/apiRequest";
 

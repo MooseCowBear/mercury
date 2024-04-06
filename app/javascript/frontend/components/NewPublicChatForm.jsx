@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { postResource } from "../utils/apiRequest";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useVisibilityContext } from "../contexts/VisibilityContext";
 import { usePublicChatsContext } from "../contexts/PublicChatsContext";
+import { postResource } from "../utils/apiRequest";
 
 /* when a user creates a new public chat, it won't be broadcast until a message
 has been sent. but, want the creator to see the new chat (which they have been moved to).

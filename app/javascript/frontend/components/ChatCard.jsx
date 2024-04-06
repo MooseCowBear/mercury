@@ -1,17 +1,16 @@
 import React from "react";
-import { displayDateTime } from "../utils/datetime";
+import Group from "../icons/Group";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
+import { usePrivateChatsContext } from "../contexts/PrivateChatsContext";
+import { useVisibilityContext } from "../contexts/VisibilityContext";
+import { displayDateTime } from "../utils/datetime";
 import { postResource } from "../utils/apiRequest";
 import {
   chatInitial,
   chatMembers,
   chatTitle,
   clearNotifications,
-  blocked,
 } from "../utils/chats";
-import { usePrivateChatsContext } from "../contexts/PrivateChatsContext";
-import { useVisibilityContext } from "../contexts/VisibilityContext";
-import Group from "../icons/Group";
 
 export default function ChatCard({ chat }) {
   const { userInfo, setUserInfo } = useUserInfoContext();

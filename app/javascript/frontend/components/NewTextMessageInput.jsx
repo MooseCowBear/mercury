@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SendMessageButton from "./SendMessageButton";
-import { postResource } from "../utils/apiRequest";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
+import { postResource } from "../utils/apiRequest";
 import { blocked } from "../utils/chats";
 
 export default function NewTextMessageInput() {

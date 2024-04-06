@@ -8,7 +8,6 @@ import { useActionCableContext } from "../contexts/ActionCableContext.jsx";
 import { useUserInfoContext } from "../contexts/UserInfoContext.jsx";
 import { usePrivateChatsContext } from "../contexts/PrivateChatsContext.jsx";
 import { usePublicChatsContext } from "../contexts/PublicChatsContext.jsx";
-import { updateChats } from "../utils/chats.js";
 import {
   subscribeToPrivateChatsChannel,
   unsubscribeToPrivateChatsChannel,
@@ -17,6 +16,7 @@ import {
   subscribeToPublicChatsChannel,
   unsubscribeToPublicChatsChannel,
 } from "../../channels/public_chats_channel.js";
+import { updateChats } from "../utils/chats.js";
 
 /* dashboard subscribes to the private, public chat channels. these are channels
 that listen for new chats being created/existing chats being updated. 

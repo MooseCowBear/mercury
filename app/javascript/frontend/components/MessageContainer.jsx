@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import Message from "./Message";
 import { useActionCableContext } from "../contexts/ActionCableContext";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import {
@@ -6,7 +7,6 @@ import {
   unsubscribeToChatChannel,
 } from "../../channels/chat_channel";
 import { getResource } from "../utils/apiRequest";
-import Message from "./Message";
 
 /* when user enters a chat, need to get the messages for that chat from the backend. 
 want the most recent message to be visible, so scroll to the bottom of the chat's 
