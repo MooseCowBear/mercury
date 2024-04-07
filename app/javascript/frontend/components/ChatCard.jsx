@@ -16,7 +16,7 @@ export default function ChatCard({ chat }) {
   const { userInfo, setUserInfo } = useUserInfoContext();
   const { privateChats, setPrivateChats } = usePrivateChatsContext();
   const { chatVisibilityHandler } = useVisibilityContext();
-  const currChatId = userInfo ? userInfo.current_chat_id : null;
+  const currChat = chat.id === userInfo?.current_chat_id;
 
   const isPrivate = chat.is_private;
   const isBlocked = chat.silenced;
@@ -49,7 +49,7 @@ export default function ChatCard({ chat }) {
   return (
     <button
       className={`w-full grid grid-cols-[1fr,_auto] py-2 px-4 items-center ${
-        currChatId == chat.id && "bg-neutral-100 dark:bg-neutral-700/90"
+        currChat && "bg-neutral-100 dark:bg-neutral-700/90"
       }`}
       onClick={clickHandler}
       aria-label="select chat"
