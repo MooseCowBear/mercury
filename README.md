@@ -16,7 +16,7 @@ Also required: Postgres and Cloudinary for image messages
 
 ### How group messaging works
 
-A user create a private group chat by selecting any number of other users.
+A user creates a private group chat by selecting any number of other users.
 
 Group chats keep track of their members with a join table called `chat_participants`.
 
@@ -87,7 +87,7 @@ In order to prevent a user who blocked a chat from receiving messages that were 
 
 ### "Deleting" messages
 
-Message recipient records also allow users to remove a message from the messages they see without affecting other users. Instead of the message itself being deleted, a user deletes their message recipient record for that message, which removes it from their view. The message itself remains and other users will see it among their messages so long as the relevant message recipient records exist.
+Message recipient records also allow users to remove a message from the messages they see without affecting other users. Instead of the message itself being deleted, a user deletes their message recipient record for that message, which removes it from their view. The message itself remains and other users will see it among their messages so long as the relevant message recipient record exists.
 
 ### Screenshots
 
