@@ -19,3 +19,9 @@ class PrivateChat::DestroyService < ApplicationService
     Chat.with_participants([current_user.id]).destroy_all
   end
 end
+
+# actually, could go farther
+# can delete chats where all users have been "deleted"
+# TODO: update!
+
+# need to add a check for are all the participants of this chat "deleted"

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import SelectedPerson from "./SelectedPerson";
 import SendCircle from "../icons/SendCircle";
-import { privateChatName, selectedPeopleIds } from "../utils/chats";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useVisibilityContext } from "../contexts/VisibilityContext";
-import { postResource } from "../utils/apiRequest";
 import { usePrivateChatsContext } from "../contexts/PrivateChatsContext";
+import { postResource } from "../utils/apiRequest";
+import { privateChatName, selectedPeopleIds } from "../utils/chats";
+
 
 /* like for public chats, want a newly created private chat to appear for the creator
 even before the first message is sent. uses same operation. adds the new private

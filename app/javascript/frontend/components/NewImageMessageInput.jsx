@@ -94,13 +94,12 @@ export default function NewImageMessageInput({ setText }) {
           onDrop={handleDrop}
           className="w-full border py-1 px-5 rounded-full text-sm flex gap-1 items-end justify-center"
         >
-          {selectedFile && (
+          {selectedFile ? (
             <img
               src={preview}
               className="max-w-[150px] max-h-[150px] rounded-md"
             />
-          )}
-          {!selectedFile && (
+          ) : (
             <>
               <label className="text-sm text-gray-400" htmlFor="file">
                 drag and drop image...

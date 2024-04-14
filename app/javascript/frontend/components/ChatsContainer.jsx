@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ChatCard from "./ChatCard";
-import Plus from "../icons/Plus";
 import NewPublicChatForm from "./NewPublicChatForm";
+import Plus from "../icons/Plus";
 import { useVisibilityContext } from "../contexts/VisibilityContext";
 
 export default function ChatsContainer({ title, chats }) {

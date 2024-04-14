@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { postResource } from "../utils/apiRequest";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
+import { postResource } from "../utils/apiRequest";
 
 export default function EditMessageForm({ message, setEditing }) {
   const { userInfo } = useUserInfoContext();

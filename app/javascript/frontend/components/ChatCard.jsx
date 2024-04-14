@@ -1,23 +1,22 @@
 import React from "react";
-import { displayDateTime } from "../utils/datetime";
+import Group from "../icons/Group";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
+import { usePrivateChatsContext } from "../contexts/PrivateChatsContext";
+import { useVisibilityContext } from "../contexts/VisibilityContext";
+import { displayDateTime } from "../utils/datetime";
 import { postResource } from "../utils/apiRequest";
 import {
   chatInitial,
   chatMembers,
   chatTitle,
   clearNotifications,
-  blocked,
 } from "../utils/chats";
-import { usePrivateChatsContext } from "../contexts/PrivateChatsContext";
-import { useVisibilityContext } from "../contexts/VisibilityContext";
-import Group from "../icons/Group";
 
 export default function ChatCard({ chat }) {
   const { userInfo, setUserInfo } = useUserInfoContext();
   const { privateChats, setPrivateChats } = usePrivateChatsContext();
   const { chatVisibilityHandler } = useVisibilityContext();
-  const currChatId = userInfo ? userInfo.current_chat_id : null;
+  const currChat = chat.id === userInfo?.current_chat_id;
 
   const isPrivate = chat.is_private;
   const isBlocked = chat.silenced;
@@ -50,18 +49,19 @@ export default function ChatCard({ chat }) {
   return (
     <button
       className={`w-full grid grid-cols-[1fr,_auto] py-2 px-4 items-center ${
-        currChatId == chat.id && "bg-neutral-100 dark:bg-neutral-700/90"
+        currChat && "bg-neutral-100 dark:bg-neutral-700/90"
       }`}
       onClick={clickHandler}
       aria-label="select chat"
     >
       <div className="grid grid-col-[auto,_1fr] grid-rows-2 gap-x-2 text-nowrap justify-start">
-        {!isPrivate && (
+        {isPrivate ? (
+          <Group members={chatMembers(chat)} blocked={isBlocked} />
+        ) : (
           <div className="size-10 rounded-full row-span-2 flex items-center justify-center bg-neutral-800 text-white uppercase dark:bg-neutral-100/80 dark:text-neutral-800">
             {chatInitial(chat, userInfo)}
           </div>
         )}
-        {isPrivate && <Group members={chatMembers(chat)} blocked={isBlocked} />}
         <h4 className="text-sm font-medium col-start-2 text-left text-ellipsis overflow-hidden">
           {chatTitle(chat, userInfo)}
         </h4>

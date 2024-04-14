@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import EditMessageForm from "./EditMessageForm";
 import MessageContent from "./MessageContent";
-import { useUserInfoContext } from "../contexts/UserInfoContext";
 import Delete from "../icons/Delete";
+import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { blocked } from "../utils/chats";
 import { deleteResource } from "../utils/apiRequest";
 
@@ -32,7 +32,7 @@ export default function Message({ message, setMessages }) {
     <div className={`relative group ${isOwner ? "self-end" : "self-start"}`}>
       <button
         onClick={() => setEditing(true)}
-        disabled={isBlocked || editing || !message.body}
+        disabled={isBlocked || editing || !message.body || !isOwner}
         className="w-full flex flex-col gap-1"
       >
         {editing ? (
