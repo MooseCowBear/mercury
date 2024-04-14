@@ -18,7 +18,7 @@ export default function MessageFormContainer() {
         disable && "opacity-75"
       }`}
     >
-      {text && (
+      {text ? (
         <>
           <button
             aria-label="add image"
@@ -30,8 +30,7 @@ export default function MessageFormContainer() {
           </button>
           <NewTextMessageInput />
         </>
-      )}
-      {!text && (
+      ) : (
         <>
           <button
             aria-label="cancel"

@@ -55,12 +55,13 @@ export default function ChatCard({ chat }) {
       aria-label="select chat"
     >
       <div className="grid grid-col-[auto,_1fr] grid-rows-2 gap-x-2 text-nowrap justify-start">
-        {!isPrivate && (
+        {isPrivate ? (
+          <Group members={chatMembers(chat)} blocked={isBlocked} />
+        ) : (
           <div className="size-10 rounded-full row-span-2 flex items-center justify-center bg-neutral-800 text-white uppercase dark:bg-neutral-100/80 dark:text-neutral-800">
             {chatInitial(chat, userInfo)}
           </div>
         )}
-        {isPrivate && <Group members={chatMembers(chat)} blocked={isBlocked} />}
         <h4 className="text-sm font-medium col-start-2 text-left text-ellipsis overflow-hidden">
           {chatTitle(chat, userInfo)}
         </h4>
