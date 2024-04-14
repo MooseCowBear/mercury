@@ -32,7 +32,7 @@ export default function Message({ message, setMessages }) {
     <div className={`relative group ${isOwner ? "self-end" : "self-start"}`}>
       <button
         onClick={() => setEditing(true)}
-        disabled={isBlocked || editing || !message.body}
+        disabled={isBlocked || editing || !message.body || !isOwner}
         className="w-full flex flex-col gap-1"
       >
         {editing ? (
