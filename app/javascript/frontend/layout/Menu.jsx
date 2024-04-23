@@ -37,7 +37,7 @@ export default function Menu() {
           <PeopleIcon />
         </button>
       </div>
-      <a href="/users/edit" aria-label="account">
+      <a href="/users/edit" aria-label="edit account">
         <AccountIcon />
       </a>
     </div>
