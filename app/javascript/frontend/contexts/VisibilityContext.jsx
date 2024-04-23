@@ -23,7 +23,6 @@ export function VisibilityProvider({ children }) {
   useWindowResize(MOBILE_LAYOUT_BREAKPOINT, setVisibility);
 
   const mobileChatVisibilityHandler = () => {
-    // toggles so always re-renders
     setVisibility((val) => {
       if (val.messages) {
         return { messages: false, chats: true, people: false };
@@ -34,7 +33,6 @@ export function VisibilityProvider({ children }) {
   };
 
   const desktopChatVisibilityHandler = () => {
-    // check if need to change to prevent unnecessary re-renders
     if (!visibility.chats || visibility.people) {
       setVisibility((val) => {
         const data = { ...val };
@@ -46,14 +44,12 @@ export function VisibilityProvider({ children }) {
   };
 
   const mobilePeopleVisibilityHandler = () => {
-    // check if need to change to prevent unnecessary re-renders
     if (!visibility.people) {
       setVisibility({ messages: false, chats: false, people: true });
     }
   };
 
   const desktopPeopleVisibilityHandler = () => {
-    // check if need to change to prevent unnecessary re-renders
     if (visibility.chats || !visibility.people) {
       setVisibility((val) => {
         const data = { ...val };

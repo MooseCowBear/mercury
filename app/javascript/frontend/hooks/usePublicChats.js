@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { getResource } from "../utils/apiRequest";
 
-/* hook to grab the initially existing public chats */
-
 export const usePublicChats = () => {
   const [publicChats, setPublicChats] = useState([]);
 
@@ -18,7 +16,7 @@ export const usePublicChats = () => {
       .catch((e) => console.log(e));
 
     return () => {
-      abortController.abort(); // cancel request if unmount
+      abortController.abort();
     };
   }, []);
   return { publicChats, setPublicChats };

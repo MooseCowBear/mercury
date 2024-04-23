@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import { getResource } from "../utils/apiRequest";
 
-/* hook used to fetch the currently signed in user, provided by context to the 
-components that care about either the user or the current chat. 
-*/
-
 export const useUserInfo = () => {
   const [userInfo, setUserInfo] = useState(null);
 
@@ -20,7 +16,7 @@ export const useUserInfo = () => {
       .catch((e) => console.log(e));
 
     return () => {
-      abortController.abort(); // cancel request if unmount
+      abortController.abort();
     };
   }, []);
   return { userInfo, setUserInfo };

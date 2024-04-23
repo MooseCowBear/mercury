@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { getResource } from "../utils/apiRequest";
 
-/* hook to grab the initially existing private chats,
-with messages */
-
 export const usePrivateChats = () => {
   const [privateChats, setPrivateChats] = useState([]);
 
@@ -19,7 +16,7 @@ export const usePrivateChats = () => {
       .catch((e) => console.log(e));
 
     return () => {
-      abortController.abort(); // cancel request if unmount
+      abortController.abort();
     };
   }, []);
   return { privateChats, setPrivateChats };
