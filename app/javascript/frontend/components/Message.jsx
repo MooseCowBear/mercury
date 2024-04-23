@@ -28,11 +28,13 @@ export default function Message({ message, setMessages }) {
       .catch((e) => console.log(e));
   };
 
+  const disable = isBlocked || editing || !message.body || !isOwner;
+
   return (
     <div className={`relative group ${isOwner ? "self-end" : "self-start"}`}>
       <button
         onClick={() => setEditing(true)}
-        disabled={isBlocked || editing || !message.body || !isOwner}
+        disabled={disable}
         className="w-full flex flex-col gap-1"
       >
         {editing ? (
