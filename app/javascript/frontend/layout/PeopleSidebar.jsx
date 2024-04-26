@@ -1,40 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Searchbar from "../components/SearchBar";
 import PersonCard from "../components/PersonCard";
-import { getResource } from "../utils/apiRequest";
-
 import NewPrivateChatForm from "../components/NewPrivateChatForm";
+import { usePeople } from "../hooks/usePeople";
 import { filterPeople } from "../utils/chats";
 
 export default function PeopleSidebar() {
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [people, setPeople] = useState([]);
   const [selectedPeople, setSelectedPeople] = useState([]);
   const [filterPeopleBy, setFilterPeopleBy] = useState("");
 
-  useEffect(() => {
-    const abortController = new AbortController();
-
-    const dataHandler = (data) => {
-      setPeople(data);
-      setError(null);
-      setLoading(false);
-    };
-
-    const errorHandler = (e) => {
-      setError(true);
-      setLoading(false);
-    };
-
-    getResource("/api/v1/users", abortController)
-      .then((data) => dataHandler(data))
-      .catch((e) => errorHandler(e));
-
-    return () => {
-      abortController.abort();
-    };
-  }, []);
+  const { error, loading, people } = usePeople();
 
   const filteredPeople = filterPeople(people, filterPeopleBy);
 
