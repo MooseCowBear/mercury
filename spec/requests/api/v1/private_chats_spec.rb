@@ -27,32 +27,30 @@ RSpec.describe "Api::V1::PrivateChats", type: :request do
   describe "POST /api/v1/private_chats" do
     before(:each) do
       @user2 = create(:user)
-      @existing_chat = create(:chat, :private)
+      @existing_chat = create(:chat, :private, name: "existing private chat")
       create(:chat_participant, user: @user, chat: @existing_chat)
       create(:chat_participant, user: @user2, chat: @existing_chat)
     end
 
     it "returns new chat with participants if did not previously exist" do
       user3 = create(:user)
-      params = { private_chat: { chat_participants_attributes: [{ user_id: @user.id }, { user_id: @user2.id }, { user_id: user3.id }] } }
+      params = { private_chat: { chat_participants_attributes: [{ user_id: @user.id }, { user_id: @user2.id }, { user_id: user3.id }], name: "chat name" } }
 
       post api_v1_private_chats_path, params: params
-      expected_chat_name = [@user.username, @user2.username, user3.username].sort.join(", ")
 
       expect(response).to have_http_status(200)
       expect(response.content_type).to eq("application/json; charset=utf-8")
-      expect(response.body).to include(expected_chat_name)
+      expect(response.body).to include("chat name")
     end
 
     it "returns existing chat if there is one" do
-      params = { private_chat: { chat_participants_attributes: [{ user_id: @user.id }, { user_id: @user2.id }] } }
+      params = { private_chat: { chat_participants_attributes: [{ user_id: @user.id }, { user_id: @user2.id }]} }
 
       post api_v1_private_chats_path, params: params
-      expected_chat_name = [@user.username, @user2.username].sort.join(", ")
 
       expect(response).to have_http_status(200)
       expect(response.content_type).to eq("application/json; charset=utf-8")
-      expect(response.body).to include(expected_chat_name)
+      expect(response.body).to include("existing private chat")
     end
   end
 end

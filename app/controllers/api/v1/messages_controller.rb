@@ -47,7 +47,7 @@ class Api::V1::MessagesController < ApplicationController
       Message::BroadcastService.call(recipient_record.message, current_user)
       render json: { head: :ok }
     else 
-      render json: { head: :unprocessable_entity }
+      render json: { }, status: :unprocessable_entity
     end
   end
 

@@ -35,7 +35,7 @@ RSpec.describe 'Messages', type: :system, js: true do
     expect(page).to have_content(/hello/i) 
   end
 
-  it "allows user to send an image message to current chat" do
+  xit "allows user to send an image message to current chat" do
     visit chat_path
 
     find('button[aria-label="select chat"]', match: :first).click

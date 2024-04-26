@@ -81,6 +81,6 @@ class Chat < ApplicationRecord
   private
 
   def clean_name
-    self.name = name&.strip.downcase
+    self.name = name.strip.downcase if name
   end
 end
