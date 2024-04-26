@@ -16,7 +16,6 @@ export function useChatSubscriptions(
 
   useEffect(() => {
     if (userID) {
-      console.log("subscribing to chat channels"); //TEMP
       subscribeToChannel(
         privateChatChannelRef,
         cable,
@@ -34,7 +33,6 @@ export function useChatSubscriptions(
       );
     }
     return () => {
-      console.log("unsubscribing from chat channels"); //TEMP
       unsubscribeToChannel(privateChatChannelRef, cable);
       unsubscribeToChannel(publicChatChannelRef, cable);
     };
