@@ -1,24 +1,13 @@
 import React from "react";
-import { screen, act } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import MessageContainer from "../../frontend/components/MessageContainer";
 import { renderWithContexts } from "../contextWrapper";
-import { getResource } from "../../frontend/utils/apiRequest";
+import { useMessages } from "../../frontend/hooks/useMessages";
 
-jest.mock("../../frontend/utils/apiRequest", () => ({
-  getResource: jest.fn(),
+jest.mock("../../frontend/hooks/useMessages", () => ({
+  useMessages: jest.fn(),
 }));
-
-jest.mock("../../channels/chat_channel", () => {
-  const originalModule = jest.requireActual("../../channels/chat_channel");
-
-  return {
-    __esModule: true,
-    ...originalModule,
-    subscribeToChatChannel: jest.fn(),
-    unsubscribeToChatChannel: jest.fn(),
-  };
-});
 
 jest.mock("../../frontend/components/Message", () => ({
   __esModule: true,
@@ -28,58 +17,66 @@ jest.mock("../../frontend/components/Message", () => ({
 }));
 
 describe("MessageContainer", () => {
-  it("renders each message", async () => {
-    getResource.mockReturnValueOnce(Promise.resolve([{ id: 1 }, { id: 2 }]));
+  it("renders each message", () => {
+    useMessages.mockReturnValueOnce({
+      error: null,
+      messages: [{ id: 1 }, { id: 2 }],
+      setMessages: jest.fn(),
+    });
 
-    await act(async () => {
-      renderWithContexts(<MessageContainer />, [
-        {
-          context: "UserInfoContext",
-          contextValue: {
-            userInfo: {
-              id: 1,
-              current_chat_id: 1,
-              current_chat_silenced: false,
-            },
+    renderWithContexts(<MessageContainer />, [
+      {
+        context: "UserInfoContext",
+        contextValue: {
+          userInfo: {
+            id: 1,
+            current_chat_id: 1,
+            current_chat_silenced: false,
           },
         },
-        {
-          context: "ActionCableContext",
-          contextValue: { cable: null },
-        },
-      ]);
-    });
+      },
+      {
+        context: "ActionCableContext",
+        contextValue: { cable: null },
+      },
+    ]);
 
     expect(screen.getAllByTestId("mock-message").length).toBe(2);
   });
 
-  it("displays error message if error", async () => {
-    getResource.mockRejectedValue(new Error("error"));
+  it("displays error message if error", () => {
+    useMessages.mockReturnValueOnce({
+      error: true,
+      messages: [],
+      setMessages: jest.fn(),
+    });
 
-    await act(async () => {
-      renderWithContexts(<MessageContainer />, [
-        {
-          context: "UserInfoContext",
-          contextValue: {
-            userInfo: {
-              id: 1,
-              current_chat_id: 1,
-              current_chat_silenced: false,
-            },
+    renderWithContexts(<MessageContainer />, [
+      {
+        context: "UserInfoContext",
+        contextValue: {
+          userInfo: {
+            id: 1,
+            current_chat_id: 1,
+            current_chat_silenced: false,
           },
         },
-        {
-          context: "ActionCableContext",
-          contextValue: { cable: null },
-        },
-      ]);
-    });
+      },
+      {
+        context: "ActionCableContext",
+        contextValue: { cable: null },
+      },
+    ]);
 
     expect(screen.queryByText("Something went wrong.")).not.toBeNull();
   });
 
   it("displays loading screen", async () => {
-    getResource.mockReturnValue(Promise.resolve([]));
+    useMessages.mockReturnValueOnce({
+      error: false,
+      messages: [],
+      setMessages: jest.fn(),
+    });
 
     renderWithContexts(<MessageContainer />, [
       {
