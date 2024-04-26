@@ -14,6 +14,10 @@ Running the server: `bin/dev`
 
 Also required: Postgres and Cloudinary for image messages
 
+Running tests for frontend: `npm test`
+
+Running backend, system tests: `bundle exec rspec spec`
+
 ### How group messaging works
 
 A user creates a private group chat by selecting any number of other users.
@@ -101,5 +105,4 @@ Message recipient records also allow users to remove a message from the messages
 
 - Prune the json information sent in responses to only what the frontend requires. 
 - Remove the name requirement from private chats, can switch to a name method to reconstruct the chat name from the participants instead of keeping that information in the chat model
-- Clean up frontend
 - Future features: emoji responses, code snippets
