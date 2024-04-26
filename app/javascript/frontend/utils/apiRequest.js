@@ -7,7 +7,7 @@ export const getResource = async (url, abortController) => {
   if (response.status >= 400) {
     throw new Error("server error");
   }
-  return response.json(); // now returns a promise or an error
+  return response.json();
 };
 
 export const postResource = async (url, body, method, json = true) => {
@@ -39,7 +39,7 @@ export const deleteResource = async (url) => {
     headers: { "X-CSRF-Token": token, "Content-Type": "application/json" },
   });
 
-  if (response.status !== 200) { // if can't find record
+  if (response.status !== 200) {
     throw new Error("server error");
   }
   return;

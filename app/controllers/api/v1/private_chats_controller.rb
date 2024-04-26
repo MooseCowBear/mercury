@@ -4,13 +4,13 @@ class Api::V1::PrivateChatsController < ApplicationController
   
   def index 
     chats = current_user.chats.has_message.order(updated_at: :desc) # these are the chats had through chat participants
-    render json: chats.to_json({user: current_user}) # with custom as_json, that includes notifications count
+    render json: chats.to_json({ user: current_user })
   end
 
   def create
     chat = PrivateChat::CreateService.call(private_chat_params, current_user)
     if chat&.valid?
-      current_user.update(current_chat_id: chat.id) # put the user in the chat they created
+      current_user.update(current_chat_id: chat.id)
       render json: current_user.to_json
     else
       render json: { message: "Something went wrong", 
