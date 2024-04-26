@@ -7,7 +7,7 @@ import { useVisibilityContext } from "../contexts/VisibilityContext";
 export default function ChatsContainer({ title, chats }) {
   const { peopleVisibilityHandler } = useVisibilityContext();
 
-  const [newChatForm, setNewChatForm] = useState(false); // is the public chat form visible?
+  const [newChatForm, setNewChatForm] = useState(false);
 
   const isPrivate = title === "private";
 
