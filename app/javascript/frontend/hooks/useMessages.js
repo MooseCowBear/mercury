@@ -3,7 +3,7 @@ import { getResource } from "../utils/apiRequest";
 import {
   subscribeToChannel,
   unsubscribeToChannel,
-} from "../../channels/chat_channel";
+} from "../../channels/channel";
 
 export const useMessages = (userInfo, setScroll, cable) => {
   const [messages, setMessages] = useState([]);

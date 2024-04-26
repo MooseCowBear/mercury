@@ -3,7 +3,7 @@ import { updateChats } from "../utils/chats.js";
 import {
   subscribeToChannel,
   unsubscribeToChannel,
-} from "../../channels/chat_channel.js";
+} from "../../channels/channel";
 
 export function useChatSubscriptions(
   cable,
