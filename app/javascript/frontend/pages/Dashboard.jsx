@@ -10,13 +10,6 @@ import { usePrivateChatsContext } from "../contexts/PrivateChatsContext.jsx";
 import { usePublicChatsContext } from "../contexts/PublicChatsContext.jsx";
 import { useChatSubscriptions } from "../hooks/useChatsSubscriptions.js";
 
-/* dashboard subscribes to the private, public chat channels. these are channels
-that listen for new chats being created/existing chats being updated. 
-in order to have a chat appear to creator when chat is created, but
-not appearing to others until a message is created, need to update chats on front end for 
-creator from chat#create json response
-*/
-
 export default function Dashboard() {
   const { cable } = useActionCableContext();
   const { userID } = useUserInfoContext();

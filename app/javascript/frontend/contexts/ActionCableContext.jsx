@@ -17,5 +17,3 @@ export function ActionCableProvider({ children }) {
     </ActionCableContext.Provider>
   );
 }
-
-// who needs this? private and public rooms, and messages

@@ -21,5 +21,5 @@ export const useUserInfo = () => {
       abortController.abort();
     };
   }, []);
-  return { userID, userInfo, setUserInfo }; // testing whether holding id separately means less subscribe, unsubscribe
+  return { userID, userInfo, setUserInfo };
 };
