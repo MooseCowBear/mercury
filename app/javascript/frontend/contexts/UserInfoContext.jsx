@@ -10,10 +10,10 @@ export function useUserInfoContext() {
 }
 
 export function UserInfoProvider({ children }) {
-  const { userInfo, setUserInfo } = useUserInfo();
+  const { userID, userInfo, setUserInfo } = useUserInfo();
 
   return (
-    <UserInfoContext.Provider value={{ userInfo, setUserInfo }}>
+    <UserInfoContext.Provider value={{ userID, userInfo, setUserInfo }}>
       {children}
     </UserInfoContext.Provider>
   );
