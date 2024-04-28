@@ -13,7 +13,7 @@ class Message < ApplicationRecord
   delegate :is_private, to: :chat
 
   def notification_recipients 
-    chat.active_users.outside_chat(chat)
+    message_recipients.outside_chat(chat)
   end
 
   def message_recipients

@@ -74,8 +74,8 @@ has_many :active_users, -> { where(chat_participants: { silence: false }) }, thr
 We can get the users that should receive a notification that a new message has been created:
 
 ```
-def notification_recipients
-  chat.active_users.outside_chat(chat)
+def notification_recipients 
+  message_recipients.outside_chat(chat)
 end
 ```
 
