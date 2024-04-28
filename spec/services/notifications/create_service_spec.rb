@@ -31,5 +31,3 @@ RSpec.describe Notifications::CreateService, type: :service do
     end
   end
 end
-
-# update after rename
