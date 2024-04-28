@@ -5,7 +5,7 @@ class Chat < ApplicationRecord
   has_many :notifications, dependent: :destroy
   has_many :chat_participants, dependent: :destroy
   has_many :users, through: :chat_participants
-  has_many :active_users, -> { where(chat_participants: { silence: false }) }, through: :chat_participants, source: :user
+  has_many :active_users, -> { where(chat_participants: { silence: false }).where(deleted: false) }, through: :chat_participants, source: :user
 
   validates :name, length: { within: 1..45 }, if: -> {!is_private}
   validates :name, presence: true

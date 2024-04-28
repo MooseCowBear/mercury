@@ -45,6 +45,33 @@ RSpec.describe Chat, type: :model do
     expect(chat2.name).to eq("test")
   end
 
+  describe "#active_users" do
+    before(:each) do
+      @user1 = create(:user)
+      @user2 = create(:user)
+      @deleted_user = create(:user, deleted: true)
+      @non_chat_user = create(:user)
+
+      @private_chat = create(:chat, :private)
+      create(:chat_participant, user: @user1, chat: @private_chat)
+      create(:chat_participant, user: @user2, chat: @private_chat)
+      create(:chat_participant, user: @deleted_user, chat: @private_chat)
+    end
+
+    it "includes users who have participant records and are not deleted" do
+      expect(@private_chat.active_users).to include(@user1)
+      expect(@private_chat.active_users).to include(@user2)
+    end
+
+    it "excludes deleted users" do
+      expect(@private_chat.active_users).not_to include(@deleted_user)
+    end
+
+    it "excludes users with no participant reocrd for the chat" do
+      expect(@private_chat.active_users).not_to include(@non_chat_user)
+    end
+  end
+
   describe ".public_chats" do
     before(:each) do
       @chat2 = create(:chat, :private, name: "private chat test name")
