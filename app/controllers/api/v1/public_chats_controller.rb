@@ -12,22 +12,11 @@ class Api::V1::PublicChatsController < ApplicationController
     PublicChat::DestroyService.call
     chat = Chat.new(chat_params)
     if chat.save 
-      current_user.update(current_chat_id: chat.id) # put the user in the chat they created
+      current_user.update(current_chat_id: chat.id)
       render json: current_user.to_json
     else
       render json: { message: "Validations Failed", 
                     errors: chat.errors.full_messages }, 
-                    status: :unprocessable_entity
-    end
-  end
-
-  # MARK: this is currently not in use. need to decide if want this
-  def update
-    if @chat.update(chat_params)
-      render json: @chat
-    else
-      render json: { message: "Validations Failed", 
-                    errors: @chat.errors.full_messages }, 
                     status: :unprocessable_entity
     end
   end
