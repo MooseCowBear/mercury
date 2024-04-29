@@ -76,3 +76,4 @@ end
 
 gem "devise"
 gem "cloudinary"
+gem "dockerfile-rails", ">= 1.6", :group => :development
