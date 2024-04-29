@@ -35,9 +35,6 @@ module.exports = {
           500: "#ffcc70",
         },
         raspberry: {
-          500: "#fe794e",
-        },
-        raspberry: {
           500: "#d040e0",
         },
         white: "#ffffff",
