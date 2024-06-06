@@ -4,7 +4,7 @@ class Api::V1::PrivateChatsController < ApplicationController
   
   def index 
     chats = current_user.chats.has_message.order(updated_at: :desc) # these are the chats had through chat participants
-    render json: chats.to_json({ user: current_user })
+    render json: chats.as_json({ user: current_user })
   end
 
   def create
