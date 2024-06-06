@@ -11,7 +11,7 @@ class Api::V1::PrivateChatsController < ApplicationController
     chat = PrivateChat::CreateService.call(private_chat_params, current_user)
     if chat&.valid?
       current_user.update(current_chat_id: chat.id)
-      render json: current_user.to_json
+      render json: current_user
     else
       render json: { message: "Something went wrong", 
                     errors: chat.errors.full_messages }, 

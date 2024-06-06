@@ -3,7 +3,7 @@ class Api::V1::ChatParticipantsController < ApplicationController
 
   def update
     @chat_participant.toggle!(:silence)
-    render json: current_user.to_json
+    render json: current_user
   end
 
   private
