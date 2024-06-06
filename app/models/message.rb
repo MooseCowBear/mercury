@@ -4,7 +4,7 @@ class Message < ApplicationRecord
   belongs_to :user
   belongs_to :chat, touch: true # for determining whether a chat is still active
 
-  has_one :notification, dependent: :destroy
+  has_many :notifications, dependent: :destroy
   has_many :private_message_recipients, dependent: :destroy
 
   validates :body, length: { maximum: 1000 }

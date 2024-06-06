@@ -2,7 +2,8 @@ class Api::V1::PrivateChatsController < ApplicationController
   after_action -> { current_user.update_last_active if current_user }
   
   def index 
-    chats = current_user.chats.has_message.order(updated_at: :desc) # these are the chats had through chat participants
+    # TODO: figure out how to fix this
+    chats = current_user.chats.has_message.order(updated_at: :desc)
     render json: chats.as_json({ user: current_user })
   end
 

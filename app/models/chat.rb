@@ -2,6 +2,7 @@ class Chat < ApplicationRecord
   attr_accessor :current_user
 
   has_many :messages, dependent: :destroy
+  has_one :last_message, -> { order(created_at: :desc) }, class_name: "Message"
   has_many :notifications, dependent: :destroy
   has_many :chat_participants, dependent: :destroy
   has_many :users, through: :chat_participants
@@ -54,16 +55,12 @@ class Chat < ApplicationRecord
     end
   end
 
-  def last_message
-    messages.order(created_at: :desc).first
-  end
-
   def last_private_message(user)
     chat_messages(user).order(created_at: :desc).first
   end
 
   def notification_count(user)
-    notifications.where(user_id: user.id).count
+    notifications.where(user_id: user.id).size
   end
 
   def as_json(options = {})
@@ -72,8 +69,6 @@ class Chat < ApplicationRecord
         json[:notification_count] = notification_count(options[:user])
         json[:last_message] = last_private_message(options[:user])
         json[:silenced] = !active_participant?(options[:user])
-      elsif !is_private
-        json[:last_message] = last_message
       end
     end
   end

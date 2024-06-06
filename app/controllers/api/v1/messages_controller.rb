@@ -7,7 +7,7 @@ class Api::V1::MessagesController < ApplicationController
   after_action -> { current_user.update_last_active if current_user }
 
   def index
-    messages = current_user.current_chat.chat_messages(current_user)
+    messages = current_user.current_chat.chat_messages(current_user).includes(:user)
     render json: messages, include: [:user], methods: [:is_private]
   end
 

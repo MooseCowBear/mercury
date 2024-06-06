@@ -280,11 +280,6 @@ RSpec.describe Chat, type: :model do
       @user = create(:user)
     end
 
-    it "includes last message field for public chat" do
-      public_chat = create(:chat, :public)
-      expect(public_chat.as_json).to have_key(:last_message)
-    end
-
     it "includes last message field for private chat" do
       private_chat = create(:chat, :private)
       expect(private_chat.as_json({ user: @user })).to have_key(:last_message)
