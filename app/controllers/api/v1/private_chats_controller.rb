@@ -3,7 +3,7 @@ class Api::V1::PrivateChatsController < ApplicationController
   
   def index 
     # TODO: figure out how to fix this
-    chats = current_user.chats.has_message.order(updated_at: :desc)
+    chats = current_user.chats.has_message.order(updated_at: :desc).includes(:chat_participants, :notifications, messages: [:private_message_recipients]) # includes more than needed
     render json: chats.as_json({ user: current_user })
   end
 

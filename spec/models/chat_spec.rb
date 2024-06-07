@@ -206,10 +206,13 @@ RSpec.describe Chat, type: :model do
     end
 
     it "returns user's messages for which there is a private message recipient record" do
-      private_chat = create(:chat, :private)
-      mocked_result = [double()]
-      allow(@user1).to receive(:private_chat_messages).with(private_chat).and_return(mocked_result)
-      expect(private_chat.chat_messages(@user1)).to eq mocked_result
+      private_chat = create(:chat, :private) 
+      message = create(:message, chat: private_chat, user: @user1)
+      create(:private_message_recipient, user_id: @user1.id, message_id: message.id)
+      other_message = create(:message, chat: private_chat, user: @user1)
+      
+      expect(private_chat.chat_messages(@user1)).to include(message)
+      expect(private_chat.chat_messages(@user1)).not_to include(other_message)
     end
   end
 

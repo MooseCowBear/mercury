@@ -7,6 +7,9 @@ class Message < ApplicationRecord
   has_many :notifications, dependent: :destroy
   has_many :private_message_recipients, dependent: :destroy
 
+  # messages for which there is a record for the user, most recent is last (all chats)
+  scope :private_messages_for, ->(user) { joins(:private_message_recipients).where("private_message_recipients.user_id = ?", user.id).order(created_at: :asc) }
+
   validates :body, length: { maximum: 1000 }
   validate :has_content
 

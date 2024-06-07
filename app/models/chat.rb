@@ -1,7 +1,5 @@
 class Chat < ApplicationRecord 
-  attr_accessor :current_user
-
-  has_many :messages, dependent: :destroy
+  has_many :messages, -> { order(created_at: :asc) }, dependent: :destroy
   has_one :last_message, -> { order(created_at: :desc) }, class_name: "Message"
   has_many :notifications, dependent: :destroy
   has_many :chat_participants, dependent: :destroy
@@ -49,26 +47,42 @@ class Chat < ApplicationRecord
 
   def chat_messages(user)
     if is_private
-      user.private_chat_messages(self)
+      # user.private_chat_messages(self)
+      messages.private_messages_for(user) # which way is better?
     else
       messages 
     end
   end
 
   def last_private_message(user)
-    chat_messages(user).order(created_at: :desc).first
+    chat_messages(user).last
   end
 
   def notification_count(user)
     notifications.where(user_id: user.id).size
   end
 
+  # trying to "attach manually", no n + 1 but gets more records than necessary...
+  def notification_count_for_chat(user)
+     notifications.select{ |n| n.user_id == user.id }.length
+  end
+
+  def last_private_message_for_chat(user)
+    messages.select do |m|
+      m.private_message_recipients.any? { |pmr| pmr.user_id == user.id }
+    end.last
+  end
+
+  def silenced?(user)
+    chat_participants.select { |cp| cp.user_id == user.id }.first&.silence
+  end
+
   def as_json(options = {})
     super(options).tap do |json|
       if is_private && options[:user]
-        json[:notification_count] = notification_count(options[:user])
-        json[:last_message] = last_private_message(options[:user])
-        json[:silenced] = !active_participant?(options[:user])
+        json[:notification_count] = notification_count_for_chat(options[:user])
+        json[:last_message] = last_private_message_for_chat(options[:user])
+        json[:silenced] = silenced?(options[:user])
       end
     end
   end
