@@ -10,7 +10,7 @@ class Api::V1::PublicChatsController < ApplicationController
 
   def create
     PublicChat::DestroyService.call
-    chat = Chat.new(chat_params)
+    chat = Chat.find_or_create_by(chat_params)
     if chat.save 
       current_user.update(current_chat_id: chat.id)
       render json: current_user
