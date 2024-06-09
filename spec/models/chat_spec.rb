@@ -233,6 +233,7 @@ RSpec.describe Chat, type: :model do
     end
   end
 
+  # TODO: remove these once sure you don't want these methods anymore
   describe "#last_private_message" do
     before(:each) do
       @user = create(:user)
@@ -267,7 +268,7 @@ RSpec.describe Chat, type: :model do
       user2 = create(:user, email: "two@test.com", username: "two")
       @chat = create(:chat, :private, name: "private chat")
       chat2 = create(:chat, :private, name: "other private chat")
-      message = create(:message, user: user2, chat: chat2) # not sure why it didn't like letting the factory create this
+      message = create(:message, user: user2, chat: chat2)
       notification1 = create(:notification, user: @user, chat: @chat, message: message)
       notification2 = create(:notification, user: user2, chat: @chat, message: message)
       notification3 = create(:notification, user: @user, chat: chat2, message: message)
@@ -275,6 +276,69 @@ RSpec.describe Chat, type: :model do
 
     it "returns number of notifications for chat and user" do
       expect(@chat.notification_count(@user)).to eq 1
+    end
+  end
+
+  describe "notification_count_for_chat" do
+     before(:each) do
+      @user = create(:user, email: "one@test.com", username: "one")
+      user2 = create(:user, email: "two@test.com", username: "two")
+      @chat = create(:chat, :private, name: "private chat")
+      chat2 = create(:chat, :private, name: "other private chat")
+      message = create(:message, user: user2, chat: chat2)
+      notification1 = create(:notification, user: @user, chat: @chat, message: message)
+      notification2 = create(:notification, user: user2, chat: @chat, message: message)
+      notification3 = create(:notification, user: @user, chat: chat2, message: message)
+    end
+
+    it "returns number of notifications for chat and user" do
+      expect(@chat.notification_count_for_chat(@user)).to eq 1
+    end
+  end
+
+  describe "last_private_message_for_chat" do
+    before(:each) do
+      @user = create(:user)
+    end
+
+    it "returns the most recently sent message for chat and for which user has a private message recipient record" do
+      private_chat = create(:chat, :private)
+      first_message = create(:message, chat: private_chat, created_at: 5.days.ago)
+      create(:private_message_recipient, message: first_message, user: @user)
+      second_message = create(:message, chat: private_chat, created_at: 1.day.ago)
+      create(:private_message_recipient, message: second_message, user: @user)
+      expect(private_chat.last_private_message_for_chat(@user)).to eq second_message
+    end
+
+    it "returns nil if chat has no message for user with private message recipient record" do
+      private_chat = create(:chat, :private)
+      expect(private_chat.last_private_message_for_chat(@user)).to eq nil
+    end
+
+    it "does not include messages for which there is no private message recipient record" do
+      other_user = create(:user)
+      private_chat = create(:chat, :private)
+      first_message = create(:message, chat: private_chat, created_at: 5.days.ago)
+      create(:private_message_recipient, message: first_message, user: other_user)
+      expect(private_chat.last_private_message_for_chat(@user)).to eq nil
+    end
+  end
+
+  describe "silenced?" do
+    before(:each) do
+      @user = create(:user)
+      @unsilenced_chat = create(:chat, :private)
+      create(:chat_participant, user: @user, chat: @unsilenced_chat)
+      @silenced_chat = create(:chat, :private)
+      create(:chat_participant, :silenced, user: @user, chat: @silenced_chat)
+    end
+
+    it "returns true if user's chat participant record has silence true" do
+      expect(@silenced_chat.silenced?(@user)).to be true
+    end
+
+    it "returns false if user's chat participant record has silence false" do
+      expect(@unsilenced_chat.silenced?(@user)).to be false
     end
   end
 

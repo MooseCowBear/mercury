@@ -18,6 +18,9 @@ class Chat < ApplicationRecord
   scope :has_message, -> { where(id: Message.select(:chat_id)) }
   scope :visible, -> { where(always_visible: true).or(active.has_message) }
 
+  # without second where, get chats that contain specified users but not only specified users
+  # so first part is: chat that contains these users
+  # and second part is: chat with exactly x number of users
   scope :with_participants, 
     -> (user_ids) {
       where(
@@ -54,6 +57,7 @@ class Chat < ApplicationRecord
     end
   end
 
+  # TODO: remove when sure not using
   def last_private_message(user)
     chat_messages(user).last
   end
@@ -62,7 +66,7 @@ class Chat < ApplicationRecord
     notifications.where(user_id: user.id).size
   end
 
-  # trying to "attach manually", no n + 1 but gets more records than necessary...
+  # filtering included associations manually, no n + 1 but gets more records than necessary...
   def notification_count_for_chat(user)
      notifications.select{ |n| n.user_id == user.id }.length
   end
