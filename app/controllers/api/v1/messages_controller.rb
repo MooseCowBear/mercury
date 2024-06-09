@@ -44,7 +44,7 @@ class Api::V1::MessagesController < ApplicationController
     recipient_record = PrivateMessageRecipient.find_by(user_id: current_user.id, message_id: params[:id])
     if recipient_record
       recipient_record.destroy
-      Message::BroadcastService.call(recipient_record.message, current_user)
+      Message::BroadcastService.call(recipient_record.message, current_user, true)
       render json: { head: :ok }
     else 
       render json: { }, status: :unprocessable_entity

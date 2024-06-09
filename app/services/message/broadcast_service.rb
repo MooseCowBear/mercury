@@ -10,9 +10,10 @@ class Message::BroadcastService < ApplicationService
   # when message is deleted, need to rebroadcast the current user's chat so that the message
   # preview in the sidebar updates (removing the message if it was the last one)
   
-  def initialize(message, current_user = nil)
+  def initialize(message, current_user = nil, deleted = false)
     @message = message
     @current_user = current_user
+    @deleted = deleted
   end
 
   def call 
@@ -42,9 +43,12 @@ class Message::BroadcastService < ApplicationService
 
   def broadcast_private_chat(users)
     users.each do |user|
+      options = { user: user }
+      options[:message] = @message unless @deleted
+
       ActionCable.server.broadcast(
         "private_chat_for_#{user.id}", 
-        @message.chat.to_json({ user: user })
+        @message.chat.to_json(options)
       )
     end
   end
